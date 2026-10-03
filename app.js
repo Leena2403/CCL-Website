@@ -1007,15 +1007,217 @@ function initAllMazes() {
     createChessMaze('chess-maze-1', chessGrid1);
 }
 
-// ================= Initialization on Load =================
-document.addEventListener('DOMContentLoaded', () => {
-    initializeTheme(); // Call this first so the theme applies instantly
+// ================= Interactive Pixel Art Game Logic =================
+function createPixelArtGame(containerId, rows, cols) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    const uid = containerId;
     
-    // Check which page we are on and run the appropriate functions
+    // Initialize a 2D array with 1s (White pixels)
+    let gridData = Array.from({ length: rows }, () => Array(cols).fill(1));
+
+    container.innerHTML = `
+        <div class="maze-controls">
+            <button id="reset-${uid}" class="maze-btn-reset">Reset Canvas</button>
+        </div>
+        <div class="pixel-board-container">
+            <div class="pixel-board" id="board-${uid}" style="grid-template-columns: repeat(${cols}, 1fr);"></div>
+            <div class="pixel-data-output" id="output-${uid}"></div>
+        </div>
+    `;
+
+    const board = document.getElementById(`board-${uid}`);
+    const output = document.getElementById(`output-${uid}`);
+
+    function calculateRLE(rowArray) {
+        let rle = [];
+        let currentCount = 0;
+        let countingWhite = true; // RLE always starts by counting white[cite: 20]
+
+        for (let i = 0; i < rowArray.length; i++) {
+            const isWhite = rowArray[i] === 1;
+            
+            if (isWhite === countingWhite) {
+                currentCount++;
+            } else {
+                rle.push(currentCount);
+                currentCount = 1;
+                countingWhite = !countingWhite;
+            }
+        }
+        rle.push(currentCount);
+        return rle.join(', ');
+    }
+
+    function renderBoard() {
+        board.innerHTML = '';
+        for (let r = 0; r < rows; r++) {
+            for (let c = 0; c < cols; c++) {
+                const cell = document.createElement('div');
+                cell.className = 'pixel-cell';
+                if (gridData[r][c] === 0) cell.classList.add('black');
+                
+                // Toggle pixel on click
+                cell.addEventListener('click', () => {
+                    gridData[r][c] = gridData[r][c] === 1 ? 0 : 1;
+                    cell.classList.toggle('black');
+                    updateOutput();
+                });
+                
+                // Allow dragging to draw
+                cell.addEventListener('mouseenter', (e) => {
+                    if (e.buttons === 1) { // Left mouse button is held down
+                        gridData[r][c] = gridData[r][c] === 1 ? 0 : 1;
+                        cell.classList.toggle('black');
+                        updateOutput();
+                    }
+                });
+
+                board.appendChild(cell);
+            }
+        }
+        updateOutput();
+    }
+
+    function updateOutput() {
+        let html = '';
+        for (let r = 0; r < rows; r++) {
+            const binaryStr = gridData[r].join('');
+            const rleStr = calculateRLE(gridData[r]);
+            
+            html += `
+                <div class="pixel-data-row">
+                    <div class="data-label">Row ${r + 1}</div>
+                    <div class="data-binary">${binaryStr}</div>
+                    <div class="data-rle">RLE: ${rleStr}</div>
+                </div>
+            `;
+        }
+        output.innerHTML = html;
+    }
+
+    document.getElementById(`reset-${uid}`).addEventListener('click', () => {
+        gridData = Array.from({ length: rows }, () => Array(cols).fill(1));
+        renderBoard();
+    });
+
+    // Prevent default drag behavior to allow smooth drawing
+    board.addEventListener('dragstart', (e) => e.preventDefault());
+
+    renderBoard();
+}
+
+// ================= Init All Games =================
+// Update your existing initAllMazes function to include the pixel games
+function initAllMazes() {
+    // ---- Number Mazes ----
+    const numGrid1 = [ [2, 3, 1, 1, 2], [4, 2, 1, 2, 2], [3, 3, 3, 2, 3], [2, 4, 1, 4, 1], [1, 4, 3, 3, 0] ];
+    const numGrid2 = [ [2, 2, 2, 1, 3], [1, 3, 1, 2, 1], [3, 1, 2, 1, 2], [2, 2, 1, 3, 1], [1, 2, 3, 2, 0] ];
+    createNumberMaze('number-maze-1', numGrid1);
+    createNumberMaze('number-maze-2', numGrid2);
+
+    // ---- Colour Mazes ----
+    const colGrid1 = [ ['S', 'W', 'R', 'W'], ['R', 'Bu', 'R', 'R'], ['Bu', 'R', 'Bu', 'W'], ['R', 'W', 'R', 'E'] ];
+    createColourMaze('colour-maze-1', colGrid1);
+
+    // ---- Chess Mazes ----
+    const chessGrid1 = [ ['P', 'P', 'N', 'N'], ['N', 'N', 'P', 'B'], ['B', 'N', 'N', 'B'], ['P', 'N', 'N', 'G'] ];
+    createChessMaze('chess-maze-1', chessGrid1);
+
+    // ---- Pixel Art Games (NEW) ----
+    // Using a 15 columns by 9 rows grid to perfectly fit the "Cup" puzzle from the worksheet
+    createPixelArtGame('pixel-game-1', 9, 15);
+    createPixelArtGame('pixel-game-2', 9, 15);
+}
+
+// ================= Book SPA Logic =================
+
+// 1. Renders the top-level categories
+function renderBookSections() {
+    const container = document.getElementById('book-dynamic-container');
+    if (!container) return;
+
+    // Extract unique sections from bookData
+    const uniqueSections = [...new Set(bookData.map(item => item.section))];
+
+    let html = `<div class="video-grid" id="book-sections-grid">`;
+    
+    uniqueSections.forEach((section, index) => {
+        // Count how many chapters are inside this section
+        const chapterCount = bookData.filter(item => item.section === section).length;
+        
+        // Pass the exact section string to the chapter renderer on click
+        const safeSectionName = section.replace(/'/g, "\\'"); 
+        
+        html += `
+            <div class="video-card" style="cursor: pointer; animation-delay: ${index * 0.05}s" onclick="renderBookChapters('${safeSectionName}')">
+                <div class="thumbnail-container" style="background: var(--primary-light); display: flex; align-items: center; justify-content: center;">
+                    <span style="font-size: 3rem; opacity: 0.8;">📚</span>
+                    <span class="module-badge" style="background: var(--accent-orange); color: #fff;">${chapterCount} Chapters</span>
+                </div>
+                <div class="video-info" style="padding: 1.5rem;">
+                    <h3 style="font-size: 1.2rem; color: var(--text-main); font-weight: 600; margin-bottom: 0.5rem;">${section}</h3>
+                    <p style="color: var(--accent-orange); font-size: 0.95rem; font-weight: 500;">View Chapters &rarr;</p>
+                </div>
+            </div>
+        `;
+    });
+    
+    html += `</div>`;
+    container.innerHTML = html;
+}
+
+// 2. Renders the specific chapters when a category is clicked
+function renderBookChapters(sectionName) {
+    const container = document.getElementById('book-dynamic-container');
+    if (!container) return;
+
+    // Filter bookData to only show chapters matching the clicked section
+    const chapters = bookData.filter(item => item.section === sectionName);
+
+    // Build the UI with a Back button, Section Title, and Chapter Grid
+    let html = `
+        <button class="back-btn" onclick="renderBookSections()" style="background: none; border: none; cursor: pointer; padding: 0; margin-bottom: 1.5rem; font-family: inherit;">
+            &larr; Back to All Topics
+        </button>
+        <h3 style="color: var(--text-main); font-size: 1.5rem; margin-bottom: 1.5rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;">
+            ${sectionName}
+        </h3>
+        <div class="video-grid">
+    `;
+
+    chapters.forEach((chapter, index) => {
+        html += `
+            <a href="${chapter.pdfLink}" target="_blank" class="video-card" style="animation-delay: ${index * 0.05}s">
+                <div class="thumbnail-container" style="background: var(--primary-light); display: flex; align-items: center; justify-content: center;">
+                    <span style="font-size: 3rem; opacity: 0.8;">📄</span>
+                    <span class="module-badge" style="background: var(--accent-gold); color: #fff;">PDF</span>
+                </div>
+                <div class="video-info" style="padding: 1.5rem;">
+                    <h4 style="font-size: 1.1rem; color: var(--text-main); font-weight: 600; margin-bottom: 0.5rem;">${chapter.title}</h4>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.5;">${chapter.description}</p>
+                </div>
+            </a>
+        `;
+    });
+
+    html += `</div>`;
+    
+    // Inject and smoothly scroll up to the top of the book section
+    container.innerHTML = html;
+    document.getElementById('book').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ================= Initialization =================
+document.addEventListener('DOMContentLoaded', () => {
+    initializeTheme(); 
+    
     if (document.getElementById('video-grid')) {
         initializeSlideshow();
         renderVideoGrid();
         renderGamesGrid(); 
+        renderBookSections();
         initializeSearch();
     } else if (document.getElementById('player-container')) {
         loadVideoDetails();

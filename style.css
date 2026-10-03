@@ -386,6 +386,59 @@ body {
 .card-2 { bottom: 120px; left: 350px; z-index: 3; }
 .card-3 { bottom: 220px; left: 500px; z-index: 4; }
 
+/* ================= Book Section Banner ================= */
+.book-header-banner {
+    display: flex;
+    align-items: center;
+    gap: 3rem;
+    margin-bottom: 3rem;
+    background: var(--surface);
+    padding: 2.5rem;
+    border-radius: var(--radius);
+    border: 1px solid var(--border-color);
+    box-shadow: var(--shadow-sm);
+    transition: background-color 0.4s ease, border-color 0.4s ease;
+}
+
+.book-cover-wrapper {
+    flex-shrink: 0;
+    perspective: 1000px;
+}
+
+.book-cover-img {
+    width: 200px; 
+    height: auto;
+    border-radius: 4px;
+    box-shadow: -8px 8px 20px rgba(0,0,0,0.15);
+    transform: rotate(-4deg); 
+    transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1), box-shadow 0.4s ease;
+}
+
+[data-theme="dark"] .book-cover-img {
+    box-shadow: -8px 8px 20px rgba(0,0,0,0.4);
+}
+
+.book-cover-img:hover {
+    transform: rotate(0deg) scale(1.05); /* Straightens and enlarges on hover */
+    box-shadow: -12px 12px 25px rgba(0,0,0,0.2);
+}
+
+/* Responsive adjustment for Mobile */
+@media (max-width: 768px) {
+    .book-header-banner {
+        flex-direction: column;
+        text-align: center;
+        gap: 1.5rem;
+        padding: 1.5rem;
+    }
+    .book-header-text .section-title {
+        text-align: center !important;
+    }
+    .book-cover-img {
+        width: 160px;
+    }
+}
+
 /* ================= Main Content Container ================= */
 .container {
     max-width: 1200px;
@@ -886,6 +939,81 @@ body {
 /* Adjust cell sizes for 4x4 grids to keep them looking nice */
 .maze-board.grid-4x4 {
     grid-template-columns: repeat(4, 1fr);
+}
+
+/* ================= Pixel Art Game Specifics ================= */
+.pixel-board-container {
+    display: flex;
+    flex-direction: column;
+    gap: 2rem;
+    width: 100%;
+}
+
+.pixel-board {
+    display: grid;
+    grid-template-columns: repeat(15, 1fr); /* 15x9 grid to accommodate the Cup puzzle */
+    gap: 1px;
+    background: var(--border-color);
+    border: 4px solid var(--border-color);
+    border-radius: 4px;
+    width: 100%;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.pixel-cell {
+    aspect-ratio: 1 / 1;
+    background-color: #ffffff; /* White (1) */
+    cursor: pointer;
+    transition: background-color 0.1s ease;
+}
+
+.pixel-cell.black {
+    background-color: #000000; /* Black (0) */
+}
+
+.pixel-data-output {
+    background: var(--surface);
+    padding: 1rem;
+    border-radius: 4px;
+    border: 1px solid var(--border-color);
+    font-family: monospace;
+    font-size: 0.9rem;
+    line-height: 1.6;
+    color: var(--text-main);
+    overflow-x: auto;
+}
+
+.pixel-data-row {
+    display: flex;
+    gap: 1rem;
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 0.25rem;
+    margin-bottom: 0.25rem;
+}
+
+.pixel-data-row:last-child {
+    border-bottom: none;
+    margin-bottom: 0;
+    padding-bottom: 0;
+}
+
+.data-label {
+    color: var(--accent-orange);
+    font-weight: bold;
+    width: 60px;
+    flex-shrink: 0;
+}
+
+.data-binary {
+    color: var(--text-muted);
+    width: 140px;
+    flex-shrink: 0;
+}
+
+.data-rle {
+    color: var(--primary);
+    font-weight: bold;
 }
 
 /* ================= Footer ================= */

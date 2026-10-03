@@ -32,15 +32,15 @@ const gamesData = [
             <p>Reach from Start (S) to End (E). The colour of a square tells what kind of move is allowed from that square.</p>
             
             <ul style="margin-bottom: 1.5rem; color: var(--text-muted); line-height: 1.8;">
-                <li><strong>W: White</strong> — move straight only - continuing in the same direction as the previous move[cite: 10].</li>
-                <li><strong style="color: #3b82f6;">Bu: Blue</strong> — move straight OR turn left - depending on the direction in which the player is currently facing[cite: 10].</li>
-                <li><strong style="color: #ef4444;">R: Red</strong> — move straight OR turn right - depending on the direction in which the player is currently facing[cite: 10].</li>
+                <li><strong>W: White</strong> — move straight only - continuing in the same direction as the previous move.</li>
+                <li><strong style="color: #3b82f6;">Bu: Blue</strong> — move straight OR turn left - depending on the direction in which the player is currently facing.</li>
+                <li><strong style="color: #ef4444;">R: Red</strong> — move straight OR turn right - depending on the direction in which the player is currently facing.</li>
             </ul>
 
-            <p>In this puzzle, "Move Straight" means continuing in the same direction. Because of this, solving the maze is not only about position; <strong>direction matters as well</strong>[cite: 10]. The same square may behave differently depending on the direction from which it is entered[cite: 10].</p>
+            <p>In this puzzle, "Move Straight" means continuing in the same direction. Because of this, solving the maze is not only about position; <strong>direction matters as well</strong>. The same square may behave differently depending on the direction from which it is entered.</p>
 
             <h3 style="margin-top: 3rem; margin-bottom: 1rem; color: var(--primary);">Level 1: The Official Grid</h3>
-            <p>The starting square allows you to enter the board moving Right or Down[cite: 11]. Keep an eye on the arrow showing which way you are facing!</p>
+            <p>The starting square allows you to enter the board moving Right or Down. Keep an eye on the arrow showing which way you are facing!</p>
 
             <div id="colour-maze-1" class="interactive-game-wrapper"></div>
 
@@ -90,6 +90,59 @@ const gamesData = [
             
             <p>The solution path of the chess maze is shown below:<br>
             <strong>A1 (Pawn) &rarr; A2 (Pawn) &rarr; A3 (Knight) &rarr; C2 (Knight) &rarr; D4 (Goal)</strong>.</p>
+        `
+    },
+    {
+        id: "game4",
+        title: "Image by Number",
+        grade: "Grade 6",
+        concepts: ["pattern-recognition", "abstraction", "algorithmic-thinking"], 
+        thumbnail: "img/computer_language.png",
+        shortDescription: "Learn how computers store and compress images using binary and Run-Length Encoding.",
+        content: `
+            <p><strong>Activity: Image By Number</strong></p>
+            <p>Every image we see on a screen, whether it is a picture, a video, or text, is displayed using pixels. Screens are divided into a grid of small dots called pixels (picture elements).</p>
+            
+            <p>In a black-and-white image, each pixel can be either black or white, so all the computer would need to store is which dots are black and which are white. We can represent this image using the numbers 0 and 1:</p>
+            <ul style="margin-bottom: 1.5rem; color: var(--text-muted); line-height: 1.8;">
+                <li><strong>1 &rarr; White pixel</strong></li>
+                <li><strong>0 &rarr; Black pixel</strong></li>
+            </ul>
+
+            <h3 style="margin-top: 3rem; margin-bottom: 1rem; color: var(--primary);">Data Compression: Run-Length Encoding</h3>
+            <p>This concept of shortening the representation, known as Run Length Encoding, encodes each continuous group of white and black pixels (or 1’s or 0’s) encountered in a left-to-right scan of a row by its length.</p>
+            <p>Instead of writing <strong>10001</strong>, we can write <strong>131</strong>: 1 white pixel, 3 black pixels, and 1 white pixel. If a row starts with a black pixel, we start the code with a '0' to indicate '0 white pixels' before the black ones begin.</p>
+
+            <div style="background: var(--primary-light); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+                <p style="margin: 0; color: #000; font-weight: 600;">CT Competencies Developed:</p>
+                <ul style="margin-top: 0.5rem; margin-bottom: 0; color: #000;">
+                    <li><strong style="color: #000;">Pattern Recognition:</strong> Detecting repeated sequences.</li>
+                    <li><strong style="color: #000;">Abstraction:</strong> Understanding that numbers can represent pictures.</li>
+                    <li><strong style="color: #000;">Optimisation:</strong> Compressing repeated data.</li>
+                    <li><strong style="color: #000;">Algorithmic Thinking:</strong> Following encoding rules step by step.</li>
+                </ul>
+            </div>
+
+            <h3 style="margin-top: 3rem; margin-bottom: 1rem; color: var(--primary);">Level 1: Sandbox Encoder</h3>
+            <p>Draw your own image in the grid below! As you click to turn pixels black (0) or white (1), watch how the computer translates your art into binary patterns and compresses them using Run-Length Encoding.</p>
+
+            <div id="pixel-game-1" class="interactive-game-wrapper"></div>
+
+            <h3 style="margin-top: 3rem; margin-bottom: 1rem; color: var(--primary);">Level 2: Decode the Image</h3>
+            <p>Computers represent images using numbers. Decode the following Run-Length Encoding by clicking the grid to draw the image.</p>
+            <p style="font-family: monospace; font-size: 1.1rem; background: var(--surface); padding: 1rem; border-radius: 4px;">
+                Row 1: 4, 11<br>
+                Row 2: 4, 9, 2, 1<br>
+                Row 3: 4, 9, 2, 1<br>
+                Row 4: 4, 11<br>
+                Row 5: 4, 9<br>
+                Row 6: 4, 9<br>
+                Row 7: 5, 7<br>
+                Row 8: 0, 17<br>
+                Row 9: 1, 15
+            </p>
+
+            <div id="pixel-game-2" class="interactive-game-wrapper"></div>
         `
     }
 ];
