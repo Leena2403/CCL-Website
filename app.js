@@ -1007,131 +1007,20 @@ function initAllMazes() {
     createChessMaze('chess-maze-1', chessGrid1);
 }
 
-// ================= Interactive Pixel Art Game Logic =================
-function createPixelArtGame(containerId, rows, cols) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-
-    const uid = containerId;
-    
-    // Initialize a 2D array with 1s (White pixels)
-    let gridData = Array.from({ length: rows }, () => Array(cols).fill(1));
-
-    container.innerHTML = `
-        <div class="maze-controls">
-            <button id="reset-${uid}" class="maze-btn-reset">Reset Canvas</button>
-        </div>
-        <div class="pixel-board-container">
-            <div class="pixel-board" id="board-${uid}" style="grid-template-columns: repeat(${cols}, 1fr);"></div>
-            <div class="pixel-data-output" id="output-${uid}"></div>
-        </div>
-    `;
-
-    const board = document.getElementById(`board-${uid}`);
-    const output = document.getElementById(`output-${uid}`);
-
-    function calculateRLE(rowArray) {
-        let rle = [];
-        let currentCount = 0;
-        let countingWhite = true; // RLE always starts by counting white[cite: 20]
-
-        for (let i = 0; i < rowArray.length; i++) {
-            const isWhite = rowArray[i] === 1;
-            
-            if (isWhite === countingWhite) {
-                currentCount++;
-            } else {
-                rle.push(currentCount);
-                currentCount = 1;
-                countingWhite = !countingWhite;
-            }
-        }
-        rle.push(currentCount);
-        return rle.join(', ');
-    }
-
-    function renderBoard() {
-        board.innerHTML = '';
-        for (let r = 0; r < rows; r++) {
-            for (let c = 0; c < cols; c++) {
-                const cell = document.createElement('div');
-                cell.className = 'pixel-cell';
-                if (gridData[r][c] === 0) cell.classList.add('black');
-                
-                // Toggle pixel on click
-                cell.addEventListener('click', () => {
-                    gridData[r][c] = gridData[r][c] === 1 ? 0 : 1;
-                    cell.classList.toggle('black');
-                    updateOutput();
-                });
-                
-                // Allow dragging to draw
-                cell.addEventListener('mouseenter', (e) => {
-                    if (e.buttons === 1) { // Left mouse button is held down
-                        gridData[r][c] = gridData[r][c] === 1 ? 0 : 1;
-                        cell.classList.toggle('black');
-                        updateOutput();
-                    }
-                });
-
-                board.appendChild(cell);
-            }
-        }
-        updateOutput();
-    }
-
-    function updateOutput() {
-        let html = '';
-        for (let r = 0; r < rows; r++) {
-            const binaryStr = gridData[r].join('');
-            const rleStr = calculateRLE(gridData[r]);
-            
-            html += `
-                <div class="pixel-data-row">
-                    <div class="data-label">Row ${r + 1}</div>
-                    <div class="data-binary">${binaryStr}</div>
-                    <div class="data-rle">RLE: ${rleStr}</div>
-                </div>
-            `;
-        }
-        output.innerHTML = html;
-    }
-
-    document.getElementById(`reset-${uid}`).addEventListener('click', () => {
-        gridData = Array.from({ length: rows }, () => Array(cols).fill(1));
-        renderBoard();
-    });
-
-    // Prevent default drag behavior to allow smooth drawing
-    board.addEventListener('dragstart', (e) => e.preventDefault());
-
-    renderBoard();
-}
-
-// ================= Init All Games =================
-// Update your existing initAllMazes function to include the pixel games
-function initAllMazes() {
-    // ---- Number Mazes ----
-    const numGrid1 = [ [2, 3, 1, 1, 2], [4, 2, 1, 2, 2], [3, 3, 3, 2, 3], [2, 4, 1, 4, 1], [1, 4, 3, 3, 0] ];
-    const numGrid2 = [ [2, 2, 2, 1, 3], [1, 3, 1, 2, 1], [3, 1, 2, 1, 2], [2, 2, 1, 3, 1], [1, 2, 3, 2, 0] ];
-    createNumberMaze('number-maze-1', numGrid1);
-    createNumberMaze('number-maze-2', numGrid2);
-
-    // ---- Colour Mazes ----
-    const colGrid1 = [ ['S', 'W', 'R', 'W'], ['R', 'Bu', 'R', 'R'], ['Bu', 'R', 'Bu', 'W'], ['R', 'W', 'R', 'E'] ];
-    createColourMaze('colour-maze-1', colGrid1);
-
-    // ---- Chess Mazes ----
-    const chessGrid1 = [ ['P', 'P', 'N', 'N'], ['N', 'N', 'P', 'B'], ['B', 'N', 'N', 'B'], ['P', 'N', 'N', 'G'] ];
-    createChessMaze('chess-maze-1', chessGrid1);
-
-    // ---- Pixel Art Games (NEW) ----
-    // Using a 15 columns by 9 rows grid to perfectly fit the "Cup" puzzle from the worksheet
-    createPixelArtGame('pixel-game-1', 9, 15);
-    createPixelArtGame('pixel-game-2', 9, 15);
-}
 
 // ================= Book SPA Logic =================
+
+// Map each section to a specific image in your thumbnails folder
+const sectionImages = {
+    "Introduction": "book/thumbnails/ct1.png",
+    "Computational Thinking Over Maze Puzzle(s)": "book/thumbnails/ct1.png",
+    "Computational Thinking Over Puzzle(s)": "book/thumbnails/ct2.png",
+    "Language of Computer": "book/thumbnails/lang of computer.png",
+    "Algorithms and Computational Thinking": "book/thumbnails/algo and ct.png",
+    "Learning AI Through Experience": "book/thumbnails/Algo & CT.png",
+    "Computational Thinking Over Encryption": "book/thumbnails/ct3.png",
+    "Other Activities": "book/thumbnails/other.png"
+};
 
 // 1. Renders the top-level categories
 function renderBookSections() {
@@ -1150,10 +1039,13 @@ function renderBookSections() {
         // Pass the exact section string to the chapter renderer on click
         const safeSectionName = section.replace(/'/g, "\\'"); 
         
+        // Lookup the image for this section, fallback to ct1.png if not found
+        const imgSrc = sectionImages[section] || "book/thumbnails/ct1.png";
+        
         html += `
             <div class="video-card" style="cursor: pointer; animation-delay: ${index * 0.05}s" onclick="renderBookChapters('${safeSectionName}')">
-                <div class="thumbnail-container" style="background: var(--primary-light); display: flex; align-items: center; justify-content: center;">
-                    <span style="font-size: 3rem; opacity: 0.8;">📚</span>
+                <div class="thumbnail-container">
+                    <img src="${imgSrc}" alt="${section} cover" onerror="this.src='book/thumbnails/ct1.png'">
                     <span class="module-badge" style="background: var(--accent-orange); color: #fff;">${chapterCount} Chapters</span>
                 </div>
                 <div class="video-info" style="padding: 1.5rem;">
@@ -1176,7 +1068,6 @@ function renderBookChapters(sectionName) {
     // Filter bookData to only show chapters matching the clicked section
     const chapters = bookData.filter(item => item.section === sectionName);
 
-    // Build the UI with a Back button, Section Title, and Chapter Grid
     let html = `
         <button class="back-btn" onclick="renderBookSections()" style="background: none; border: none; cursor: pointer; padding: 0; margin-bottom: 1.5rem; font-family: inherit;">
             &larr; Back to All Topics
@@ -1188,15 +1079,23 @@ function renderBookChapters(sectionName) {
     `;
 
     chapters.forEach((chapter, index) => {
+        // Fallback for missing descriptions
+        const descText = chapter.description ? chapter.description : "Click to download and read this chapter.";
+        
+        // Render the image if it exists, otherwise fall back to the emoji
+        const imageContent = chapter.thumbnail 
+            ? `<img src="${chapter.thumbnail}" alt="${chapter.title} thumbnail">`
+            : `<div style="background: var(--primary-light); width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;"><span style="font-size: 3rem; opacity: 0.8;">📄</span></div>`;
+
         html += `
             <a href="${chapter.pdfLink}" target="_blank" class="video-card" style="animation-delay: ${index * 0.05}s">
-                <div class="thumbnail-container" style="background: var(--primary-light); display: flex; align-items: center; justify-content: center;">
-                    <span style="font-size: 3rem; opacity: 0.8;">📄</span>
+                <div class="thumbnail-container">
+                    ${imageContent}
                     <span class="module-badge" style="background: var(--accent-gold); color: #fff;">PDF</span>
                 </div>
                 <div class="video-info" style="padding: 1.5rem;">
                     <h4 style="font-size: 1.1rem; color: var(--text-main); font-weight: 600; margin-bottom: 0.5rem;">${chapter.title}</h4>
-                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.5;">${chapter.description}</p>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.5;">${descText}</p>
                 </div>
             </a>
         `;
@@ -1204,7 +1103,6 @@ function renderBookChapters(sectionName) {
 
     html += `</div>`;
     
-    // Inject and smoothly scroll up to the top of the book section
     container.innerHTML = html;
     document.getElementById('book').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
