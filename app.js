@@ -298,21 +298,6 @@ function loadVideoDetails() {
     }
 }
 
-function loadGameDetails() {
-    const params = new URLSearchParams(window.location.search);
-    const gameId = params.get('id');
-    if (!gameId) return;
-
-    const game = gamesData.find(g => g.id === gameId);
-    if (game) {
-        document.title = `${game.title} - CCL IITGn`;
-        const titleEl = document.getElementById('game-title');
-        const contentEl = document.getElementById('game-content');
-        
-        if(titleEl) titleEl.textContent = game.title;
-        if(contentEl) contentEl.innerHTML = game.content;
-    }
-}
 
 // ================= Interactive Number Maze Logic =================
 
@@ -493,28 +478,6 @@ function createNumberMaze(containerId, gridData) {
     renderBoard();
 }
 
-function initAllMazes() {
-    // Grid 1: From the image provided
-    const grid1 = [
-        [2, 3, 1, 1, 2],
-        [4, 2, 1, 2, 2],
-        [3, 3, 3, 2, 3],
-        [2, 4, 1, 4, 1],
-        [1, 4, 3, 3, 0]
-    ];
-
-    // Grid 2: A brand new puzzle with a different path
-    const grid2 = [
-        [2, 2, 2, 1, 3],
-        [1, 3, 1, 2, 1],
-        [3, 1, 2, 1, 2],
-        [2, 2, 1, 3, 1],
-        [1, 2, 3, 2, 0]
-    ];
-
-    createNumberMaze('number-maze-1', grid1);
-    createNumberMaze('number-maze-2', grid2);
-}
 
 // Update your loadGameDetails function
 function loadGameDetails() {
@@ -740,43 +703,6 @@ function createColourMaze(containerId, gridData) {
     renderBoard();
 }
 
-// ================= Init All Games =================
-function initAllMazes() {
-    // ---- Number Mazes ----
-    const numGrid1 = [
-        [2, 3, 1, 1, 2],
-        [4, 2, 1, 2, 2],
-        [3, 3, 3, 2, 3],
-        [2, 4, 1, 4, 1],
-        [1, 4, 3, 3, 0]
-    ];
-    const numGrid2 = [
-        [2, 2, 2, 1, 3],
-        [1, 3, 1, 2, 1],
-        [3, 1, 2, 1, 2],
-        [2, 2, 1, 3, 1],
-        [1, 2, 3, 2, 0]
-    ];
-    createNumberMaze('number-maze-1', numGrid1);
-    createNumberMaze('number-maze-2', numGrid2);
-
-    // ---- Colour Mazes ----
-    const colGrid1 = [
-        ['S', 'W', 'R', 'W'],
-        ['R', 'Bu', 'R', 'R'],
-        ['Bu', 'R', 'Bu', 'W'],
-        ['R', 'W', 'R', 'E']
-    ];
-    const colGrid2 = [
-        ['S', 'R', 'Bu', 'W'],
-        ['Bu', 'W', 'R', 'R'],
-        ['R', 'Bu', 'W', 'W'],
-        ['W', 'R', 'Bu', 'E']
-    ];
-    createColourMaze('colour-maze-1', colGrid1);
-    createColourMaze('colour-maze-2', colGrid2);
-}
-
 // ================= Interactive Chess Maze Logic =================
 function createChessMaze(containerId, gridData) {
     const container = document.getElementById(containerId);
@@ -977,8 +903,312 @@ function createChessMaze(containerId, gridData) {
     renderBoard();
 }
 
+// ================= Interactive Pixel Art Game Logic =================
+function createPixelArtGame(containerId, rows, cols) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    const uid = containerId;
+    
+    // Initialize a 2D array with 1s (White pixels)
+    let gridData = Array.from({ length: rows }, () => Array(cols).fill(1));
+
+    container.innerHTML = `
+        <div class="maze-controls">
+            <button id="reset-${uid}" class="maze-btn-reset">Reset Canvas</button>
+        </div>
+        <div class="pixel-board-container">
+            <div class="pixel-board" id="board-${uid}" style="grid-template-columns: repeat(${cols}, 1fr);"></div>
+            <div class="pixel-data-output" id="output-${uid}"></div>
+        </div>
+    `;
+
+    const board = document.getElementById(`board-${uid}`);
+    const output = document.getElementById(`output-${uid}`);
+
+    function calculateRLE(rowArray) {
+        let rle = [];
+        let currentCount = 0;
+        let countingWhite = true; // RLE always starts by counting white
+
+        for (let i = 0; i < rowArray.length; i++) {
+            const isWhite = rowArray[i] === 1;
+            
+            if (isWhite === countingWhite) {
+                currentCount++;
+            } else {
+                rle.push(currentCount);
+                currentCount = 1;
+                countingWhite = !countingWhite;
+            }
+        }
+        rle.push(currentCount);
+        return rle.join(', ');
+    }
+
+    function renderBoard() {
+        board.innerHTML = '';
+        for (let r = 0; r < rows; r++) {
+            for (let c = 0; c < cols; c++) {
+                const cell = document.createElement('div');
+                cell.className = 'pixel-cell';
+                if (gridData[r][c] === 0) cell.classList.add('black');
+                
+                // Toggle pixel on click
+                cell.addEventListener('click', () => {
+                    gridData[r][c] = gridData[r][c] === 1 ? 0 : 1;
+                    cell.classList.toggle('black');
+                    updateOutput();
+                });
+                
+                // Allow dragging to draw
+                cell.addEventListener('mouseenter', (e) => {
+                    if (e.buttons === 1) { // Left mouse button is held down
+                        gridData[r][c] = gridData[r][c] === 1 ? 0 : 1;
+                        cell.classList.toggle('black');
+                        updateOutput();
+                    }
+                });
+
+                board.appendChild(cell);
+            }
+        }
+        updateOutput();
+    }
+
+    function updateOutput() {
+        let html = '';
+        for (let r = 0; r < rows; r++) {
+            const binaryStr = gridData[r].join('');
+            const rleStr = calculateRLE(gridData[r]);
+            
+            html += `
+                <div class="pixel-data-row">
+                    <div class="data-label">Row ${r + 1}</div>
+                    <div class="data-binary">${binaryStr}</div>
+                    <div class="data-rle">RLE: ${rleStr}</div>
+                </div>
+            `;
+        }
+        output.innerHTML = html;
+    }
+
+    document.getElementById(`reset-${uid}`).addEventListener('click', () => {
+        gridData = Array.from({ length: rows }, () => Array(cols).fill(1));
+        renderBoard();
+    });
+
+    // Prevent default drag behavior to allow smooth drawing
+    board.addEventListener('dragstart', (e) => e.preventDefault());
+
+    renderBoard();
+}
+
+
+// ================= Interactive Parity Game Logic =================
+function createParityGame(containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    let currentSize = 5; // Default 5x5 grid
+    let grid = [];
+    let gameState = 'setup'; // 'setup', 'readyToFlip', or 'findError'
+    let flippedRow = -1;
+    let flippedCol = -1;
+
+    function initGrid(size = currentSize) {
+        currentSize = size;
+        grid = [];
+        for (let r = 0; r < currentSize; r++) {
+            let row = [];
+            for (let c = 0; c < currentSize; c++) {
+                if (r === currentSize - 1 || c === currentSize - 1) {
+                    row.push(0); // Parity cells start white (0)
+                } else {
+                    row.push(Math.random() > 0.5 ? 1 : 0); 
+                }
+            }
+            grid.push(row);
+        }
+        gameState = 'setup';
+        flippedRow = -1;
+        flippedCol = -1;
+        render();
+    }
+
+    function checkParity() {
+        // Verify every row and column has an even sum
+        for (let i = 0; i < currentSize; i++) {
+            let rowSum = 0;
+            let colSum = 0;
+            for (let j = 0; j < currentSize; j++) {
+                rowSum += grid[i][j];
+                colSum += grid[j][i];
+            }
+            if (rowSum % 2 !== 0 || colSum % 2 !== 0) return false;
+        }
+        return true;
+    }
+
+    function render() {
+        container.innerHTML = ''; 
+
+        // 1. Build the Size Selector
+        const headerControls = document.createElement('div');
+        headerControls.className = 'parity-controls';
+        headerControls.style.marginBottom = '1.5rem';
+        
+        const sizeLabel = document.createElement('label');
+        sizeLabel.textContent = 'Select Grid Size: ';
+        sizeLabel.style.fontWeight = '600';
+        sizeLabel.style.color = 'var(--text-main)';
+        
+        const sizeSelect = document.createElement('select');
+        sizeSelect.style.padding = '0.5rem';
+        sizeSelect.style.marginLeft = '0.5rem';
+        sizeSelect.style.borderRadius = '4px';
+        sizeSelect.style.border = '1px solid var(--border-color)';
+        sizeSelect.style.background = 'var(--surface)';
+        sizeSelect.style.color = 'var(--text-main)';
+        
+        // Allow 4x4, 5x5, 6x6, and 8x8 options
+        [4, 5, 6, 8].forEach(s => {
+            const opt = document.createElement('option');
+            opt.value = s;
+            opt.textContent = `${s}x${s}`;
+            if (s === currentSize) opt.selected = true;
+            sizeSelect.appendChild(opt);
+        });
+        
+        sizeSelect.addEventListener('change', (e) => {
+            initGrid(parseInt(e.target.value));
+        });
+        
+        sizeLabel.appendChild(sizeSelect);
+        if (gameState === 'setup' || gameState === 'findError') {
+             headerControls.appendChild(sizeLabel);
+             container.appendChild(headerControls);
+        }
+
+        // 2. Build the Board
+        const board = document.createElement('div');
+        board.className = 'parity-board';
+        // Dynamically override CSS columns based on user selection
+        board.style.gridTemplateColumns = `repeat(${currentSize}, 1fr)`;
+        
+        for (let r = 0; r < currentSize; r++) {
+            for (let c = 0; c < currentSize; c++) {
+                const cell = document.createElement('div');
+                const isParity = (r === currentSize - 1 || c === currentSize - 1);
+                
+                cell.className = 'parity-cell';
+                if (isParity) cell.classList.add('is-parity');
+                if (grid[r][c] === 1) cell.classList.add('black');
+
+                // Determine click behavior based on game phase
+                if (gameState === 'setup' && isParity) {
+                    cell.style.cursor = 'pointer';
+                    cell.addEventListener('click', () => {
+                        grid[r][c] = grid[r][c] === 1 ? 0 : 1;
+                        if (checkParity()) gameState = 'readyToFlip';
+                        render();
+                    });
+                } else if (gameState === 'findError') {
+                    cell.style.cursor = 'pointer';
+                    cell.addEventListener('click', () => {
+                        if (r === flippedRow && c === flippedCol) {
+                            alert("Correct! You used pattern recognition to find the corrupted bit.");
+                            initGrid(currentSize); // Restart game
+                        } else {
+                            cell.style.backgroundColor = 'red'; // Flash red for wrong guess
+                            setTimeout(() => render(), 300);
+                        }
+                    });
+                } else {
+                    cell.style.cursor = 'not-allowed';
+                }
+                board.appendChild(cell);
+            }
+        }
+
+        // 3. Build the Status Bar
+        const statusDiv = document.createElement('div');
+        statusDiv.className = 'parity-status';
+        
+        if (gameState === 'setup') {
+            statusDiv.textContent = "Fill the dashed parity cells so every row and column has an EVEN number of black pixels.";
+        } else if (gameState === 'readyToFlip') {
+            statusDiv.textContent = "✅ Parity is perfect! Now, click the button to let the computer corrupt a bit.";
+            statusDiv.style.color = '#16a34a'; // Green
+        } else if (gameState === 'findError') {
+            statusDiv.textContent = "🚨 A bit was flipped! Find the row and column with odd parity and click the incorrect bit.";
+            statusDiv.style.color = '#dc2626'; // Red
+        }
+
+        // 4. Build the Controls
+        const controlsDiv = document.createElement('div');
+        controlsDiv.className = 'parity-controls';
+        
+        const resetBtn = document.createElement('button');
+        resetBtn.className = 'maze-btn-reset';
+        resetBtn.textContent = 'Generate New Grid';
+        resetBtn.addEventListener('click', () => initGrid(currentSize));
+        controlsDiv.appendChild(resetBtn);
+
+        if (gameState === 'readyToFlip') {
+            const flipBtn = document.createElement('button');
+            flipBtn.className = 'maze-btn-solve';
+            flipBtn.style.background = 'var(--accent-orange)';
+            flipBtn.style.color = 'white';
+            flipBtn.textContent = 'Flip Random Bit';
+            
+            flipBtn.addEventListener('click', () => {
+                // Hide all cells temporarily so the user cannot see the change happen
+                const cells = board.querySelectorAll('.parity-cell');
+                cells.forEach(cell => cell.style.opacity = '0');
+                
+                statusDiv.textContent = "🪄 Magically flipping a bit behind your back...";
+                statusDiv.style.color = 'var(--accent-orange)';
+                flipBtn.disabled = true;
+                resetBtn.disabled = true;
+
+                setTimeout(() => {
+                    flippedRow = Math.floor(Math.random() * currentSize);
+                    flippedCol = Math.floor(Math.random() * currentSize);
+                    
+                    // Flip the targeted bit
+                    grid[flippedRow][flippedCol] = grid[flippedRow][flippedCol] === 1 ? 0 : 1;
+                    gameState = 'findError';
+                    render(); // Re-renders the board, making the cells visible again
+                }, 1200); // 1.2 second delay
+            });
+            controlsDiv.appendChild(flipBtn);
+        }
+
+        container.appendChild(board);
+        container.appendChild(statusDiv);
+        container.appendChild(controlsDiv);
+    }
+
+    // Start the game for the first time
+    initGrid();
+}
+
+// ================ Book SPA Logic =================
+
+// Map each section to a specific image in your thumbnails folder
+const sectionImages = {
+    "Introduction": "book/thumbnails/ct1.png",
+    "Computational Thinking Over Maze Puzzle(s)": "book/thumbnails/ct1.png",
+    "Computational Thinking Over Puzzle(s)": "book/thumbnails/ct2.png",
+    "Language of Computer": "book/thumbnails/lang of computer.png",
+    "Algorithms and Computational Thinking": "book/thumbnails/algo and ct.png",
+    "Learning AI Through Experience": "book/thumbnails/Algo & CT.png",
+    "Computational Thinking Over Encryption": "book/thumbnails/ct3.png",
+    "Other Activities": "book/thumbnails/other.png"
+};
+
 // ================= Init All Games =================
-// Replace your existing initAllMazes function with this one
 function initAllMazes() {
     // ---- Number Mazes ----
     const numGrid1 = [
@@ -994,9 +1224,13 @@ function initAllMazes() {
     const colGrid1 = [
         ['S', 'W', 'R', 'W'], ['R', 'Bu', 'R', 'R'], ['Bu', 'R', 'Bu', 'W'], ['R', 'W', 'R', 'E']
     ];
+    const colGrid2 = [
+        ['S', 'R', 'Bu', 'W'], ['Bu', 'W', 'R', 'R'], ['R', 'Bu', 'W', 'W'], ['W', 'R', 'Bu', 'E']
+    ];
     createColourMaze('colour-maze-1', colGrid1);
+    createColourMaze('colour-maze-2', colGrid2);
 
-    // ---- Chess Mazes (NEW) ----
+    // ---- Chess Mazes ----
     // P = Pawn, B = Bishop, N = Knight, G = Goal
     const chessGrid1 = [
         ['P', 'P', 'N', 'N'],
@@ -1005,22 +1239,33 @@ function initAllMazes() {
         ['P', 'N', 'N', 'G']
     ];
     createChessMaze('chess-maze-1', chessGrid1);
+
+    // ---- Pixel Art Games ----
+    createPixelArtGame('pixel-game-1', 9, 15);
+    createPixelArtGame('pixel-game-2', 9, 15);
+
+    // ---- Parity Game ----
+    createParityGame('parity-game-1');
 }
 
+// ================= Game Details Page Logic =================
+function loadGameDetails() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const gameId = urlParams.get('id');
+    
+    const game = gamesData.find(g => g.id === gameId);
 
-// ================= Book SPA Logic =================
-
-// Map each section to a specific image in your thumbnails folder
-const sectionImages = {
-    "Introduction": "book/thumbnails/ct1.png",
-    "Computational Thinking Over Maze Puzzle(s)": "book/thumbnails/ct1.png",
-    "Computational Thinking Over Puzzle(s)": "book/thumbnails/ct2.png",
-    "Language of Computer": "book/thumbnails/lang of computer.png",
-    "Algorithms and Computational Thinking": "book/thumbnails/algo and ct.png",
-    "Learning AI Through Experience": "book/thumbnails/Algo & CT.png",
-    "Computational Thinking Over Encryption": "book/thumbnails/ct3.png",
-    "Other Activities": "book/thumbnails/other.png"
-};
+    if (game) {
+        document.getElementById('game-title').textContent = game.title;
+        document.getElementById('game-content').innerHTML = game.content;
+    
+        if (typeof initAllMazes === 'function') {
+            initAllMazes();
+        }
+    } else {
+        document.getElementById('game-content').innerHTML = '<p>Game not found. Please return to the games list.</p>';
+    }
+}
 
 // 1. Renders the top-level categories
 function renderBookSections() {

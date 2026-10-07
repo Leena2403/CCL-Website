@@ -144,5 +144,34 @@ const gamesData = [
 
             <div id="pixel-game-2" class="interactive-game-wrapper"></div>
         `
+    },
+    {
+        id: "game5",
+        title: "Parity Magic Trick",
+        grade: "Grade 7",
+        concepts: ["algorithmic-thinking", "pattern-recognition"], 
+        thumbnail: "book/chapter_thumbnails/grid_cipher.png",
+        shortDescription: "Learn how computers magically detect errors in data using parity bits.",
+        content: `
+            <p><strong>Activity: Error Detection with Parity Bits</strong></p>
+            <p>When computers transmit data, sometimes errors happen (a 0 flips to a 1, or vice versa). To detect this, computers add extra information called <strong>parity bits</strong>.</p>
+            
+            <p><strong>The Rule of Even Parity:</strong> Every row and every column must have an <strong>EVEN</strong> number of black pixels. If a row has an odd number of black pixels, you must turn the parity bit black to make the total even. If it already has an even number, leave the parity bit white.</p>
+
+            <div style="background: var(--primary-light); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+                <p style="margin: 0; color: #000; font-weight: 600;">CT Competencies Developed:</p>
+                <ul style="margin-top: 0.5rem; margin-bottom: 0; color: #000;">
+                    <li><strong style="color: #000;">Algorithmic Thinking:</strong> Calculating sums and following strict conditions.</li>
+                    <li><strong style="color: #000;">Pattern Recognition:</strong> Identifying intersecting row/column anomalies.</li>
+                </ul>
+            </div>
+
+            <h3 style="margin-top: 3rem; margin-bottom: 1rem; color: var(--primary);">Interactive Parity Board</h3>
+            <p><strong>Step 1:</strong> Click the dashed parity cells on the right and bottom edges to make sure every row and column has an EVEN number of black pixels.</p>
+            <p><strong>Step 2:</strong> Once the computer verifies your parity is correct, click the "Flip Random Bit" button to simulate a data transmission error. See if you can use the rows and columns to find the exact bit that flipped!</p>
+
+            <!-- Game Container injected by app.js -->
+            <div id="parity-game-1" class="interactive-game-wrapper" style="margin-top: 2rem;"></div>
+        `
     }
 ];

@@ -185,5 +185,38 @@ const videosData = [
             { type: "PDF", title: "Module Notes", link: "#" },
             { type: "Worksheet", title: "Worksheet", link: "#" }
         ]
-    }
+    },
+    {
+        id: "video19",
+        title: "Learn Ascending and Descending with this Game | CCL IIT Gandhinagar",
+        youtubeId: "240zR7S5z6A",
+        description: "Understanding different number bases by measuring height.",
+        module: "CT and AI ML",
+        resources: [
+            { type: "PDF", title: "Module Notes", link: "#" },
+            { type: "Worksheet", title: "Worksheet", link: "#" }
+        ]
+    },
+    {
+        id: "video20",
+        title: "This Puzzle Turns Into a Portrait 🤯✨ | Optical Illusion DIY | Diwali D20 | CCL IIT Gandhinagar",
+        youtubeId: "4ngdM_uVZCA",
+        description: "Understanding different number bases by measuring height.",
+        module: "CT and AI ML",
+        resources: [
+            { type: "PDF", title: "Module Notes", link: "#" },
+            { type: "Worksheet", title: "Worksheet", link: "#" }
+        ]
+    },
+    {
+        id: "video21",
+        title: "Sorting Network (Map) | Computational Thinking | Mathematics | CCL IIT Gandhinagar",
+        youtubeId: "txZ4cxbdsR4",
+        description: "Understanding different number bases by measuring height.",
+        module: "CT and AI ML",
+        resources: [
+            { type: "PDF", title: "Module Notes", link: "#" },
+            { type: "Worksheet", title: "Worksheet", link: "#" }
+        ]
+    },
 ];
