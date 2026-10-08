@@ -1194,6 +1194,507 @@ function createParityGame(containerId) {
     initGrid();
 }
 
+// ================= Chota Shatranj Logic =================
+function createChotaShatranjGame(containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    // Piece definitions
+    const PIECES = {
+        'K': { icon: '♔', name: 'King' },
+        'Q': { icon: '♕', name: 'Queen' },
+        'R': { icon: '♖', name: 'Rook' },
+        'B': { icon: '♗', name: 'Bishop' },
+        'N': { icon: '♘', name: 'Knight' }
+    };
+
+    // Pre-defined Levels
+    const LEVELS = [
+        { title: "Level 1", rows: 3, cols: 3, removed: [], inventory: { 'K': 2 } },
+        { title: "Level 2", rows: 2, cols: 3, removed: ['1,0'], inventory: { 'K': 1, 'R': 1 } },
+        { title: "Level 3", rows: 4, cols: 4, removed: ['0,0', '3,3'], inventory: { 'N': 2, 'B': 2 } }
+    ];
+
+    let state = {
+        mode: 'play', // 'play' or 'build'
+        levelIdx: 0,
+        rows: 3,
+        cols: 3,
+        removedCells: new Set(), // Set of "r,c" strings
+        inventory: {}, // Format: { 'K': 2, 'R': 1 }
+        placed: {}, // Format: "r,c" -> 'K'
+        selectedPiece: null,
+        conflicts: new Set()
+    };
+
+    function loadLevel(idx) {
+        const lvl = LEVELS[idx];
+        state.mode = 'play';
+        state.levelIdx = idx;
+        state.rows = lvl.rows;
+        state.cols = lvl.cols;
+        state.removedCells = new Set(lvl.removed);
+        state.inventory = { ...lvl.inventory };
+        state.placed = {};
+        state.selectedPiece = null;
+        checkWinCondition();
+        render();
+    }
+
+    // --- Chess Logic ---
+    function checkConflicts() {
+        state.conflicts.clear();
+        const positions = Object.keys(state.placed);
+        
+        for (let i = 0; i < positions.length; i++) {
+            for (let j = i + 1; j < positions.length; j++) {
+                const [r1, c1] = positions[i].split(',').map(Number);
+                const [r2, c2] = positions[j].split(',').map(Number);
+                const p1 = state.placed[positions[i]];
+                const p2 = state.placed[positions[j]];
+
+                if (isAttacking(r1, c1, p1, r2, c2) || isAttacking(r2, c2, p2, r1, c1)) {
+                    state.conflicts.add(positions[i]);
+                    state.conflicts.add(positions[j]);
+                }
+            }
+        }
+    }
+
+    function isAttacking(r1, c1, piece, r2, c2) {
+        const dr = Math.abs(r2 - r1);
+        const dc = Math.abs(c2 - c1);
+        
+        if (piece === 'K') return dr <= 1 && dc <= 1;
+        if (piece === 'N') return (dr === 2 && dc === 1) || (dr === 1 && dc === 2);
+        
+        const isStraight = r1 === r2 || c1 === c2;
+        const isDiag = dr === dc;
+
+        if (piece === 'R' && !isStraight) return false;
+        if (piece === 'B' && !isDiag) return false;
+        if (piece === 'Q' && !(isStraight || isDiag)) return false;
+
+        // Check line of sight (no pieces blocking) for R, B, Q
+        const stepR = r2 > r1 ? 1 : (r2 < r1 ? -1 : 0);
+        const stepC = c2 > c1 ? 1 : (c2 < c1 ? -1 : 0);
+        
+        let currR = r1 + stepR;
+        let currC = c1 + stepC;
+        
+        while (currR !== r2 || currC !== c2) {
+            if (state.placed[`${currR},${currC}`] || state.removedCells.has(`${currR},${currC}`)) {
+                return false; // Blocked by another piece or a missing cell
+            }
+            currR += stepR;
+            currC += stepC;
+        }
+        return true;
+    }
+
+    function checkWinCondition() {
+        checkConflicts();
+        const totalInventory = Object.values(state.inventory).reduce((a, b) => a + b, 0);
+        if (totalInventory === 0 && state.conflicts.size === 0 && Object.keys(state.placed).length > 0) {
+            setTimeout(() => alert("Puzzle Solved! No pieces are attacking each other."), 100);
+        }
+    }
+
+    // --- Interaction ---
+    function handleCellClick(r, c) {
+        const key = `${r},${c}`;
+        
+        if (state.mode === 'build') {
+            if (state.removedCells.has(key)) state.removedCells.delete(key);
+            else state.removedCells.add(key);
+            render();
+            return;
+        }
+
+        if (state.removedCells.has(key)) return;
+
+        // Remove piece
+        if (state.placed[key]) {
+            const type = state.placed[key];
+            state.inventory[type] = (state.inventory[type] || 0) + 1;
+            delete state.placed[key];
+            state.selectedPiece = type; // Auto-select the piece you just picked up
+        } 
+        // Place piece
+        else if (state.selectedPiece && state.inventory[state.selectedPiece] > 0) {
+            state.placed[key] = state.selectedPiece;
+            state.inventory[state.selectedPiece]--;
+            if (state.inventory[state.selectedPiece] === 0) state.selectedPiece = null;
+        }
+        
+        checkWinCondition();
+        render();
+    }
+
+    // --- UI Rendering ---
+    function render() {
+        let html = `<div class="cs-container">`;
+
+        // Header (Title + Buttons)
+        html += `
+            <div class="cs-header">
+                <button class="maze-btn-solve" id="btn-mode" style="background: var(--accent-orange); color: #ffffff; border: none; padding: 0.5rem 1rem;">
+                    ${state.mode === 'play' ? 'Create Own Grid' : 'Back to Levels'}
+                </button>
+                <h3 style="margin: 0; color: var(--text-main); font-size: 1.5rem; font-weight: 600;">
+                    ${state.mode === 'build' ? 'Custom Grid Builder' : LEVELS[state.levelIdx].title}
+                </h3>
+                <button class="maze-btn-reset" id="btn-refresh">Refresh</button>
+            </div>
+        `;
+
+        // Builder Controls
+        if (state.mode === 'build') {
+            html += `
+                <div class="cs-builder-controls">
+                    <label>Grid Size:</label>
+                    <input type="number" id="inp-rows" class="cs-counter-input" value="${state.rows}" min="2" max="6"> x 
+                    <input type="number" id="inp-cols" class="cs-counter-input" value="${state.cols}" min="2" max="6">
+                    <p style="margin-left: 1rem; font-size: 0.9rem;">Click grid to remove/add cells. Set pieces below.</p>
+                </div>
+            `;
+        }
+
+        // Inventory
+        html += `<div class="cs-inventory">`;
+        Object.keys(PIECES).forEach(key => {
+            const p = PIECES[key];
+            const count = state.inventory[key] || 0;
+            
+            if (state.mode === 'build') {
+                html += `
+                    <div class="cs-piece-btn">
+                        <span class="cs-piece-icon" style="color: ${key === 'Q' || key === 'K' ? '#d97706' : '#2563eb'}">${p.icon}</span>
+                        <div style="display:flex; align-items:center; gap:5px; margin-top:5px;">
+                            <button class="btn-inc" data-key="${key}" data-val="-1" style="padding:0 5px;">-</button>
+                            <span>${count}</span>
+                            <button class="btn-inc" data-key="${key}" data-val="1" style="padding:0 5px;">+</button>
+                        </div>
+                    </div>
+                `;
+            } else {
+                if (count > 0 || state.selectedPiece === key) {
+                    const isActive = state.selectedPiece === key ? 'active' : '';
+                    const disabled = count === 0 ? 'disabled' : '';
+                    html += `
+                        <button class="cs-piece-btn ${isActive}" data-key="${key}" ${disabled}>
+                            <span class="cs-piece-icon" style="color: ${key === 'Q' || key === 'K' ? '#d97706' : '#2563eb'}">${p.icon}</span>
+                            <span class="cs-piece-count">${p.name} (${count})</span>
+                        </button>
+                    `;
+                }
+            }
+        });
+        html += `</div>`;
+
+        if (state.mode === 'play' && Object.keys(state.inventory).length === 0) {
+            html += `<p style="color: var(--text-muted); margin-bottom: 1rem;">No pieces required for this level.</p>`;
+        }
+
+        // Grid
+        html += `<div class="cs-board-wrapper"><div class="cs-board" style="grid-template-columns: repeat(${state.cols}, 1fr);">`;
+        for (let r = 0; r < state.rows; r++) {
+            for (let c = 0; c < state.cols; c++) {
+                const key = `${r},${c}`;
+                const isRemoved = state.removedCells.has(key);
+                const isConflict = state.conflicts.has(key);
+                const piece = state.placed[key];
+                
+                let classes = 'cs-cell';
+                if (isRemoved) classes += ' removed';
+                if (isConflict) classes += ' conflict';
+
+                const pieceHtml = piece ? `<span style="color: ${piece === 'Q' || piece === 'K' ? '#d97706' : '#2563eb'}">${PIECES[piece].icon}</span>` : '';
+                
+                html += `<div class="${classes}" data-r="${r}" data-c="${c}">${pieceHtml}</div>`;
+            }
+        }
+        html += `</div></div>`;
+
+        // Footer Controls (Next/Prev Level)
+        if (state.mode === 'play') {
+            html += `
+                <div style="display:flex; justify-content:center; gap: 1rem;">
+                    <button class="maze-btn-reset" id="btn-prev" ${state.levelIdx === 0 ? 'disabled' : ''}>Previous Level</button>
+                    <button class="maze-btn-reset" id="btn-next" ${state.levelIdx === LEVELS.length - 1 ? 'disabled' : ''}>Next Level</button>
+                </div>
+            `;
+        } else {
+            html += `<button class="btn-primary" id="btn-play-custom" style="padding: 10px 24px; font-size:1.1rem;">Play Custom Grid</button>`;
+        }
+
+        html += `</div>`;
+        container.innerHTML = html;
+
+        // --- Attach Event Listeners ---
+        
+        // Grid cells
+        container.querySelectorAll('.cs-cell').forEach(cell => {
+            cell.addEventListener('click', (e) => {
+                const r = parseInt(e.currentTarget.dataset.r);
+                const c = parseInt(e.currentTarget.dataset.c);
+                handleCellClick(r, c);
+            });
+        });
+
+        // Inventory selection
+        if (state.mode === 'play') {
+            container.querySelectorAll('.cs-piece-btn').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const key = e.currentTarget.dataset.key;
+                    if (state.inventory[key] > 0) {
+                        state.selectedPiece = key;
+                        render();
+                    }
+                });
+            });
+        }
+
+        // Builder increments
+        if (state.mode === 'build') {
+            container.querySelectorAll('.btn-inc').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const key = e.currentTarget.dataset.key;
+                    const val = parseInt(e.currentTarget.dataset.val);
+                    const current = state.inventory[key] || 0;
+                    if (current + val >= 0) {
+                        state.inventory[key] = current + val;
+                        render();
+                    }
+                });
+            });
+
+            document.getElementById('inp-rows').addEventListener('change', (e) => {
+                state.rows = Math.min(6, Math.max(2, parseInt(e.target.value)));
+                render();
+            });
+            document.getElementById('inp-cols').addEventListener('change', (e) => {
+                state.cols = Math.min(6, Math.max(2, parseInt(e.target.value)));
+                render();
+            });
+
+            document.getElementById('btn-play-custom').addEventListener('click', () => {
+                state.mode = 'play';
+                state.placed = {};
+                state.selectedPiece = null;
+                render();
+            });
+        }
+
+        // Top Header Actions
+        document.getElementById('btn-mode').addEventListener('click', () => {
+            if (state.mode === 'play') {
+                state.mode = 'build';
+                state.placed = {};
+                state.selectedPiece = null;
+                render();
+            } else {
+                loadLevel(state.levelIdx);
+            }
+        });
+
+        document.getElementById('btn-refresh').addEventListener('click', () => {
+            if (state.mode === 'play') {
+                // Return all pieces to inventory
+                Object.values(state.placed).forEach(p => {
+                    state.inventory[p] = (state.inventory[p] || 0) + 1;
+                });
+                state.placed = {};
+                state.selectedPiece = null;
+                checkConflicts();
+                render();
+            } else {
+                state.removedCells.clear();
+                state.inventory = {};
+                render();
+            }
+        });
+
+        // Next/Prev
+        if (state.mode === 'play') {
+            const btnPrev = document.getElementById('btn-prev');
+            if (btnPrev) btnPrev.addEventListener('click', () => loadLevel(state.levelIdx - 1));
+            
+            const btnNext = document.getElementById('btn-next');
+            if (btnNext) btnNext.addEventListener('click', () => loadLevel(state.levelIdx + 1));
+        }
+    }
+
+    // Initialize
+    loadLevel(0);
+}
+
+// ================= Building Puzzle Logic =================
+// ================= Building Puzzle Logic =================
+function createBuildingPuzzle(containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    // 3x3 Grid State (0 means empty)
+    let grid = [
+        [0, 0, 0],
+        [0, 0, 0],
+        [0, 0, 0]
+    ];
+
+    // Clues based on the solution
+    const clues = {
+        top: [2, 2, 1],
+        bottom: [2, 1, 3],
+        left: [3, 1, 2],
+        right: [1, 2, 2]
+    };
+
+    function calculateVisible(line) {
+        let visibleCount = 0;
+        let maxHeight = 0;
+        for (let i = 0; i < line.length; i++) {
+            if (line[i] === 0) return -1; // Incomplete line
+            if (line[i] > maxHeight) {
+                visibleCount++;
+                maxHeight = line[i];
+            }
+        }
+        return visibleCount;
+    }
+
+    function checkWinCondition() {
+        for (let r = 0; r < 3; r++) {
+            for (let c = 0; c < 3; c++) {
+                if (grid[r][c] === 0) return false;
+            }
+        }
+
+        for (let i = 0; i < 3; i++) {
+            const row = grid[i];
+            const col = [grid[0][i], grid[1][i], grid[2][i]];
+            if (new Set(row).size !== 3 || new Set(col).size !== 3) return false;
+        }
+
+        for (let i = 0; i < 3; i++) {
+            const colTopDown = [grid[0][i], grid[1][i], grid[2][i]];
+            const colBottomUp = [grid[2][i], grid[1][i], grid[0][i]];
+            const rowLeftRight = grid[i];
+            const rowRightLeft = [...grid[i]].reverse();
+
+            if (calculateVisible(colTopDown) !== clues.top[i]) return false;
+            if (calculateVisible(colBottomUp) !== clues.bottom[i]) return false;
+            if (calculateVisible(rowLeftRight) !== clues.left[i]) return false;
+            if (calculateVisible(rowRightLeft) !== clues.right[i]) return false;
+        }
+
+        return true;
+    }
+
+    function render() {
+        container.innerHTML = '';
+        
+        const wrapper = document.createElement('div');
+        wrapper.className = 'bp-container';
+
+        // Container that holds BOTH grids side-by-side
+        const layout = document.createElement('div');
+        layout.className = 'bp-layout';
+
+        // ================= 1. Build 2D Interactive Grid =================
+        const gridEl = document.createElement('div');
+        gridEl.className = 'bp-grid';
+
+        for (let r = -1; r <= 3; r++) {
+            for (let c = -1; c <= 3; c++) {
+                const cell = document.createElement('div');
+                cell.className = 'bp-cell';
+
+                // Corners (Empty)
+                if ((r === -1 && c === -1) || (r === -1 && c === 3) || (r === 3 && c === -1) || (r === 3 && c === 3)) {
+                    gridEl.appendChild(cell);
+                    continue;
+                }
+
+                // Clues
+                if (r === -1) { cell.classList.add('bp-clue'); cell.innerHTML = `&darr; ${clues.top[c]}`; }
+                else if (r === 3) { cell.classList.add('bp-clue'); cell.innerHTML = `&uarr; ${clues.bottom[c]}`; }
+                else if (c === -1) { cell.classList.add('bp-clue'); cell.innerHTML = `${clues.left[r]} &rarr;`; }
+                else if (c === 3) { cell.classList.add('bp-clue'); cell.innerHTML = `&larr; ${clues.right[r]}`; }
+                
+                // Playable cells
+                else {
+                    cell.classList.add('bp-interactive');
+                    const val = grid[r][c];
+                    if (val > 0) {
+                        cell.textContent = val;
+                        cell.classList.add(`bp-val-${val}`);
+                    }
+                    
+                    cell.addEventListener('click', () => {
+                        grid[r][c] = (grid[r][c] + 1) % 4; // Cycles 0, 1, 2, 3
+                        render();
+                    });
+                }
+                gridEl.appendChild(cell);
+            }
+        }
+
+        // ================= 2. Build 3D Isometric Grid =================
+        const grid3DWrapper = document.createElement('div');
+        grid3DWrapper.className = 'bp-3d-container';
+        
+        const grid3D = document.createElement('div');
+        grid3D.className = 'bp-3d-grid';
+        
+        for (let r = 0; r < 3; r++) {
+            for (let c = 0; c < 3; c++) {
+                const cell3D = document.createElement('div');
+                cell3D.className = 'bp-3d-cell';
+                
+                const val = grid[r][c];
+                if (val > 0) {
+                    const bldg = document.createElement('div');
+                    bldg.className = `bp-3d-building bp-3d-val-${val}`;
+                    cell3D.appendChild(bldg);
+                }
+                grid3D.appendChild(cell3D);
+            }
+        }
+        grid3DWrapper.appendChild(grid3D);
+
+        // ================= Append to DOM =================
+        layout.appendChild(gridEl); // Add 2D to left side
+        layout.appendChild(grid3DWrapper); // Add 3D to right side
+        wrapper.appendChild(layout);
+
+        const status = document.createElement('div');
+        status.className = 'bp-status';
+        
+        if (checkWinCondition()) {
+            status.textContent = "✅ Correct! All buildings placed perfectly.";
+            status.style.color = '#16a34a';
+        } else {
+            status.textContent = "Click the 2D cells to build skyscrapers and match the clues.";
+        }
+
+        const resetBtn = document.createElement('button');
+        resetBtn.className = 'maze-btn-reset';
+        resetBtn.textContent = 'Clear City';
+        resetBtn.addEventListener('click', () => {
+            grid = [[0,0,0], [0,0,0], [0,0,0]];
+            render();
+        });
+
+        wrapper.appendChild(status);
+        wrapper.appendChild(resetBtn);
+        container.appendChild(wrapper);
+    }
+
+    // Start game
+    render();
+}
+
 // ================ Book SPA Logic =================
 
 // Map each section to a specific image in your thumbnails folder
@@ -1246,6 +1747,8 @@ function initAllMazes() {
 
     // ---- Parity Game ----
     createParityGame('parity-game-1');
+    createChotaShatranjGame('chota-shatranj-1');
+    createBuildingPuzzle('building-game-1');
 }
 
 // ================= Game Details Page Logic =================

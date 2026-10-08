@@ -173,5 +173,63 @@ const gamesData = [
             <!-- Game Container injected by app.js -->
             <div id="parity-game-1" class="interactive-game-wrapper" style="margin-top: 2rem;"></div>
         `
+    },
+    {
+        id: "game6",
+        title: "Chota Shatranj",
+        grade: "Grade 6-8",
+        concepts: ["algorithmic-thinking", "spatial-reasoning"], 
+        thumbnail: "book/chapter_thumbnails/chess maze.png", 
+        shortDescription: "Place chess pieces on custom grids without them attacking each other.",
+        content: `
+            <p><strong>Activity: Chota Shatranj (Mini Chess)</strong></p>
+            <p>Can you arrange a specific set of chess pieces on a grid so that no piece is attacking any other piece? This game tests your spatial reasoning and understanding of movement rules.</p>
+            
+            <div style="background: var(--primary-light); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+                <p style="margin: 0; color: #000; font-weight: 600;">How to Play:</p>
+                <ul style="margin-top: 0.5rem; margin-bottom: 0; color: #000;">
+                    <li>Select a piece from your inventory, then click an empty cell to place it.</li>
+                    <li>Click a placed piece to remove it back to your inventory.</li>
+                    <li>If pieces attack each other, the board will highlight the conflict!</li>
+                </ul>
+            </div>
+
+            <div id="chota-shatranj-1" class="interactive-game-wrapper" style="margin-top: 2rem;"></div>
+        `
+    },
+    {
+        id: "game7",
+        title: "Building Puzzle",
+        grade: "Grade 6-8",
+        concepts: ["algorithmic-thinking", "decomposition", "pattern-recognition", "abstraction", "generalisation"], 
+        thumbnail: "book/chapter_thumbnails/building puzzle.png",
+        shortDescription: "Help the city planner figure out where to build skyscrapers using visibility clues.",
+        content: `
+            <p><strong>Activity: Building Puzzle</strong></p>
+            <p>Help the city planner to figure out where to build skyscrapers using clues. The Building puzzle is a logic-based grid puzzle where the player imagines building skyscrapers of varying heights in a city grid.</p>
+            
+            <ul style="margin-bottom: 1.5rem; color: var(--text-muted); line-height: 1.8;">
+                <li>Place a skyscraper in each square.</li>
+                <li>Each row and each column must contain buildings of different heights; i.e., no two buildings in a row or column have the same number of floors.</li>
+                <li>The number outside the grid (the clues) specifies how many buildings you can see if you stand on that number.</li>
+                <li>Taller skyscrapers block the view of shorter skyscrapers located behind them.</li>
+            </ul>
+
+            <div style="background: var(--primary-light); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; color: #000000;">
+                <p style="margin: 0; color: #000000; font-weight: 600;">CT Competencies Developed:</p>
+                <ul style="margin-top: 0.5rem; margin-bottom: 0; color: #000000;">
+                    <li><strong style="color: #000000;">Algorithmic Thinking:</strong> Follow a process: Scan from the given side, track the tallest building seen so far, and count visible buildings.</li>
+                    <li><strong style="color: #000000;">Decomposition:</strong> Breaking the puzzle into smaller constraints: grid size, allowed value and given clues.</li>
+                    <li><strong style="color: #000000;">Pattern Recognition:</strong> Recognising that this puzzle structure is similar to Sudoku.</li>
+                    <li><strong style="color: #000000;">Generalisation:</strong> Extending to n x n grids, Generalisation pattern: 1 + 2 + ... + n = n(n + 1)/2. Compare two systems and identify similarities.</li>
+                    <li><strong style="color: #000000;">Abstraction:</strong> Physical objects represent numerical values and how the arrangement affects visibility.</li>
+                </ul>
+            </div>
+
+            <h3 style="margin-top: 3rem; margin-bottom: 1rem; color: var(--primary);">Interactive 3x3 Grid</h3>
+            <p>Click the empty squares to cycle through building heights (1 = Red, 2 = Yellow, 3 = Green). Make sure no row or column has duplicate heights, and check that the visible buildings match the clues on the outside edges!</p>
+
+            <div id="building-game-1" class="interactive-game-wrapper" style="margin-top: 2rem;"></div>
+        `
     }
 ];
