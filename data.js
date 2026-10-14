@@ -219,4 +219,39 @@ const videosData = [
             { type: "Worksheet", title: "Worksheet", link: "#" }
         ]
     },
+    
+    {
+        id: "video22",
+        title: "Sorting Network (Map) | Computational Thinking | Mathematics | CCL IIT Gandhinagar",
+        youtubeId: "T9oT9WHkC50", 
+        description: "Man Vs माचिस | AI Chess with Matchbox | Part - 1 | CCL IIT Gandhinagar",
+        module: "CT and AI ML",
+        resources: [
+            { type: "PDF", title: "Module Notes", link: "#" },
+            { type: "Worksheet", title: "Worksheet", link: "#" }
+        ]
+    },
+    {
+        id: "video23",
+        title: "Sorting Network (Map) | Computational Thinking | Mathematics | CCL IIT Gandhinagar",
+        youtubeId: "rv_Bq_QER5s", 
+        description: "Man Vs माचिस | Human Neural Network & AI | 3030 Eklavya | CCL IIT Gandhinagar",
+        module: "CT and AI ML",
+        resources: [
+            { type: "PDF", title: "Module Notes", link: "#" },
+            { type: "Worksheet", title: "Worksheet", link: "#" }
+        ]
+    },
+    {
+        id: "video24",
+        title: "Sorting Network (Map) | Computational Thinking | Mathematics | CCL IIT Gandhinagar",
+        youtubeId: "7-hJuOLMUAM", 
+        description: "Man Vs माचिस | AI Checkers with Matchbox | CCL IIT Gandhinagar",
+        module: "CT and AI ML",
+        resources: [
+            { type: "PDF", title: "Module Notes", link: "#" },
+            { type: "Worksheet", title: "Worksheet", link: "#" }
+        ]
+    }, 
+
 ];

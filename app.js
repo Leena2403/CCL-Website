@@ -1194,7 +1194,7 @@ function createParityGame(containerId) {
     initGrid();
 }
 
-// ================= Chota Shatranj Logic =================
+// ================= Chota Shatranj Logic (Updated with Feasibility Solver) =================
 function createChotaShatranjGame(containerId) {
     const container = document.getElementById(containerId);
     if (!container) return;
@@ -1224,7 +1224,9 @@ function createChotaShatranjGame(containerId) {
         inventory: {}, // Format: { 'K': 2, 'R': 1 }
         placed: {}, // Format: "r,c" -> 'K'
         selectedPiece: null,
-        conflicts: new Set()
+        conflicts: new Set(),
+        isSolvable: true,
+        solverAnalysis: null
     };
 
     function loadLevel(idx) {
@@ -1253,7 +1255,8 @@ function createChotaShatranjGame(containerId) {
                 const p1 = state.placed[positions[i]];
                 const p2 = state.placed[positions[j]];
 
-                if (isAttacking(r1, c1, p1, r2, c2) || isAttacking(r2, c2, p2, r1, c1)) {
+                if (isAttacking(r1, c1, p1, r2, c2, state.removedCells, state.placed) || 
+                    isAttacking(r2, c2, p2, r1, c1, state.removedCells, state.placed)) {
                     state.conflicts.add(positions[i]);
                     state.conflicts.add(positions[j]);
                 }
@@ -1261,7 +1264,7 @@ function createChotaShatranjGame(containerId) {
         }
     }
 
-    function isAttacking(r1, c1, piece, r2, c2) {
+    function isAttacking(r1, c1, piece, r2, c2, removedSet, currentPlaced) {
         const dr = Math.abs(r2 - r1);
         const dc = Math.abs(c2 - c1);
         
@@ -1283,13 +1286,87 @@ function createChotaShatranjGame(containerId) {
         let currC = c1 + stepC;
         
         while (currR !== r2 || currC !== c2) {
-            if (state.placed[`${currR},${currC}`] || state.removedCells.has(`${currR},${currC}`)) {
+            if (currentPlaced[`${currR},${currC}`] || removedSet.has(`${currR},${currC}`)) {
                 return false; // Blocked by another piece or a missing cell
             }
             currR += stepR;
             currC += stepC;
         }
         return true;
+    }
+
+    // --- Feasibility Backtracking Solver for Builder Mode ---
+    function analyzeGridFeasibility() {
+        // Build list of piece tokens to place
+        let piecesList = [];
+        Object.entries(state.inventory).forEach(([type, count]) => {
+            for (let i = 0; i < count; i++) piecesList.push(type);
+        });
+
+        if (piecesList.length === 0) {
+            state.isSolvable = true;
+            return;
+        }
+
+        // Collect available valid cells
+        let availableCells = [];
+        for (let r = 0; r < state.rows; r++) {
+            for (let c = 0; c < state.cols; c++) {
+                if (!state.removedCells.has(`${r},${c}`)) {
+                    availableCells.push({ r, c });
+                }
+            }
+        }
+
+        // Quick heuristic check: if pieces exceed available cells, impossible
+        if (piecesList.length > availableCells.length) {
+            state.isSolvable = false;
+            state.solverAnalysis = {
+                reason: "You have assigned more pieces than there are active squares on the grid!",
+                suggestion: "Try expanding the grid size, adding back missing cells, or reducing piece counts."
+            };
+            return;
+        }
+
+        // Backtracking solver to find if at least one valid arrangement exists
+        function backtrack(pieceIndex, placedMap) {
+            if (pieceIndex === piecesList.length) return true; // All pieces placed safely!
+
+            const currentPiece = piecesList[pieceIndex];
+            for (let i = 0; i < availableCells.length; i++) {
+                const cell = availableCells[i];
+                const key = `${cell.r},${cell.c}`;
+
+                if (placedMap[key]) continue; // Cell occupied
+
+                // Check if this cell is attacked by any already placed piece
+                let safe = true;
+                for (let posKey in placedMap) {
+                    const [pr, pc] = posKey.split(',').map(Number);
+                    const pType = placedMap[posKey];
+                    if (isAttacking(pr, pc, pType, cell.r, cell.c, state.removedCells, placedMap) ||
+                        isAttacking(cell.r, cell.c, currentPiece, pr, pc, state.removedCells, placedMap)) {
+                        safe = false;
+                        break;
+                    }
+                }
+
+                if (safe) {
+                    placedMap[key] = currentPiece;
+                    if (backtrack(pieceIndex + 1, placedMap)) return true;
+                    delete placedMap[key];
+                }
+            }
+            return false;
+        }
+
+        state.isSolvable = backtrack(0, {});
+        if (!state.isSolvable) {
+            state.solverAnalysis = {
+                reason: "These pieces restrict each other too much within this specific grid layout.",
+                suggestion: "Try removing a conflicting piece type, opening up more blocked cells, or enlarging the grid."
+            };
+        }
     }
 
     function checkWinCondition() {
@@ -1307,6 +1384,7 @@ function createChotaShatranjGame(containerId) {
         if (state.mode === 'build') {
             if (state.removedCells.has(key)) state.removedCells.delete(key);
             else state.removedCells.add(key);
+            analyzeGridFeasibility();
             render();
             return;
         }
@@ -1318,7 +1396,7 @@ function createChotaShatranjGame(containerId) {
             const type = state.placed[key];
             state.inventory[type] = (state.inventory[type] || 0) + 1;
             delete state.placed[key];
-            state.selectedPiece = type; // Auto-select the piece you just picked up
+            state.selectedPiece = type;
         } 
         // Place piece
         else if (state.selectedPiece && state.inventory[state.selectedPiece] > 0) {
@@ -1348,7 +1426,7 @@ function createChotaShatranjGame(containerId) {
             </div>
         `;
 
-        // Builder Controls
+        // Builder Controls & Feasibility Warning Box
         if (state.mode === 'build') {
             html += `
                 <div class="cs-builder-controls">
@@ -1358,6 +1436,27 @@ function createChotaShatranjGame(containerId) {
                     <p style="margin-left: 1rem; font-size: 0.9rem;">Click grid to remove/add cells. Set pieces below.</p>
                 </div>
             `;
+
+            if (!state.isSolvable && state.solverAnalysis) {
+                html += `
+                    <div style="background: #fef2f2; border-left: 4px solid #ef4444; padding: 1rem; border-radius: 6px; margin-bottom: 1.5rem; text-align: left;">
+                        <p style="margin: 0 0 0.5rem 0; color: #991b1b; font-weight: 700; font-size: 0.95rem;">
+                            ⚠️ Warning: This combination looks impossible to solve!
+                        </p>
+                        <p style="margin: 0 0 0.5rem 0; color: #b91c1c; font-size: 0.9rem;">
+                            ${state.solverAnalysis.reason}
+                        </p>
+                        <p style="margin: 0 0 0.75rem 0; color: #374151; font-size: 0.9rem; font-style: italic;">
+                            💡 <strong>Can you think why</strong> this grid pattern with these pieces might not have a working solution? 
+                            <em>Hint: Consider how long-range or short-range movement lines overlap within confined constraints, or whether pieces completely dominate all available squares!</em>
+                        </p>
+                        <div style="background: #fee2e2; padding: 0.5rem 0.75rem; border-radius: 4px; display: inline-block;">
+                            <strong style="color: #7f1d1d; font-size: 0.85rem;">Suggested Options:</strong> 
+                            <span style="color: #7f1d1d; font-size: 0.85rem;">${state.solverAnalysis.suggestion}</span>
+                        </div>
+                    </div>
+                `;
+            }
         }
 
         // Inventory
@@ -1392,10 +1491,6 @@ function createChotaShatranjGame(containerId) {
         });
         html += `</div>`;
 
-        if (state.mode === 'play' && Object.keys(state.inventory).length === 0) {
-            html += `<p style="color: var(--text-muted); margin-bottom: 1rem;">No pieces required for this level.</p>`;
-        }
-
         // Grid
         html += `<div class="cs-board-wrapper"><div class="cs-board" style="grid-template-columns: repeat(${state.cols}, 1fr);">`;
         for (let r = 0; r < state.rows; r++) {
@@ -1416,7 +1511,7 @@ function createChotaShatranjGame(containerId) {
         }
         html += `</div></div>`;
 
-        // Footer Controls (Next/Prev Level)
+        // Footer Controls
         if (state.mode === 'play') {
             html += `
                 <div style="display:flex; justify-content:center; gap: 1rem;">
@@ -1432,8 +1527,6 @@ function createChotaShatranjGame(containerId) {
         container.innerHTML = html;
 
         // --- Attach Event Listeners ---
-        
-        // Grid cells
         container.querySelectorAll('.cs-cell').forEach(cell => {
             cell.addEventListener('click', (e) => {
                 const r = parseInt(e.currentTarget.dataset.r);
@@ -1442,7 +1535,6 @@ function createChotaShatranjGame(containerId) {
             });
         });
 
-        // Inventory selection
         if (state.mode === 'play') {
             container.querySelectorAll('.cs-piece-btn').forEach(btn => {
                 btn.addEventListener('click', (e) => {
@@ -1455,7 +1547,6 @@ function createChotaShatranjGame(containerId) {
             });
         }
 
-        // Builder increments
         if (state.mode === 'build') {
             container.querySelectorAll('.btn-inc').forEach(btn => {
                 btn.addEventListener('click', (e) => {
@@ -1464,6 +1555,7 @@ function createChotaShatranjGame(containerId) {
                     const current = state.inventory[key] || 0;
                     if (current + val >= 0) {
                         state.inventory[key] = current + val;
+                        analyzeGridFeasibility();
                         render();
                     }
                 });
@@ -1471,10 +1563,12 @@ function createChotaShatranjGame(containerId) {
 
             document.getElementById('inp-rows').addEventListener('change', (e) => {
                 state.rows = Math.min(6, Math.max(2, parseInt(e.target.value)));
+                analyzeGridFeasibility();
                 render();
             });
             document.getElementById('inp-cols').addEventListener('change', (e) => {
                 state.cols = Math.min(6, Math.max(2, parseInt(e.target.value)));
+                analyzeGridFeasibility();
                 render();
             });
 
@@ -1486,12 +1580,12 @@ function createChotaShatranjGame(containerId) {
             });
         }
 
-        // Top Header Actions
         document.getElementById('btn-mode').addEventListener('click', () => {
             if (state.mode === 'play') {
                 state.mode = 'build';
                 state.placed = {};
                 state.selectedPiece = null;
+                analyzeGridFeasibility();
                 render();
             } else {
                 loadLevel(state.levelIdx);
@@ -1500,7 +1594,6 @@ function createChotaShatranjGame(containerId) {
 
         document.getElementById('btn-refresh').addEventListener('click', () => {
             if (state.mode === 'play') {
-                // Return all pieces to inventory
                 Object.values(state.placed).forEach(p => {
                     state.inventory[p] = (state.inventory[p] || 0) + 1;
                 });
@@ -1511,11 +1604,11 @@ function createChotaShatranjGame(containerId) {
             } else {
                 state.removedCells.clear();
                 state.inventory = {};
+                analyzeGridFeasibility();
                 render();
             }
         });
 
-        // Next/Prev
         if (state.mode === 'play') {
             const btnPrev = document.getElementById('btn-prev');
             if (btnPrev) btnPrev.addEventListener('click', () => loadLevel(state.levelIdx - 1));
@@ -1529,32 +1622,105 @@ function createChotaShatranjGame(containerId) {
     loadLevel(0);
 }
 
-// ================= Building Puzzle Logic =================
-// ================= Building Puzzle Logic =================
+// ================= Building Puzzle Logic (Multi-Level & Expanded UI) =================
 function createBuildingPuzzle(containerId) {
     const container = document.getElementById(containerId);
     if (!container) return;
 
-    // 3x3 Grid State (0 means empty)
-    let grid = [
-        [0, 0, 0],
-        [0, 0, 0],
-        [0, 0, 0]
+    // Define 5 distinct levels (3x3 and 4x4 grids)
+    const LEVELS = [
+        {
+            title: "Level 1: Beginner Towers",
+            size: 3,
+            solution: [
+                [2, 1, 3],
+                [3, 2, 1],
+                [1, 3, 2]
+            ],
+            clues: {
+                top: [2, 2, 1],
+                bottom: [2, 1, 3],
+                left: [3, 1, 2],
+                right: [1, 2, 2]
+            }
+        },
+        {
+            title: "Level 2: Skyline Shift",
+            size: 3,
+            solution: [
+                [3, 1, 2],
+                [2, 3, 1],
+                [1, 2, 3]
+            ],
+            clues: {
+                top: [1, 2, 2],
+                bottom: [3, 1, 2],
+                left: [1, 2, 3],
+                right: [2, 1, 2]
+            }
+        },
+        {
+            title: "Level 3: Urban Density",
+            size: 3,
+            solution: [
+                [1, 3, 2],
+                [2, 1, 3],
+                [3, 2, 1]
+            ],
+            clues: {
+                top: [3, 1, 2],
+                bottom: [1, 2, 2],
+                left: [2, 2, 1],
+                right: [2, 1, 3]
+            }
+        },
+        {
+            title: "Level 4: Metropolis (4x4)",
+            size: 4,
+            solution: [
+                [4, 1, 2, 3],
+                [1, 3, 4, 2],
+                [2, 4, 3, 1],
+                [3, 2, 1, 4]
+            ],
+            clues: {
+                top: [1, 3, 2, 2],
+                bottom: [4, 1, 2, 1],
+                left: [1, 2, 2, 3],
+                right: [4, 2, 1, 1]
+            }
+        },
+        {
+            title: "Level 5: Grand Skyscraper Challenge (4x4)",
+            size: 4,
+            solution: [
+                [3, 2, 1, 4],
+                [4, 1, 3, 2],
+                [1, 4, 2, 3],
+                [2, 3, 4, 1]
+            ],
+            clues: {
+                top: [1, 2, 3, 1],
+                bottom: [3, 2, 1, 2],
+                left: [2, 1, 2, 2],
+                right: [2, 2, 2, 1]
+            }
+        }
     ];
 
-    // Clues based on the solution
-    const clues = {
-        top: [2, 2, 1],
-        bottom: [2, 1, 3],
-        left: [3, 1, 2],
-        right: [1, 2, 2]
-    };
+    let currentLevelIdx = 0;
+    let grid = [];
+
+    function initLevel() {
+        const lvl = LEVELS[currentLevelIdx];
+        grid = Array(lvl.size).fill(0).map(() => Array(lvl.size).fill(0));
+    }
 
     function calculateVisible(line) {
         let visibleCount = 0;
         let maxHeight = 0;
         for (let i = 0; i < line.length; i++) {
-            if (line[i] === 0) return -1; // Incomplete line
+            if (line[i] === 0) return -1; 
             if (line[i] > maxHeight) {
                 visibleCount++;
                 maxHeight = line[i];
@@ -1564,24 +1730,28 @@ function createBuildingPuzzle(containerId) {
     }
 
     function checkWinCondition() {
-        for (let r = 0; r < 3; r++) {
-            for (let c = 0; c < 3; c++) {
+        const lvl = LEVELS[currentLevelIdx];
+        const size = lvl.size;
+
+        for (let r = 0; r < size; r++) {
+            for (let c = 0; c < size; c++) {
                 if (grid[r][c] === 0) return false;
             }
         }
 
-        for (let i = 0; i < 3; i++) {
+        for (let i = 0; i < size; i++) {
             const row = grid[i];
-            const col = [grid[0][i], grid[1][i], grid[2][i]];
-            if (new Set(row).size !== 3 || new Set(col).size !== 3) return false;
+            const col = grid.map(rowArr => rowArr[i]);
+            if (new Set(row).size !== size || new Set(col).size !== size) return false;
         }
 
-        for (let i = 0; i < 3; i++) {
-            const colTopDown = [grid[0][i], grid[1][i], grid[2][i]];
-            const colBottomUp = [grid[2][i], grid[1][i], grid[0][i]];
+        for (let i = 0; i < size; i++) {
+            const colTopDown = grid.map(rowArr => rowArr[i]);
+            const colBottomUp = [...colTopDown].reverse();
             const rowLeftRight = grid[i];
             const rowRightLeft = [...grid[i]].reverse();
 
+            const clues = lvl.clues;
             if (calculateVisible(colTopDown) !== clues.top[i]) return false;
             if (calculateVisible(colBottomUp) !== clues.bottom[i]) return false;
             if (calculateVisible(rowLeftRight) !== clues.left[i]) return false;
@@ -1593,36 +1763,63 @@ function createBuildingPuzzle(containerId) {
 
     function render() {
         container.innerHTML = '';
+        const lvl = LEVELS[currentLevelIdx];
+        const size = lvl.size;
         
         const wrapper = document.createElement('div');
         wrapper.className = 'bp-container';
+        wrapper.style.maxWidth = size === 4 ? '1000px' : '900px';
 
-        // Container that holds BOTH grids side-by-side
+        // Level Navigation Header
+        const headerEl = document.createElement('div');
+        headerEl.className = 'cs-header';
+        headerEl.style.marginBottom = '1.5rem';
+        headerEl.innerHTML = `
+            <button class="maze-btn-reset" id="bp-prev" ${currentLevelIdx === 0 ? 'disabled' : ''}>Previous Level</button>
+            <h3 style="margin: 0; color: var(--text-main); font-size: 1.4rem; font-weight: 600;">${lvl.title}</h3>
+            <button class="maze-btn-reset" id="bp-next" ${currentLevelIdx === LEVELS.length - 1 ? 'disabled' : ''}>Next Level</button>
+        `;
+        wrapper.appendChild(headerEl);
+
         const layout = document.createElement('div');
         layout.className = 'bp-layout';
+        layout.style.display = 'flex';
+        layout.style.flexWrap = 'wrap';
+        layout.style.gap = '4rem';
+        layout.style.alignItems = 'center';
+        layout.style.justifyContent = 'center';
 
         // ================= 1. Build 2D Interactive Grid =================
         const gridEl = document.createElement('div');
         gridEl.className = 'bp-grid';
+        gridEl.style.display = 'grid';
+        
+        const cellSize = size === 4 ? '56px' : '68px';
+        gridEl.style.gridTemplateColumns = `repeat(${size + 2}, ${cellSize})`;
+        gridEl.style.gridTemplateRows = `repeat(${size + 2}, ${cellSize})`;
+        gridEl.style.gap = '6px';
+        gridEl.style.justifyContent = 'center';
 
-        for (let r = -1; r <= 3; r++) {
-            for (let c = -1; c <= 3; c++) {
+        for (let r = -1; r <= size; r++) {
+            for (let c = -1; c <= size; c++) {
                 const cell = document.createElement('div');
                 cell.className = 'bp-cell';
+                cell.style.width = '100%';
+                cell.style.height = '100%';
+                cell.style.fontSize = size === 4 ? '1.4rem' : '1.6rem';
+                cell.style.display = 'flex';
+                cell.style.alignItems = 'center';
+                cell.style.justifyContent = 'center';
 
-                // Corners (Empty)
-                if ((r === -1 && c === -1) || (r === -1 && c === 3) || (r === 3 && c === -1) || (r === 3 && c === 3)) {
+                if ((r === -1 && c === -1) || (r === -1 && c === size) || (r === size && c === -1) || (r === size && c === size)) {
                     gridEl.appendChild(cell);
                     continue;
                 }
 
-                // Clues
-                if (r === -1) { cell.classList.add('bp-clue'); cell.innerHTML = `&darr; ${clues.top[c]}`; }
-                else if (r === 3) { cell.classList.add('bp-clue'); cell.innerHTML = `&uarr; ${clues.bottom[c]}`; }
-                else if (c === -1) { cell.classList.add('bp-clue'); cell.innerHTML = `${clues.left[r]} &rarr;`; }
-                else if (c === 3) { cell.classList.add('bp-clue'); cell.innerHTML = `&larr; ${clues.right[r]}`; }
-                
-                // Playable cells
+                if (r === -1) { cell.classList.add('bp-clue'); cell.innerHTML = `&darr; ${lvl.clues.top[c]}`; }
+                else if (r === size) { cell.classList.add('bp-clue'); cell.innerHTML = `&uarr; ${lvl.clues.bottom[c]}`; }
+                else if (c === -1) { cell.classList.add('bp-clue'); cell.innerHTML = `${lvl.clues.left[r]} &rarr;`; }
+                else if (c === size) { cell.classList.add('bp-clue'); cell.innerHTML = `&larr; ${lvl.clues.right[r]}`; }
                 else {
                     cell.classList.add('bp-interactive');
                     const val = grid[r][c];
@@ -1632,7 +1829,7 @@ function createBuildingPuzzle(containerId) {
                     }
                     
                     cell.addEventListener('click', () => {
-                        grid[r][c] = (grid[r][c] + 1) % 4; // Cycles 0, 1, 2, 3
+                        grid[r][c] = (grid[r][c] + 1) % (size + 1);
                         render();
                     });
                 }
@@ -1640,22 +1837,49 @@ function createBuildingPuzzle(containerId) {
             }
         }
 
-        // ================= 2. Build 3D Isometric Grid =================
+        // ================= 2. Build Solid 3D Isometric Grid =================
         const grid3DWrapper = document.createElement('div');
         grid3DWrapper.className = 'bp-3d-container';
+        grid3DWrapper.style.transformStyle = 'preserve-3d'; 
+        grid3DWrapper.style.transform = size === 4 ? 'scale(1.1)' : 'scale(1.25)';
+        grid3DWrapper.style.transformOrigin = 'center center';
         
         const grid3D = document.createElement('div');
         grid3D.className = 'bp-3d-grid';
+        grid3D.style.display = 'grid';
+        grid3D.style.transformStyle = 'preserve-3d';
         
-        for (let r = 0; r < 3; r++) {
-            for (let c = 0; c < 3; c++) {
+        const cell3DSize = size === 4 ? '50px' : '60px';
+        grid3D.style.gridTemplateColumns = `repeat(${size}, ${cell3DSize})`;
+        grid3D.style.gridTemplateRows = `repeat(${size}, ${cell3DSize})`;
+        
+        for (let r = 0; r < size; r++) {
+            for (let c = 0; c < size; c++) {
                 const cell3D = document.createElement('div');
                 cell3D.className = 'bp-3d-cell';
+                cell3D.style.transformStyle = 'preserve-3d'; 
                 
                 const val = grid[r][c];
                 if (val > 0) {
                     const bldg = document.createElement('div');
                     bldg.className = `bp-3d-building bp-3d-val-${val}`;
+                    bldg.style.transformStyle = 'preserve-3d'; 
+                    
+                    // --- Generate Explicit DOM Faces for Safari ---
+                    const roof = document.createElement('div');
+                    roof.className = 'bp-3d-face bp-3d-roof';
+                    
+                    const wallLeft = document.createElement('div');
+                    wallLeft.className = 'bp-3d-face bp-3d-wall-left';
+                    
+                    const wallFront = document.createElement('div');
+                    wallFront.className = 'bp-3d-face bp-3d-wall-front';
+                    
+                    bldg.appendChild(roof);
+                    bldg.appendChild(wallLeft);
+                    bldg.appendChild(wallFront);
+                    // ----------------------------------------------
+                    
                     cell3D.appendChild(bldg);
                 }
                 grid3D.appendChild(cell3D);
@@ -1663,35 +1887,67 @@ function createBuildingPuzzle(containerId) {
         }
         grid3DWrapper.appendChild(grid3D);
 
-        // ================= Append to DOM =================
-        layout.appendChild(gridEl); // Add 2D to left side
-        layout.appendChild(grid3DWrapper); // Add 3D to right side
+        layout.appendChild(gridEl); 
+        layout.appendChild(grid3DWrapper); 
         wrapper.appendChild(layout);
 
         const status = document.createElement('div');
         status.className = 'bp-status';
+        status.style.marginTop = '1.5rem';
+        status.style.textAlign = 'center';
         
         if (checkWinCondition()) {
             status.textContent = "✅ Correct! All buildings placed perfectly.";
             status.style.color = '#16a34a';
         } else {
-            status.textContent = "Click the 2D cells to build skyscrapers and match the clues.";
+            status.textContent = `Click the 2D cells (cycles 1 to ${size}) to build skyscrapers and match the clues.`;
+            status.style.color = 'var(--text-muted)';
         }
+
+        const actionRow = document.createElement('div');
+        actionRow.style.display = 'flex';
+        actionRow.style.justifyContent = 'center';
+        actionRow.style.gap = '1rem';
+        actionRow.style.marginTop = '1rem';
 
         const resetBtn = document.createElement('button');
         resetBtn.className = 'maze-btn-reset';
         resetBtn.textContent = 'Clear City';
         resetBtn.addEventListener('click', () => {
-            grid = [[0,0,0], [0,0,0], [0,0,0]];
+            initLevel();
             render();
         });
 
+        actionRow.appendChild(resetBtn);
         wrapper.appendChild(status);
-        wrapper.appendChild(resetBtn);
+        wrapper.appendChild(actionRow);
         container.appendChild(wrapper);
+
+        // Event Listeners for Level Navigation
+        const prevBtn = document.getElementById('bp-prev');
+        if (prevBtn) {
+            prevBtn.addEventListener('click', () => {
+                if (currentLevelIdx > 0) {
+                    currentLevelIdx--;
+                    initLevel();
+                    render();
+                }
+            });
+        }
+        
+        const nextBtn = document.getElementById('bp-next');
+        if (nextBtn) {
+            nextBtn.addEventListener('click', () => {
+                if (currentLevelIdx < LEVELS.length - 1) {
+                    currentLevelIdx++;
+                    initLevel();
+                    render();
+                }
+            });
+        }
     }
 
-    // Start game
+    initLevel();
     render();
 }
 

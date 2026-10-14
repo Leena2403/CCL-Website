@@ -439,6 +439,27 @@ body {
     }
 }
 
+/* ================= Back Button ================= */
+.back-btn, 
+.back-btn:visited {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    color: var(--text-muted);
+    text-decoration: none !important; 
+    font-weight: 600;
+    font-size: 0.95rem;
+    margin-bottom: 1.5rem;
+    transition: color 0.3s ease, transform 0.3s ease;
+}
+
+.back-btn:hover, 
+.back-btn:active {
+    color: var(--accent-orange);
+    text-decoration: none;
+    transform: translateX(-5px); /* Slides slightly left on hover */
+}
+
 /* ================= Main Content Container ================= */
 .container {
     max-width: 1200px;
@@ -1430,8 +1451,7 @@ transform: scale(0.96);
 /* --- 2D Interactive Grid --- */
 .bp-grid {
     display: grid;
-    grid-template-columns: 40px repeat(3, 70px) 40px;
-    grid-template-rows: 40px repeat(3, 70px) 40px;
+    /* Grid size dynamically set by JS */
     gap: 5px;
 }
 
@@ -1466,6 +1486,7 @@ transform: scale(0.96);
 .bp-val-1 { background: #ef4444; color: #ffffff; border-color: #b91c1c; } /* Red */
 .bp-val-2 { background: #eab308; color: #000000; border-color: #a16207; } /* Yellow */
 .bp-val-3 { background: #22c55e; color: #ffffff; border-color: #15803d; } /* Green */
+.bp-val-4 { background: #3b82f6; color: #ffffff; border-color: #1d4ed8; } /* Blue */
 
 /* --- 3D Isometric View --- */
 .bp-3d-container {
@@ -1476,8 +1497,6 @@ transform: scale(0.96);
 
 .bp-3d-grid {
     display: grid;
-    grid-template-columns: repeat(3, 60px);
-    grid-template-rows: repeat(3, 60px);
     gap: 4px;
     transform: rotateX(60deg) rotateZ(-45deg);
     transform-style: preserve-3d;
@@ -1488,8 +1507,9 @@ transform: scale(0.96);
 }
 
 .bp-3d-cell {
-    width: 60px;
-    height: 60px;
+    width: 100%;
+    height: 100%;
+    aspect-ratio: 1/1; 
     position: relative;
     transform-style: preserve-3d;
 }
@@ -1502,72 +1522,81 @@ transform: scale(0.96);
     transform: translateZ(-1px); 
 }
 
-/* The main div acts as the TOP FACE (Roof) */
+/* Base Wrapper for the Building */
 .bp-3d-building {
     position: absolute;
     width: 100%;
     height: 100%;
     transform-style: preserve-3d;
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
-    transform: translateZ(var(--h, 0px)); /* Lifts the roof up */
-    border: 1px solid rgba(0,0,0,0.15); 
+    transition: all 0.2s ease-in-out;
+    transform: translateZ(var(--h, 0px));
 }
 
-/* 3D Walls drop down from the Roof to the Floor */
-.bp-3d-building::before, .bp-3d-building::after {
-    content: '';
+.bp-3d-face {
     position: absolute;
     display: block;
-    background: inherit;
-    border: 1px solid rgba(0,0,0,0.15); 
-    transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    border: 1px solid rgba(0,0,0,0.15);
+    box-sizing: border-box;
+    backface-visibility: hidden; 
+    transition: all 0.2s ease-in-out;
 }
 
-/* Left Wall (Hinges at the left edge and drops down) */
-.bp-3d-building::before {
+.bp-3d-roof {
+    width: 100%;
+    height: 100%;
+    top: 0; 
+    left: 0;
+    background-color: var(--face-top);
+}
+
+.bp-3d-wall-left {
     width: var(--h, 0px);
     height: 100%;
-    right: 100%; /* Attaches to the left edge of the roof */
-    top: 0;
-    transform-origin: right; /* Hinges at the connection point */
-    transform: rotateY(-90deg); /* Swings down to the floor */
-    filter: brightness(0.85); /* Slightly darker for depth */
+    top: 0; 
+    right: 100%;
+    background-color: var(--face-left);
+    transform-origin: right center;
+    transform: rotateY(-90deg);
 }
 
-/* Front Wall (Hinges at the bottom edge and drops down) */
-.bp-3d-building::after {
+.bp-3d-wall-front {
     width: 100%;
     height: var(--h, 0px);
-    top: 100%; /* Attaches to the bottom edge of the roof */
+    top: 100%; 
     left: 0;
-    transform-origin: top; /* Hinges at the connection point */
-    transform: rotateX(-90deg); /* Swings down to the floor */
-    filter: brightness(0.65); /* Darkest wall for shadow */
+    background-color: var(--face-front);
+    transform-origin: top center;
+    transform: rotateX(-90deg);
 }
 
-/* Heights and Colors for 3D Buildings */
-.bp-3d-val-1 { background-color: #ef4444; --h: 40px; } /* Red */
-.bp-3d-val-2 { background-color: #eab308; --h: 80px; } /* Yellow */
-.bp-3d-val-3 { background-color: #22c55e; --h: 120px; } /* Green */
+/* Heights and Explicit Colors for 3D Buildings */
+.bp-3d-val-1 { 
+    --face-top: #ef4444; 
+    --face-left: #dc2626; 
+    --face-front: #b91c1c; 
+    --h: 40px; 
+} /* Red */
 
-/* ================= Back Button ================= */
-.back-btn {
-    display: inline-flex;
-    align-items: center;
-    gap: 8px;
-    color: var(--text-muted);
-    text-decoration: none;
-    font-weight: 600;
-    font-size: 0.95rem;
-    margin-bottom: 1.5rem;
-    transition: color 0.3s ease, transform 0.3s ease;
-}
+.bp-3d-val-2 { 
+    --face-top: #eab308; 
+    --face-left: #ca8a04; 
+    --face-front: #a16207; 
+    --h: 80px; 
+} /* Yellow */
 
-.back-btn:hover {
-    color: var(--accent-orange);
-    transform: translateX(-5px); /* Slides slightly to the left on hover */
-}
+.bp-3d-val-3 { 
+    --face-top: #22c55e; 
+    --face-left: #16a34a; 
+    --face-front: #15803d; 
+    --h: 120px; 
+} /* Green */
 
+.bp-3d-val-4 { 
+    --face-top: #3b82f6; 
+    --face-left: #2563eb; 
+    --face-front: #1d4ed8; 
+    --h: 160px; 
+} /* Blue */
 
 /* ================= Advanced Mobile Responsiveness ================= */
 
