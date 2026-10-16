@@ -1768,28 +1768,21 @@ function createBuildingPuzzle(containerId) {
         
         const wrapper = document.createElement('div');
         wrapper.className = 'bp-container';
-        wrapper.style.maxWidth = size === 4 ? '1000px' : '900px';
+        wrapper.style.maxWidth = size === 4 ? '1200px' : '1000px';
 
-        // Level Navigation Header
-        const headerEl = document.createElement('div');
-        headerEl.className = 'cs-header';
-        headerEl.style.marginBottom = '1.5rem';
-        headerEl.innerHTML = `
-            <button class="maze-btn-reset" id="bp-prev" ${currentLevelIdx === 0 ? 'disabled' : ''}>Previous Level</button>
-            <h3 style="margin: 0; color: var(--text-main); font-size: 1.4rem; font-weight: 600;">${lvl.title}</h3>
-            <button class="maze-btn-reset" id="bp-next" ${currentLevelIdx === LEVELS.length - 1 ? 'disabled' : ''}>Next Level</button>
-        `;
-        wrapper.appendChild(headerEl);
+        const isWin = checkWinCondition();
 
+        // ================= 1. Build Game Layout FIRST =================
         const layout = document.createElement('div');
         layout.className = 'bp-layout';
         layout.style.display = 'flex';
-        layout.style.flexWrap = 'wrap';
-        layout.style.gap = '4rem';
+        layout.style.flexWrap = 'nowrap';
+        layout.style.gap = '2rem';
         layout.style.alignItems = 'center';
         layout.style.justifyContent = 'center';
+        layout.style.marginBottom = '2rem';
 
-        // ================= 1. Build 2D Interactive Grid =================
+        // --- Build 2D Interactive Grid ---
         const gridEl = document.createElement('div');
         gridEl.className = 'bp-grid';
         gridEl.style.display = 'grid';
@@ -1837,7 +1830,7 @@ function createBuildingPuzzle(containerId) {
             }
         }
 
-        // ================= 2. Build Solid 3D Isometric Grid =================
+        // --- Build Solid 3D Isometric Grid ---
         const grid3DWrapper = document.createElement('div');
         grid3DWrapper.className = 'bp-3d-container';
         grid3DWrapper.style.transformStyle = 'preserve-3d'; 
@@ -1865,7 +1858,6 @@ function createBuildingPuzzle(containerId) {
                     bldg.className = `bp-3d-building bp-3d-val-${val}`;
                     bldg.style.transformStyle = 'preserve-3d'; 
                     
-                    // --- Generate Explicit DOM Faces for Safari ---
                     const roof = document.createElement('div');
                     roof.className = 'bp-3d-face bp-3d-roof';
                     
@@ -1878,7 +1870,6 @@ function createBuildingPuzzle(containerId) {
                     bldg.appendChild(roof);
                     bldg.appendChild(wallLeft);
                     bldg.appendChild(wallFront);
-                    // ----------------------------------------------
                     
                     cell3D.appendChild(bldg);
                 }
@@ -1889,14 +1880,26 @@ function createBuildingPuzzle(containerId) {
 
         layout.appendChild(gridEl); 
         layout.appendChild(grid3DWrapper); 
-        wrapper.appendChild(layout);
+        wrapper.appendChild(layout); // Append game to wrapper first
 
+        // ================= 2. Build Header & Navigation SECOND =================
+        const headerEl = document.createElement('div');
+        headerEl.className = 'cs-header';
+        headerEl.style.marginBottom = '1.5rem';
+        headerEl.innerHTML = `
+            <button class="maze-btn-reset" id="bp-prev" ${currentLevelIdx === 0 ? 'disabled' : ''}>Previous Level</button>
+            <h3 style="margin: 0; color: var(--text-main); font-size: 1.4rem; font-weight: 600;">${lvl.title}</h3>
+            <button class="maze-btn-reset" id="bp-next" ${(currentLevelIdx === LEVELS.length - 1 || !isWin) ? 'disabled' : ''}>Next Level</button>
+        `;
+        wrapper.appendChild(headerEl);
+
+        // ================= 3. Build Status & Reset THIRD =================
         const status = document.createElement('div');
         status.className = 'bp-status';
         status.style.marginTop = '1.5rem';
         status.style.textAlign = 'center';
-        
-        if (checkWinCondition()) {
+
+        if (isWin) {
             status.textContent = "✅ Correct! All buildings placed perfectly.";
             status.style.color = '#16a34a';
         } else {
@@ -1921,6 +1924,7 @@ function createBuildingPuzzle(containerId) {
         actionRow.appendChild(resetBtn);
         wrapper.appendChild(status);
         wrapper.appendChild(actionRow);
+        
         container.appendChild(wrapper);
 
         // Event Listeners for Level Navigation

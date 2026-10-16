@@ -182,6 +182,8 @@ const gamesData = [
         thumbnail: "book/chapter_thumbnails/chess maze.png", 
         shortDescription: "Place chess pieces on custom grids without them attacking each other.",
         content: `
+
+            <div id="chota-shatranj-1" class="interactive-game-wrapper" style="margin-top: 2rem;"></div>
             <p><strong>Activity: Chota Shatranj (Mini Chess)</strong></p>
             <p>Can you arrange a specific set of chess pieces on a grid so that no piece is attacking any other piece? This game tests your spatial reasoning and understanding of movement rules.</p>
             
@@ -194,7 +196,7 @@ const gamesData = [
                 </ul>
             </div>
 
-            <div id="chota-shatranj-1" class="interactive-game-wrapper" style="margin-top: 2rem;"></div>
+            
         `
     },
     {
@@ -205,6 +207,7 @@ const gamesData = [
         thumbnail: "book/chapter_thumbnails/building puzzle.png",
         shortDescription: "Help the city planner figure out where to build skyscrapers using visibility clues.",
         content: `
+        <div id="building-game-1" class="interactive-game-wrapper" style="margin-top: 2rem;"></div>
             <p><strong>Activity: Building Puzzle</strong></p>
             <p>Help the city planner to figure out where to build skyscrapers using clues. The Building puzzle is a logic-based grid puzzle where the player imagines building skyscrapers of varying heights in a city grid.</p>
             
@@ -229,7 +232,7 @@ const gamesData = [
             <h3 style="margin-top: 3rem; margin-bottom: 1rem; color: var(--primary);">Interactive 3x3 Grid</h3>
             <p>Click the empty squares to cycle through building heights (1 = Red, 2 = Yellow, 3 = Green). Make sure no row or column has duplicate heights, and check that the visible buildings match the clues on the outside edges!</p>
 
-            <div id="building-game-1" class="interactive-game-wrapper" style="margin-top: 2rem;"></div>
+            
         `
     }
 ];
