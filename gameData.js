@@ -150,7 +150,7 @@ const gamesData = [
         title: "Parity Magic Trick",
         grade: "Grade 7",
         concepts: ["algorithmic-thinking", "pattern-recognition"], 
-        thumbnail: "book/chapter_thumbnails/grid_cipher.png",
+        thumbnail: "book/chapter_thumbnails/magic flip.png",
         shortDescription: "Learn how computers magically detect errors in data using parity bits.",
         content: `
             <p><strong>Activity: Error Detection with Parity Bits</strong></p>

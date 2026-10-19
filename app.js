@@ -1955,6 +1955,120 @@ function createBuildingPuzzle(containerId) {
     render();
 }
 
+// ================= Interactive Three Jug Game Logic =================
+function createThreeJugGame(containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    // Jug capacities and starting state [Jug 8, Jug 5, Jug 3]
+    const caps = [8, 5, 3];
+    let state = [8, 0, 0];
+    let moves = 0;
+    let won = false;
+
+    function render() {
+        // Check win condition (exactly 4L in the 8L or 5L jug)
+        if (state[0] === 4 || state[1] === 4) {
+            won = true;
+        }
+
+        let html = `
+            <div style="text-align: center; width: 100%; font-family: 'Inter', sans-serif;">
+                <div style="margin-bottom: 1.5rem; font-weight: 600; color: var(--text-main); font-size: 1.1rem;">
+                    Goal: Measure exactly 4 Litres<br>
+                    <span style="color: var(--text-muted); font-size: 0.95rem; font-weight: 500;">Moves: ${moves}</span>
+                </div>
+                
+                <!-- Jugs Display -->
+                <div style="display: flex; justify-content: center; align-items: flex-end; gap: 2.5rem; margin-bottom: 2rem; height: 200px;">
+        `;
+
+        // Draw each jug visually
+        for(let i=0; i<3; i++) {
+            const heightPercent = (state[i] / caps[i]) * 100;
+            const pixelHeight = caps[i] * 22; // Scale height visually
+            
+            html += `
+                <div style="display: flex; flex-direction: column; align-items: center;">
+                    <div style="font-weight: 700; margin-bottom: 0.5rem; color: var(--text-main); font-size: 1.1rem;">${state[i]}L</div>
+                    <div style="width: 70px; height: ${pixelHeight}px; border: 3px solid var(--text-main); border-top: none; border-radius: 0 0 12px 12px; position: relative; background: var(--surface); overflow: hidden; box-shadow: 0 4px 10px rgba(0,0,0,0.05);">
+                        <div style="position: absolute; bottom: 0; left: 0; width: 100%; height: ${heightPercent}%; background: #3b82f6; transition: height 0.4s ease-in-out; opacity: 0.85;"></div>
+                    </div>
+                    <div style="margin-top: 0.75rem; font-weight: 600; color: var(--text-muted); font-size: 0.9rem;">${caps[i]}L Jug</div>
+                </div>
+            `;
+        }
+
+        html += `</div>`;
+
+        // Win State or Controls
+        if (won) {
+            html += `<div style="color: #22c55e; font-size: 1.3rem; font-weight: 700; margin-bottom: 1.5rem; padding: 1rem; background: #f0fdf4; border: 1px solid #bbf7d0; border-radius: 8px; display: inline-block;">🎉 Puzzle Solved in ${moves} moves!</div>`;
+        } else {
+            // Pour Buttons
+            html += `<div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; max-width: 320px; margin: 0 auto 1.5rem auto;">`;
+            const actions = [
+                [0, 1, "8L &rarr; 5L"], [0, 2, "8L &rarr; 3L"],
+                [1, 0, "5L &rarr; 8L"], [1, 2, "5L &rarr; 3L"],
+                [2, 0, "3L &rarr; 8L"], [2, 1, "3L &rarr; 5L"]
+            ];
+
+            actions.forEach(action => {
+                const [from, to, label] = action;
+                // Disable button if source is empty or destination is full
+                const disabled = (state[from] === 0 || state[to] === caps[to]) ? 'disabled' : '';
+                const opacity = disabled ? '0.4' : '1';
+                const cursor = disabled ? 'not-allowed' : 'pointer';
+                const hoverStyle = disabled ? '' : 'onmouseover="this.style.background=\'var(--primary-light)\'" onmouseout="this.style.background=\'var(--surface)\'"';
+                
+                html += `<button class="btn-pour" data-from="${from}" data-to="${to}" style="padding: 10px; border: 1px solid var(--border-color); background: var(--surface); color: var(--text-main); border-radius: 6px; font-weight: 600; font-size: 0.95rem; cursor: ${cursor}; opacity: ${opacity}; transition: all 0.2s;" ${hoverStyle} ${disabled}>${label}</button>`;
+            });
+            html += `</div>`;
+        }
+
+        html += `
+                <div>
+                    <button id="btn-reset-jug" class="maze-btn-reset" style="padding: 10px 24px; font-size: 0.95rem;">Reset Puzzle</button>
+                </div>
+            </div>
+        `;
+
+        container.innerHTML = html;
+
+        // Attach Event Listeners
+        if (!won) {
+            container.querySelectorAll('.btn-pour').forEach(btn => {
+                btn.addEventListener('click', (e) => {
+                    const from = parseInt(e.target.getAttribute('data-from'));
+                    const to = parseInt(e.target.getAttribute('data-to'));
+                    pour(from, to);
+                });
+            });
+        }
+
+        container.querySelector('#btn-reset-jug').addEventListener('click', () => {
+            state = [8, 0, 0];
+            moves = 0;
+            won = false;
+            render();
+        });
+    }
+
+    // Logic to calculate how much water actually pours
+    function pour(from, to) {
+        const amountToPour = Math.min(state[from], caps[to] - state[to]);
+        if (amountToPour > 0) {
+            state[from] -= amountToPour;
+            state[to] += amountToPour;
+            moves++;
+            render();
+        }
+    }
+
+    // Initial render
+    render();
+}
+
 // ================ Book SPA Logic =================
 
 // Map each section to a specific image in your thumbnails folder
@@ -1972,14 +2086,27 @@ const sectionImages = {
 // ================= Init All Games =================
 function initAllMazes() {
     // ---- Number Mazes ----
+
     const numGrid1 = [
         [2, 3, 1, 1, 2], [4, 2, 1, 2, 2], [3, 3, 3, 2, 3], [2, 4, 1, 4, 1], [1, 4, 3, 3, 0]
     ];
     const numGrid2 = [
         [2, 2, 2, 1, 3], [1, 3, 1, 2, 1], [3, 1, 2, 1, 2], [2, 2, 1, 3, 1], [1, 2, 3, 2, 0]
     ];
+    
+    // NEW: Grid for "Hopping on Number Maze" (b1_2)
+    const numGrid3 = [
+        [1, 2, 3, 2, 1], 
+        [3, 1, 1, 2, 2], 
+        [3, 2, 1, 3, 1], 
+        [2, 3, 3, 2, 1], 
+        [1, 2, 1, 1, 0]
+    ];
+
     createNumberMaze('number-maze-1', numGrid1);
     createNumberMaze('number-maze-2', numGrid2);
+    createNumberMaze('number-maze-3', numGrid3); 
+
 
     // ---- Colour Mazes ----
     const colGrid1 = [
@@ -1988,8 +2115,16 @@ function initAllMazes() {
     const colGrid2 = [
         ['S', 'R', 'Bu', 'W'], ['Bu', 'W', 'R', 'R'], ['R', 'Bu', 'W', 'W'], ['W', 'R', 'Bu', 'E']
     ];
+
+    const colGrid3 = [
+        ['S', 'W', 'R', 'Bu'], 
+        ['Bu', 'W', 'W', 'Bu'], 
+        ['Bu', 'W', 'Bu', 'R'], 
+        ['W', 'R', 'W', 'E']
+    ];
     createColourMaze('colour-maze-1', colGrid1);
     createColourMaze('colour-maze-2', colGrid2);
+    createColourMaze('colour-maze-3', colGrid3);
 
     // ---- Chess Mazes ----
     // P = Pawn, B = Bishop, N = Knight, G = Goal
@@ -2009,6 +2144,7 @@ function initAllMazes() {
     createParityGame('parity-game-1');
     createChotaShatranjGame('chota-shatranj-1');
     createBuildingPuzzle('building-game-1');
+    createThreeJugGame('three-jug-game-1');
 }
 
 // ================= Game Details Page Logic =================
@@ -2087,32 +2223,96 @@ function renderBookChapters(sectionName) {
     `;
 
     chapters.forEach((chapter, index) => {
-        // Fallback for missing descriptions
-        const descText = chapter.description ? chapter.description : "Click to download and read this chapter.";
-        
-        // Render the image if it exists, otherwise fall back to the emoji
-        const imageContent = chapter.thumbnail 
-            ? `<img src="${chapter.thumbnail}" alt="${chapter.title} thumbnail">`
-            : `<div style="background: var(--primary-light); width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;"><span style="font-size: 3rem; opacity: 0.8;">📄</span></div>`;
+            // Fallback for missing descriptions
+            const descText = chapter.description ? chapter.description : "Click to view and read this chapter.";
+            
+            const imageContent = chapter.thumbnail 
+                ? `<img src="${chapter.thumbnail}" alt="${chapter.title} thumbnail">`
+                : `<div style="background: var(--primary-light); width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;"><span style="font-size: 3rem; opacity: 0.8;">📄</span></div>`;
 
-        html += `
-            <a href="${chapter.pdfLink}" target="_blank" class="video-card" style="animation-delay: ${index * 0.05}s">
-                <div class="thumbnail-container">
-                    ${imageContent}
-                    <span class="module-badge" style="background: var(--accent-gold); color: #fff;">PDF</span>
-                </div>
-                <div class="video-info" style="padding: 1.5rem;">
-                    <h4 style="font-size: 1.1rem; color: var(--text-main); font-weight: 600; margin-bottom: 0.5rem;">${chapter.title}</h4>
-                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.5;">${descText}</p>
-                </div>
-            </a>
-        `;
-    });
+            // TEMPORARY RULE: Route only "Number Maze" (id: b1_1) to the interactive viewer page.
+            // Everything else still opens the raw PDF in a new tab.
+            const isTargetChapter = !!chapter.content;
+            const linkHref = isTargetChapter ? `chapter.html?id=${chapter.id}` : chapter.pdfLink;
+            const linkTarget = isTargetChapter ? `_self` : `_blank`;
+            const badgeText = isTargetChapter ? `READ ONLINE` : `PDF`;
+
+            html += `
+                <a href="${linkHref}" target="${linkTarget}" class="video-card" style="animation-delay: ${index * 0.05}s">
+                    <div class="thumbnail-container">
+                        ${imageContent}
+                        <span class="module-badge" style="background: var(--accent-gold); color: #fff;">${badgeText}</span>
+                    </div>
+                    <div class="video-info" style="padding: 1.5rem;">
+                        <h4 style="font-size: 1.1rem; color: var(--text-main); font-weight: 600; margin-bottom: 0.5rem;">${chapter.title}</h4>
+                        <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.5;">${descText}</p>
+                    </div>
+                </a>
+            `;
+        });
 
     html += `</div>`;
     
     container.innerHTML = html;
     document.getElementById('book').scrollIntoView({ behavior: 'smooth', block: 'start' });
+}
+
+// ================= Chapter Viewer Logic =================
+function loadChapterDetails() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const chapterId = urlParams.get('id');
+    if (!chapterId) return;
+
+    if (typeof bookData === 'undefined') return;
+
+    const chapter = bookData.find(c => c.id === chapterId);
+    if (chapter) {
+        document.title = `${chapter.title} - CT at CCL`;
+        
+        const titleEl = document.getElementById('chapter-title');
+        const dlBtn = document.getElementById('chapter-download-btn');
+        const viewerContainer = document.getElementById('chapter-viewer-container');
+
+        if (titleEl) titleEl.textContent = chapter.title;
+        
+        if (dlBtn) {
+            dlBtn.href = chapter.pdfLink;
+            dlBtn.setAttribute("download", `${chapter.title}.pdf`); 
+        }
+        
+        if (viewerContainer) {
+            if (chapter.content) {
+                // If HTML content is provided, render it and initialize games
+                viewerContainer.style.height = 'auto'; // Remove fixed height for scrolling text
+                viewerContainer.style.border = 'none';
+                viewerContainer.style.background = 'transparent';
+                viewerContainer.style.boxShadow = 'none';
+                viewerContainer.innerHTML = chapter.content;
+                
+                // Initialize the interactive maze grids
+                if (typeof initAllMazes === 'function') {
+                    initAllMazes();
+                }
+            } else {
+                // Default fallback: Embed the PDF
+                viewerContainer.innerHTML = `
+                    <iframe 
+                        src="${chapter.pdfLink}#toolbar=1&navpanes=0" 
+                        width="100%" 
+                        height="100%" 
+                        style="border: none;"
+                        title="${chapter.title} PDF viewer">
+                        <p style="padding: 2rem; text-align: center;">
+                            Your browser does not support PDFs. 
+                            <a href="${chapter.pdfLink}">Download the PDF</a> instead.
+                        </p>
+                    </iframe>
+                `;
+            }
+        }
+    } else {
+        document.getElementById('chapter-title').textContent = 'Chapter Not Found';
+    }
 }
 
 // ================= Initialization =================
@@ -2129,5 +2329,8 @@ document.addEventListener('DOMContentLoaded', () => {
         loadVideoDetails();
     } else if (document.getElementById('game-content')) {
         loadGameDetails();
+    } else if (document.getElementById('chapter-viewer-container')) {
+        // Trigger the new chapter viewer logic
+        loadChapterDetails();
     }
 });
