@@ -1037,7 +1037,6 @@ function createParityGame(containerId) {
     }
 
     function checkParity() {
-        // Verify every row and column has an even sum
         for (let i = 0; i < currentSize; i++) {
             let rowSum = 0;
             let colSum = 0;
@@ -1071,7 +1070,6 @@ function createParityGame(containerId) {
         sizeSelect.style.background = 'var(--surface)';
         sizeSelect.style.color = 'var(--text-main)';
         
-        // Allow 4x4, 5x5, 6x6, and 8x8 options
         [4, 5, 6, 8].forEach(s => {
             const opt = document.createElement('option');
             opt.value = s;
@@ -1093,7 +1091,6 @@ function createParityGame(containerId) {
         // 2. Build the Board
         const board = document.createElement('div');
         board.className = 'parity-board';
-        // Dynamically override CSS columns based on user selection
         board.style.gridTemplateColumns = `repeat(${currentSize}, 1fr)`;
         
         for (let r = 0; r < currentSize; r++) {
@@ -1105,7 +1102,6 @@ function createParityGame(containerId) {
                 if (isParity) cell.classList.add('is-parity');
                 if (grid[r][c] === 1) cell.classList.add('black');
 
-                // Determine click behavior based on game phase
                 if (gameState === 'setup' && isParity) {
                     cell.style.cursor = 'pointer';
                     cell.addEventListener('click', () => {
@@ -1118,9 +1114,9 @@ function createParityGame(containerId) {
                     cell.addEventListener('click', () => {
                         if (r === flippedRow && c === flippedCol) {
                             alert("Correct! You used pattern recognition to find the corrupted bit.");
-                            initGrid(currentSize); // Restart game
+                            initGrid(currentSize); 
                         } else {
-                            cell.style.backgroundColor = 'red'; // Flash red for wrong guess
+                            cell.style.backgroundColor = 'red'; 
                             setTimeout(() => render(), 300);
                         }
                     });
@@ -1139,10 +1135,10 @@ function createParityGame(containerId) {
             statusDiv.textContent = "Fill the dashed parity cells so every row and column has an EVEN number of black pixels.";
         } else if (gameState === 'readyToFlip') {
             statusDiv.textContent = "✅ Parity is perfect! Now, click the button to let the computer corrupt a bit.";
-            statusDiv.style.color = '#16a34a'; // Green
+            statusDiv.style.color = '#16a34a'; 
         } else if (gameState === 'findError') {
             statusDiv.textContent = "🚨 A bit was flipped! Find the row and column with odd parity and click the incorrect bit.";
-            statusDiv.style.color = '#dc2626'; // Red
+            statusDiv.style.color = '#dc2626'; 
         }
 
         // 4. Build the Controls
@@ -1163,7 +1159,6 @@ function createParityGame(containerId) {
             flipBtn.textContent = 'Flip Random Bit';
             
             flipBtn.addEventListener('click', () => {
-                // Hide all cells temporarily so the user cannot see the change happen
                 const cells = board.querySelectorAll('.parity-cell');
                 cells.forEach(cell => cell.style.opacity = '0');
                 
@@ -1176,11 +1171,10 @@ function createParityGame(containerId) {
                     flippedRow = Math.floor(Math.random() * currentSize);
                     flippedCol = Math.floor(Math.random() * currentSize);
                     
-                    // Flip the targeted bit
                     grid[flippedRow][flippedCol] = grid[flippedRow][flippedCol] === 1 ? 0 : 1;
                     gameState = 'findError';
-                    render(); // Re-renders the board, making the cells visible again
-                }, 1200); // 1.2 second delay
+                    render(); 
+                }, 1200);
             });
             controlsDiv.appendChild(flipBtn);
         }
@@ -1190,7 +1184,6 @@ function createParityGame(containerId) {
         container.appendChild(controlsDiv);
     }
 
-    // Start the game for the first time
     initGrid();
 }
 
@@ -2086,7 +2079,6 @@ const sectionImages = {
 // ================= Init All Games =================
 function initAllMazes() {
     // ---- Number Mazes ----
-
     const numGrid1 = [
         [2, 3, 1, 1, 2], [4, 2, 1, 2, 2], [3, 3, 3, 2, 3], [2, 4, 1, 4, 1], [1, 4, 3, 3, 0]
     ];
@@ -2106,7 +2098,6 @@ function initAllMazes() {
     createNumberMaze('number-maze-1', numGrid1);
     createNumberMaze('number-maze-2', numGrid2);
     createNumberMaze('number-maze-3', numGrid3); 
-
 
     // ---- Colour Mazes ----
     const colGrid1 = [
@@ -2140,11 +2131,191 @@ function initAllMazes() {
     createPixelArtGame('pixel-game-1', 9, 15);
     createPixelArtGame('pixel-game-2', 9, 15);
 
-    // ---- Parity Game ----
-    createParityGame('parity-game-1');
     createChotaShatranjGame('chota-shatranj-1');
     createBuildingPuzzle('building-game-1');
     createThreeJugGame('three-jug-game-1');
+}
+
+// ================= Interactive Parity Game Logic =================
+function createParityGame(containerId) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+
+    let currentSize = 5; // Default 5x5 grid
+    let grid = [];
+    let gameState = 'setup'; // 'setup', 'readyToFlip', or 'findError'
+    let flippedRow = -1;
+    let flippedCol = -1;
+
+    function initGrid(size = currentSize) {
+        currentSize = size;
+        grid = [];
+        for (let r = 0; r < currentSize; r++) {
+            let row = [];
+            for (let c = 0; c < currentSize; c++) {
+                if (r === currentSize - 1 || c === currentSize - 1) {
+                    row.push(0); // Parity cells start white (0)
+                } else {
+                    row.push(Math.random() > 0.5 ? 1 : 0); 
+                }
+            }
+            grid.push(row);
+        }
+        gameState = 'setup';
+        flippedRow = -1;
+        flippedCol = -1;
+        render();
+    }
+
+    function checkParity() {
+        for (let i = 0; i < currentSize; i++) {
+            let rowSum = 0;
+            let colSum = 0;
+            for (let j = 0; j < currentSize; j++) {
+                rowSum += grid[i][j];
+                colSum += grid[j][i];
+            }
+            if (rowSum % 2 !== 0 || colSum % 2 !== 0) return false;
+        }
+        return true;
+    }
+
+    function render() {
+        container.innerHTML = ''; 
+
+        // 1. Build the Size Selector
+        const headerControls = document.createElement('div');
+        headerControls.className = 'parity-controls';
+        headerControls.style.marginBottom = '1.5rem';
+        
+        const sizeLabel = document.createElement('label');
+        sizeLabel.textContent = 'Select Grid Size: ';
+        sizeLabel.style.fontWeight = '600';
+        sizeLabel.style.color = 'var(--text-main)';
+        
+        const sizeSelect = document.createElement('select');
+        sizeSelect.style.padding = '0.5rem';
+        sizeSelect.style.marginLeft = '0.5rem';
+        sizeSelect.style.borderRadius = '4px';
+        sizeSelect.style.border = '1px solid var(--border-color)';
+        sizeSelect.style.background = 'var(--surface)';
+        sizeSelect.style.color = 'var(--text-main)';
+        
+        [4, 5, 6, 8].forEach(s => {
+            const opt = document.createElement('option');
+            opt.value = s;
+            opt.textContent = `${s}x${s}`;
+            if (s === currentSize) opt.selected = true;
+            sizeSelect.appendChild(opt);
+        });
+        
+        sizeSelect.addEventListener('change', (e) => {
+            initGrid(parseInt(e.target.value));
+        });
+        
+        sizeLabel.appendChild(sizeSelect);
+        if (gameState === 'setup' || gameState === 'findError') {
+             headerControls.appendChild(sizeLabel);
+             container.appendChild(headerControls);
+        }
+
+        // 2. Build the Board
+        const board = document.createElement('div');
+        board.className = 'parity-board';
+        board.style.gridTemplateColumns = `repeat(${currentSize}, 1fr)`;
+        
+        for (let r = 0; r < currentSize; r++) {
+            for (let c = 0; c < currentSize; c++) {
+                const cell = document.createElement('div');
+                const isParity = (r === currentSize - 1 || c === currentSize - 1);
+                
+                cell.className = 'parity-cell';
+                if (isParity) cell.classList.add('is-parity');
+                if (grid[r][c] === 1) cell.classList.add('black');
+
+                if (gameState === 'setup' && isParity) {
+                    cell.style.cursor = 'pointer';
+                    cell.addEventListener('click', () => {
+                        grid[r][c] = grid[r][c] === 1 ? 0 : 1;
+                        if (checkParity()) gameState = 'readyToFlip';
+                        render();
+                    });
+                } else if (gameState === 'findError') {
+                    cell.style.cursor = 'pointer';
+                    cell.addEventListener('click', () => {
+                        if (r === flippedRow && c === flippedCol) {
+                            alert("Correct! You used pattern recognition to find the corrupted bit.");
+                            initGrid(currentSize); 
+                        } else {
+                            cell.style.backgroundColor = 'red'; 
+                            setTimeout(() => render(), 300);
+                        }
+                    });
+                } else {
+                    cell.style.cursor = 'not-allowed';
+                }
+                board.appendChild(cell);
+            }
+        }
+
+        // 3. Build the Status Bar
+        const statusDiv = document.createElement('div');
+        statusDiv.className = 'parity-status';
+        
+        if (gameState === 'setup') {
+            statusDiv.textContent = "Fill the dashed parity cells so every row and column has an EVEN number of black pixels.";
+        } else if (gameState === 'readyToFlip') {
+            statusDiv.textContent = "✅ Parity is perfect! Now, click the button to let the computer corrupt a bit.";
+            statusDiv.style.color = '#16a34a'; 
+        } else if (gameState === 'findError') {
+            statusDiv.textContent = "🚨 A bit was flipped! Find the row and column with odd parity and click the incorrect bit.";
+            statusDiv.style.color = '#dc2626'; 
+        }
+
+        // 4. Build the Controls
+        const controlsDiv = document.createElement('div');
+        controlsDiv.className = 'parity-controls';
+        
+        const resetBtn = document.createElement('button');
+        resetBtn.className = 'maze-btn-reset';
+        resetBtn.textContent = 'Generate New Grid';
+        resetBtn.addEventListener('click', () => initGrid(currentSize));
+        controlsDiv.appendChild(resetBtn);
+
+        if (gameState === 'readyToFlip') {
+            const flipBtn = document.createElement('button');
+            flipBtn.className = 'maze-btn-solve';
+            flipBtn.style.background = 'var(--accent-orange)';
+            flipBtn.style.color = 'white';
+            flipBtn.textContent = 'Flip Random Bit';
+            
+            flipBtn.addEventListener('click', () => {
+                const cells = board.querySelectorAll('.parity-cell');
+                cells.forEach(cell => cell.style.opacity = '0');
+                
+                statusDiv.textContent = "🪄 Magically flipping a bit behind your back...";
+                statusDiv.style.color = 'var(--accent-orange)';
+                flipBtn.disabled = true;
+                resetBtn.disabled = true;
+
+                setTimeout(() => {
+                    flippedRow = Math.floor(Math.random() * currentSize);
+                    flippedCol = Math.floor(Math.random() * currentSize);
+                    
+                    grid[flippedRow][flippedCol] = grid[flippedRow][flippedCol] === 1 ? 0 : 1;
+                    gameState = 'findError';
+                    render(); 
+                }, 1200);
+            });
+            controlsDiv.appendChild(flipBtn);
+        }
+
+        container.appendChild(board);
+        container.appendChild(statusDiv);
+        container.appendChild(controlsDiv);
+    }
+
+    initGrid();
 }
 
 // ================= Game Details Page Logic =================
@@ -2293,6 +2464,12 @@ function loadChapterDetails() {
                 if (typeof initAllMazes === 'function') {
                     initAllMazes();
                 }
+
+                // Check if we loaded the Coin Flip Magic chapter
+                if (chapter.id === 'b6_1' && typeof createParityGame === 'function') {
+                    createParityGame('parity-game-container');
+                }
+
             } else {
                 // Default fallback: Embed the PDF
                 viewerContainer.innerHTML = `
@@ -2330,7 +2507,7 @@ document.addEventListener('DOMContentLoaded', () => {
     } else if (document.getElementById('game-content')) {
         loadGameDetails();
     } else if (document.getElementById('chapter-viewer-container')) {
-        // Trigger the new chapter viewer logic
+
         loadChapterDetails();
     }
 });
