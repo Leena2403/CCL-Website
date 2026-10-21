@@ -64,7 +64,7 @@ const bookData = [
             <!-- Hero Image Section -->
 
             <div style="width: 100%; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 8px 24px rgba(0,0,0,0.08); background: #ffffff; overflow: hidden; text-align: center;">
-                <img src="book/chapter_thumbnails/color maze.png" alt="Chapter Cover" style="width: 100%; max-height: 450px; object-fit: contain; display: block;">
+                <img src="book/chapter_thumbnails/number maze.png" alt="Chapter Cover" style="width: 100%; max-height: 450px; object-fit: contain; display: block;">
             </div>
 
             <!-- Main Content Container -->
@@ -75,6 +75,10 @@ const bookData = [
                 <p style="font-size: 1.15rem; margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-muted);">
                     Explore computer programming by writing steps for solving a maze. A program is basically the set of instructions to tell the computer what to do. To be sure that the program is working and solving the problem, it also needs to be tested. The activity provides a group of students an opportunity to play different roles in the activity and understand the basics of computer programming.
                 </p>
+
+                <div style="width: 100%; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 8px 24px rgba(0,0,0,0.08); background: #ffffff; overflow: hidden; text-align: center;">
+                <img src="book/chapter_thumbnails/number maze.png" alt="Chapter Cover" style="width: 100%; max-height: 450px; object-fit: contain; display: block;">
+            </div>
 
                 <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-main); margin-top: 3rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;">Learning Outcomes</h3>
                 
@@ -93,10 +97,22 @@ const bookData = [
                     You want to let rook move on the 4x4 board and help to reach the end position starting from left-top as shown in the figure. The Rook can only move the number of steps written on the cell. Not allowed - move diagonally. Also, it can not change the direction of steps intermediately.
                 </p>
 
+                <div style="width: 100%; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 8px 24px rgba(0,0,0,0.08); background: #ffffff; overflow: hidden; text-align: center;">
+                <img src="book/number maze/1.png" alt="Chapter Cover" style="width: 100%; max-height: 450px; object-fit: contain; display: block;">
+            </div>
+
+            <div style="width: 100%; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 8px 24px rgba(0,0,0,0.08); background: #ffffff; overflow: hidden; text-align: center;">
+                <img src="book/number maze/2.png" alt="Chapter Cover" style="width: 100%; max-height: 450px; object-fit: contain; display: block;">
+            </div>
+
                 <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-main); margin-top: 3rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;">Writing a Program</h3>
                 
                 <p style="font-size: 1.15rem; margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-muted);">
-                    Computers follow instructions. To get our work done from computers, we need to tell them what to do. The list of instructions for computers is called <strong>Program</strong>. We will be using a simple language that can be used without a computer. Instructions: Move forward (1 Step), Take right turn.                 </p>
+                    Computers follow instructions. To get our work done from computers, we need to tell them what to do. The list of instructions for computers is called <strong>Program</strong>. We will be using a simple language that can be used without a computer. Instructions: Move forward (1 Step), Take right turn.  </p>
+
+                <div style="width: 100%; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 8px 24px rgba(0,0,0,0.08); background: #ffffff; overflow: hidden; text-align: center;">
+                <img src="book/number maze/3.png" alt="Chapter Cover" style="width: 100%; max-height: 450px; object-fit: contain; display: block;">
+            </div>
 
                 <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-main); margin-top: 3rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;">Classroom Roles</h3>
                 
@@ -156,17 +172,71 @@ const bookData = [
                     Reach the Goal position by navigating using the chess rules. Start from the top-left square (Start) and reach the bottom-right square (Goal). These puzzles use the movements of the chess pieces to define how one can move from each square.
                 </p>
 
+                <div style="width: 100%; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 8px 24px rgba(0,0,0,0.08); background: #ffffff; overflow: hidden; text-align: center;">
+                <img src="book/chess maze/3.png" alt="Chapter Cover" style="width: 100%; max-height: 450px; object-fit: contain; display: block;">
+            </div>
+
                 <ul style="font-size: 1.15rem; margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-muted); padding-left: 1.5rem;">
                     <li style="margin-bottom: 0.75rem;"><strong>Pawn:</strong> Moves one position in any direction (up, down, right, or left) within the grid. <em>Not allowed:</em> The pawn cannot move diagonally.</li>
                     <li style="margin-bottom: 0.75rem;"><strong>Bishop:</strong> Moves diagonally in any position within the grid. <em>Not allowed:</em> The bishop cannot move straight, and it cannot change the direction of steps in the middle.</li>
                     <li style="margin-bottom: 0.75rem;"><strong>Knight:</strong> Moves in an L-shape (two spaces in one direction, then one space perpendicular) within the grid. <em>Not allowed:</em> The knight can move in an L-shape only, but not diagonally or straight.</li>
                 </ul>
 
+                <div style="width: 100%; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 8px 24px rgba(0,0,0,0.08); background: #ffffff; overflow: hidden; text-align: center;">
+                <img src="book/chess maze/4.png" alt="Chapter Cover" style="width: 100%; max-height: 450px; object-fit: contain; display: block;">
+            </div>
+
+<p style="font-size: 1.15rem; margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-muted);"> Consider the example shown below. The 4x4 grid has one chess piece in each square.
+The starting position (top-left square) has the pawn as a chess piece; it can move one
+position in any direction (up, down, right, or left). Here, since the only option is
+downwards or towards the right, one can move there. </p>
+          <div style="width: 100%; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 8px 24px rgba(0,0,0,0.08); background: #ffffff; overflow: hidden; text-align: center;">
+                <img src="book/chess maze/5.png" alt="Chapter Cover" style="width: 100%; max-height: 450px; object-fit: contain; display: block;">
+            </div>
+
+            <div style="width: 100%; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 8px 24px rgba(0,0,0,0.08); background: #ffffff; overflow: hidden; text-align: center;">
+                <img src="book/chess maze/6.png" alt="Chapter Cover" style="width: 100%; max-height: 450px; object-fit: contain; display: block;">
+            </div>
+
+
                 <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-main); margin-top: 3rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;">Intro to Abstraction: Tree Diagrams</h3>
                 
                 <p style="font-size: 1.15rem; margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-muted);">
-                    If we wanted to explain this puzzle to a computer, what would we really need to include? Notice that the exact grid drawing style is not important. The important parts are the squares and the legal moves between them, which is the essence of abstraction.
+                    A computer does not “see” the number maze the way humans do. Instead, it represents the
+maze as a tree diagram with squares and lines. Each square remains a square, and each
+possible jump or number of steps becomes a connection (line) between the squares. A tree
+diagram is a useful way to represent connections between the squares. This process of
+simplifying a problem into an easier representation is called Abstraction
                 </p>
+
+                <p style="font-size: 1.15rem; margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-muted);"> Let us take the initial chess maze as an example to understand the tree diagram. </p>
+
+                <div style="width: 100%; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 8px 24px rgba(0,0,0,0.08); background: #ffffff; overflow: hidden; text-align: center;">
+                <img src="book/chess maze/7.png" alt="Chapter Cover" style="width: 100%; max-height: 450px; object-fit: contain; display: block;">
+            </div>
+
+             <p style="font-size: 1.15rem; margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-muted);"> Label the squares in a maze with names such as A1, A2, A3, ... for the first row, B1, B2, B3,...
+for the second row, and so on. Now we should draw one line for each square and connect
+each square when a legal move is possible between them. </p>
+
+<div style="width: 100%; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 8px 24px rgba(0,0,0,0.08); background: #ffffff; overflow: hidden; text-align: center;">
+                <img src="book/chess maze/8.png" alt="Chapter Cover" style="width: 100%; max-height: 450px; object-fit: contain; display: block;">
+            </div>
+
+            <p style="font-size: 1.15rem; margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-muted);">  Now we need to connect the squares. First, we will take our starting square, A1. Since A1 is
+represented as a pawn, it should be connected to A2 and B1, since both are one step away
+vertically/horizontally from A1. 
+<br> We will start to draw the tree diagram from the start square A1 and model the first few
+branches.
+</p>
+
+<div style="width: 100%; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 8px 24px rgba(0,0,0,0.08); background: #ffffff; overflow: hidden; text-align: center;">
+                <img src="book/chess maze/9.png" alt="Chapter Cover" style="width: 100%; max-height: 450px; object-fit: contain; display: block;">
+            </div>
+
+            <div style="width: 100%; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 8px 24px rgba(0,0,0,0.08); background: #ffffff; overflow: hidden; text-align: center;">
+                <img src="book/chess maze/10.png" alt="Chapter Cover" style="width: 100%; max-height: 450px; object-fit: contain; display: block;">
+            </div>
 
                 <p style="font-size: 1.15rem; margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-muted);">
                     A computer does not "see" the number maze the way humans do. Instead, it represents the maze as a tree diagram with squares and lines. Each square remains a square (labeled A1, A2, B1, etc.), and each possible jump becomes a connection (line) between the squares. This process of simplifying a problem into an easier representation is called Abstraction.
@@ -191,6 +261,9 @@ const bookData = [
                 <!-- Interactive Question 1 -->
                 <div style="background: var(--surface); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 2px 10px rgba(0,0,0,0.02);">
                     <h4 style="font-size: 1.1rem; color: var(--text-main); margin-top: 0; margin-bottom: 1.2rem;">1. Which Chess piece is associated with square D2 in the reference grid?</h4>
+                    <div style="width: 100%; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 8px 24px rgba(0,0,0,0.08); background: #ffffff; overflow: hidden; text-align: center;">
+                <img src="book/chess maze/1.png" alt="Chapter Cover" style="width: 100%; max-height: 450px; object-fit: contain; display: block;">
+            </div>
                     <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.75rem;">
                         <button onclick="document.getElementById('q1-fb').innerHTML='❌ Incorrect. Try again!'; document.getElementById('q1-fb').style.color='#ef4444';" style="padding: 1rem; border: 1px solid var(--border-color); border-radius: 8px; background: transparent; color: var(--text-main); font-weight: 500; cursor: pointer; text-align: center; font-size: 1rem; font-family: inherit; transition: all 0.2s;">(a) Pawn</button>
                         <button onclick="document.getElementById('q1-fb').innerHTML='❌ Incorrect. Try again!'; document.getElementById('q1-fb').style.color='#ef4444';" style="padding: 1rem; border: 1px solid var(--border-color); border-radius: 8px; background: transparent; color: var(--text-main); font-weight: 500; cursor: pointer; text-align: center; font-size: 1rem; font-family: inherit; transition: all 0.2s;">(b) Bishop</button>
@@ -210,6 +283,53 @@ const bookData = [
                         <button onclick="document.getElementById('q2-fb').innerHTML='❌ Incorrect. A Knight can jump here (L-shape).'; document.getElementById('q2-fb').style.color='#ef4444';" style="padding: 1rem; border: 1px solid var(--border-color); border-radius: 8px; background: transparent; color: var(--text-main); font-weight: 500; cursor: pointer; text-align: center; font-size: 1rem; font-family: inherit; transition: all 0.2s;">(d) D5 (Bishop)</button>
                     </div>
                     <div id="q2-fb" style="margin-top: 1rem; font-weight: 600; height: 1.5rem; text-align: center;"></div>
+                </div>
+
+                <!-- Interactive Question 3 -->
+                <div style="background: var(--surface); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; margin-bottom: 1.5rem; box-shadow: 0 2px 10px rgba(0,0,0,0.02);">
+                    <h4 style="font-size: 1.1rem; color: var(--text-main); margin-top: 0; margin-bottom: 1.2rem;">3. The tree diagram is shown below. Fill in the blank squares</h4>
+                    <div style="width: 100%; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 8px 24px rgba(0,0,0,0.08); background: #ffffff; overflow: hidden; text-align: center;">
+                        <img src="book/chess maze/2.png" alt="Chapter Cover" style="width: 100%; max-height: 450px; object-fit: contain; display: block;">
+                    </div>
+                    
+                    <!-- NEW: Interactive Inputs for Tree Diagram -->
+                    <p style="font-size: 1.05rem; color: var(--text-muted); text-align: center; margin-bottom: 1rem;">Look at the red circles in the image and enter the correct cell coordinates (e.g. A1, B2) for the missing nodes.</p>
+                    <div style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center; margin-bottom: 1.5rem;">
+                        <input type="text" id="node1" placeholder="Root Node" style="padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 6px; width: 120px; text-align: center; font-size: 1rem;">
+                        <input type="text" id="node2" placeholder="Right Branch" style="padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 6px; width: 120px; text-align: center; font-size: 1rem;">
+                        <input type="text" id="node3" placeholder="Above Right Branch" style="padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 6px; width: 160px; text-align: center; font-size: 1rem;">
+                        <input type="text" id="node4" placeholder="Middle Left Red Node" style="padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 6px; width: 180px; text-align: center; font-size: 1rem;">
+                        <input type="text" id="node5" placeholder="Top Right Red Node" style="padding: 0.75rem; border: 1px solid var(--border-color); border-radius: 6px; width: 170px; text-align: center; font-size: 1rem;">
+                    </div>
+                    <div style="text-align: center;">
+                        <button onclick="
+                            let n1 = document.getElementById('node1').value.trim().toUpperCase();
+                            let n2 = document.getElementById('node2').value.trim().toUpperCase();
+                            let n3 = document.getElementById('node3').value.trim().toUpperCase();
+                            let n4 = document.getElementById('node4').value.trim().toUpperCase();
+                            let n5 = document.getElementById('node5').value.trim().toUpperCase();
+                            let msg = '';
+                            if(n1==='A1' && n2==='B1' && n3==='B2' && n4==='C4' && n5==='E5') {
+                                msg = '✅ Amazing! You filled all nodes correctly (A1, B1, B2, C4, E5).';
+                                document.getElementById('q3-fb').style.color = '#16a34a';
+                            } else {
+                                msg = '❌ Some nodes are incorrect or missing. Check the tree structure carefully!';
+                                document.getElementById('q3-fb').style.color = '#ef4444';
+                            }
+                            document.getElementById('q3-fb').innerHTML = msg;
+                        " class="btn-primary" style="padding: 0.75rem 2rem; font-size: 1rem; border: none; border-radius: 6px; cursor: pointer; background: var(--accent-orange); color: #fff; font-weight: 600;">Check Connections</button>
+                        <div id="q3-fb" style="margin-top: 1rem; font-weight: 600; min-height: 1.5rem;"></div>
+                    </div>
+                </div>
+
+                <!-- NEW: Note for Teachers Section -->
+                <div style="background: #f8fafc; border-left: 4px solid var(--primary); padding: 1.5rem; border-radius: 0 8px 8px 0; margin-bottom: 2.5rem;">
+                    <h4 style="font-size: 1.1rem; color: #0f172a; margin-bottom: 0.75rem; font-weight: 700;">Note for Teachers</h4>
+                    <ul style="font-size: 1.05rem; color: #334155; line-height: 1.6; margin-bottom: 0; padding-left: 1.5rem;">
+                        <li style="margin-bottom: 0.5rem;">Abstraction is a central pillar of computational thinking and helps learners manage complexity by focusing on the information that matters for solving a problem[cite: 34]. In this activity, the full grid drawing is not the only thing one need[cite: 34]. What matters more is the set of possible positions and the allowed movements between them[cite: 34].</li>
+                        <li style="margin-bottom: 0.5rem;">A tree diagram is a structure of a hierarchical arrangement of with a squares and lines, where square represent objects or positions and lines represent connections between them[cite: 34].</li>
+                        <li>One do not need formal graph theory vocabulary at all[cite: 34]. The lesson should start with the puzzle experience, then move to naming the simplified representation as a tree diagram[cite: 34].</li>
+                    </ul>
                 </div>
 
                 <div style="background: var(--surface); border: 1px dashed var(--accent-orange); border-radius: 12px; padding: 1.5rem; margin-bottom: 2.5rem; text-align: center;">
@@ -385,7 +505,7 @@ const bookData = [
                     <li style="margin-bottom: 0.75rem;"><strong>Algorithmic Thinking:</strong> Follow a process: Scan from the given side, track the tallest building seen so far, and count visible buildings.</li>
                     <li style="margin-bottom: 0.75rem;"><strong>Decomposition:</strong> Breaking the puzzle into smaller constraints: grid size, allowed value and given clues.</li>
                     <li style="margin-bottom: 0.75rem;"><strong>Pattern Recognition:</strong> Recognising that this puzzle structure is similar to Sudoku.</li>
-                    <li style="margin-bottom: 0.75rem;"><strong>Generalisation:</strong> Extending to n×n grids. Generalisation pattern: $1+2+...+n=n(n+1)/2$.</li>
+                    <li style="margin-bottom: 0.75rem;"><strong>Generalisation:</strong> Extending to nXn grids. Generalisation pattern: $1+2+...+n=n(n+1)/2$.</li>
                     <li><strong>Abstraction:</strong> Physical objects represent numerical values and how the arrangement affects visibility.</li>
                 </ul>
 
@@ -5149,6 +5269,6 @@ compare the two numbering systems for place values, this is what it looks like�
     },
     // to do 
     { id: "b7_3", section: "Other Activities", title: "Golomb Rulers - 2", thumbnail: "book/chapter_thumbnails/golomb 2.png", pdfLink: "book/Golomb Rulers - 2.pdf" },
-    
+
     { id: "b7_4", section: "Other Activities", title: "String Art", thumbnail: "book/chapter_thumbnails/string_art.png", pdfLink: "book/String art.pdf" }
 ];
