@@ -326,9 +326,9 @@ branches.
                 <div style="background: #f8fafc; border-left: 4px solid var(--primary); padding: 1.5rem; border-radius: 0 8px 8px 0; margin-bottom: 2.5rem;">
                     <h4 style="font-size: 1.1rem; color: #0f172a; margin-bottom: 0.75rem; font-weight: 700;">Note for Teachers</h4>
                     <ul style="font-size: 1.05rem; color: #334155; line-height: 1.6; margin-bottom: 0; padding-left: 1.5rem;">
-                        <li style="margin-bottom: 0.5rem;">Abstraction is a central pillar of computational thinking and helps learners manage complexity by focusing on the information that matters for solving a problem[cite: 34]. In this activity, the full grid drawing is not the only thing one need[cite: 34]. What matters more is the set of possible positions and the allowed movements between them[cite: 34].</li>
-                        <li style="margin-bottom: 0.5rem;">A tree diagram is a structure of a hierarchical arrangement of with a squares and lines, where square represent objects or positions and lines represent connections between them[cite: 34].</li>
-                        <li>One do not need formal graph theory vocabulary at all[cite: 34]. The lesson should start with the puzzle experience, then move to naming the simplified representation as a tree diagram[cite: 34].</li>
+                        <li style="margin-bottom: 0.5rem;">Abstraction is a central pillar of computational thinking and helps learners manage complexity by focusing on the information that matters for solving a problem. In this activity, the full grid drawing is not the only thing one need. What matters more is the set of possible positions and the allowed movements between them.</li>
+                        <li style="margin-bottom: 0.5rem;">A tree diagram is a structure of a hierarchical arrangement of with a squares and lines, where square represent objects or positions and lines represent connections between them.</li>
+                        <li>One do not need formal graph theory vocabulary at all. The lesson should start with the puzzle experience, then move to naming the simplified representation as a tree diagram.</li>
                     </ul>
                 </div>
 
@@ -505,7 +505,7 @@ branches.
                     <li style="margin-bottom: 0.75rem;"><strong>Algorithmic Thinking:</strong> Follow a process: Scan from the given side, track the tallest building seen so far, and count visible buildings.</li>
                     <li style="margin-bottom: 0.75rem;"><strong>Decomposition:</strong> Breaking the puzzle into smaller constraints: grid size, allowed value and given clues.</li>
                     <li style="margin-bottom: 0.75rem;"><strong>Pattern Recognition:</strong> Recognising that this puzzle structure is similar to Sudoku.</li>
-                    <li style="margin-bottom: 0.75rem;"><strong>Generalisation:</strong> Extending to nXn grids. Generalisation pattern: $1+2+...+n=n(n+1)/2$.</li>
+                    <li style="margin-bottom: 0.75rem;"><strong>Generalisation:</strong> Extending to nXn grids. Generalisation pattern: 1+2+...+n=n(n+1)/2.</li>
                     <li><strong>Abstraction:</strong> Physical objects represent numerical values and how the arrangement affects visibility.</li>
                 </ul>
 
@@ -1208,7 +1208,7 @@ branches.
                 </div>
 
                 <p style="font-size: 1.15rem; margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-muted);">
-                    The trick is to add the values at the top left of the chosen cards. The sum of these values will be the student's birth date. For example, if the selected cards have 1, 2, and 16 at the top left, $1+2+16=19$. In this case, the birth date is 19.
+                    The trick is to add the values at the top left of the chosen cards. The sum of these values will be the student's birth date. For example, if the selected cards have 1, 2, and 16 at the top left, 1+2+16=19. In this case, the birth date is 19.
                 </p>
 
                 <div style="width: 100%; border-radius: 8px; overflow: hidden; text-align: center; background: #ffffff; padding: 1rem; margin-bottom: 2rem; border: 1px solid var(--border-color);">
@@ -1360,7 +1360,7 @@ branches.
                     <li style="margin-bottom: 0.75rem;"><strong>Pattern Recognition:</strong> Recognising doubling pattern: 1, 2, 4, 8, 16...</li>
                     <li style="margin-bottom: 0.75rem;"><strong>Abstraction:</strong> Using fingers to count and to represent the binary number system.</li>
                     <li style="margin-bottom: 0.75rem;"><strong>Logic:</strong> Every finger corresponds to a power of 2.</li>
-                    <li style="margin-bottom: 0.75rem;"><strong>Generalisation:</strong> Recognizing that with $n$ fingers, the maximum count is: $2^n - 1$.</li>
+                    <li style="margin-bottom: 0.75rem;"><strong>Generalisation:</strong> Recognizing that with n fingers, the maximum count is: 2^n - 1.</li>
                     <li><strong>Evaluation:</strong> Checking whether a finger combination correctly represents a number.</li>
                 </ul>
 
@@ -1548,7 +1548,7 @@ compare the two numbering systems for place values, this is what it looks like‚Ä
                 <div style="background: var(--surface); border: 1px dashed var(--accent-orange); border-radius: 12px; padding: 1.5rem; margin-bottom: 2.5rem; text-align: center;">
                     <h4 style="font-size: 1.1rem; color: var(--text-main); margin-top: 0; margin-bottom: 0.5rem;">Did you know?</h4>
                     <p style="font-size: 1.05rem; color: var(--text-muted); margin-bottom: 0;">
-                        When all fingers are up on both hands, we can represent decimal numbers up to 1023 ($512+256+128+64+32+16+8+4+2+1$). With this binary representation, we can count past 1,000 using only 10 fingers! This binary concept has its roots in the study of poetry in ancient India, documented in Acharya Pingala's work Chanda·∏•≈õƒÅstra (~2 BCE).
+                        When all fingers are up on both hands, we can represent decimal numbers up to 1023 (512+256+128+64+32+16+8+4+2+1). With this binary representation, we can count past 1,000 using only 10 fingers! This binary concept has its roots in the study of poetry in ancient India, documented in Acharya Pingala's work Chanda·∏•≈õƒÅstra (~2 BCE).
                     </p>
                 </div>
             </div>
@@ -1695,8 +1695,8 @@ compare the two numbering systems for place values, this is what it looks like‚Ä
                     The binary number system deals with only two numbers: 0 and 1. We can convert any decimal number into a binary representation by writing it with the power of 2.
                 </p>
                 <p style="font-size: 1.15rem; margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-muted);">
-                    For example, $23 = 16 + 4 + 2 + 1$.<br>
-                    <strong>23 in binary:</strong> $(10111)_2$
+                    For example, 23 = 16 + 4 + 2 + 1.<br>
+                    <strong>23 in binary:</strong> (10111)_2
                 </p>
 
                 <div style="width: 100%; border-radius: 8px; overflow: hidden; text-align: center; background: #ffffff; padding: 1rem; margin-bottom: 2rem; border: 1px solid var(--border-color);">
@@ -1793,8 +1793,346 @@ compare the two numbering systems for place values, this is what it looks like‚Ä
             </div>
         `
     },
-    // to do 
-    { id: "b3_5", section: "Language of Computer", title: "Logical Puzzle Punch Cards", thumbnail: "book/chapter_thumbnails/Punch Cards.png", pdfLink: "book/Logical Puzzle Punch Cards.pdf" },
+
+    {
+        id: "b3_5",
+        section: "Language of Computer",
+        title: "Logical Puzzle Punch Cards",
+        thumbnail: "book/chapter_thumbnails/Punch Cards.png",
+        pdfLink: "book/Logical Puzzle Punch Cards.pdf",
+        content: `
+            <!-- Hero Image Section -->
+            <div style="width: 100%; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 8px 24px rgba(0,0,0,0.08); background: #ffffff; overflow: hidden; text-align: center;">
+                <img src="book/chapter_thumbnails/Punch Cards.png" alt="Chapter Cover" style="width: 100%; max-height: 450px; object-fit: contain; display: block; margin: 0 auto;">
+            </div>
+
+            <!-- Main Content Container -->
+            <div class="page-content" style="max-width: 800px; margin: 0 auto; padding: 0 1rem;">
+                
+                <h2 style="font-size: 2rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--text-main); letter-spacing: -0.02em;">Introduction</h2>
+                <p style="font-size: 1.15rem; margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-muted);">
+                    Solving puzzles always seems complex. But have you wondered how computers solve puzzles? We will see a simplified way to solve some puzzles by following simple instructions and using binary. This will give us insight into how to break complex problems into smaller, easily solvable pieces. By combining smaller problems, computers can solve a larger one.
+                </p>
+
+                <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-main); margin-top: 3rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;">Activity Overview</h3>
+                <div style="overflow-x: auto; margin-bottom: 2rem;">
+                    <table style="width: 100%; border-collapse: collapse; text-align: left; border: 1px solid var(--border-color);">
+                        <thead>
+                            <tr style="background: var(--primary-light);">
+                                <th style="padding: 1rem; border: 1px solid var(--border-color); font-weight: 600;">Activity</th>
+                                <th style="padding: 1rem; border: 1px solid var(--border-color); font-weight: 600;">Time</th>
+                                <th style="padding: 1rem; border: 1px solid var(--border-color); font-weight: 600;">Description</th>
+                            </tr>
+                        </thead>
+                        <tbody style="font-size: 1.05rem; line-height: 1.6; color: var(--text-muted);">
+                            <tr>
+                                <td style="padding: 1rem; border: 1px solid var(--border-color);">Launch</td>
+                                <td style="padding: 1rem; border: 1px solid var(--border-color);">5 min</td>
+                                <td style="padding: 1rem; border: 1px solid var(--border-color);">
+                                    The teacher will demonstrate by solving a puzzle quickly using the cards, then ask students how it worked.<br>
+                                    <a href="https://tinyurl.com/logiccardstemplate" target="_blank" style="color: var(--primary); font-weight: 500;">Template: https://tinyurl.com/logiccardstemplate</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 1rem; border: 1px solid var(--border-color);">Exploring Logic punch card by Students</td>
+                                <td style="padding: 1rem; border: 1px solid var(--border-color);">25 min</td>
+                                <td style="padding: 1rem; border: 1px solid var(--border-color);">
+                                    Students spend time understanding the cards. Then they start solving basic logical statements using the cards. They will then solve some puzzles with multiple statements using the cards. Students can make their own punch cards using the template after class hours.<br>
+                                    <a href="https://tinyurl.com/logiccardsworksheet" target="_blank" style="color: var(--primary); font-weight: 500;">Student Worksheet: https://tinyurl.com/logiccardsworksheet</a>
+                                </td>
+                            </tr>
+                            <tr>
+                                <td style="padding: 1rem; border: 1px solid var(--border-color);">Discussions & Conclusion</td>
+                                <td style="padding: 1rem; border: 1px solid var(--border-color);">10 min</td>
+                                <td style="padding: 1rem; border: 1px solid var(--border-color);">
+                                    Discussing the worksheets. The students will continue their discussion of binary numbers from the previous activity. They discuss their understanding of the logical statements and how to deduce from given informations. They can also discuss how a complex problem is broken down into individual logical steps and combined to solve a larger problem.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-main); margin-top: 3rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;">CT Components</h3>
+                <ul style="font-size: 1.15rem; margin-bottom: 2.5rem; line-height: 1.8; color: var(--text-muted); padding-left: 1.5rem;">
+                    <li style="margin-bottom: 0.75rem;"><strong>Algorithmic Thinking:</strong> We follow a step-by-step process to find the required card using the statements provided in the puzzle.</li>
+                    <li style="margin-bottom: 0.75rem;"><strong>Decomposition:</strong> We break the task of solving a logic puzzle into solving individual steps using the binary logic of true or false.</li>
+                    <li style="margin-bottom: 0.75rem;"><strong>Pattern Recognition:</strong> They observe that the number of cards possible is related to the number of holes at the top. They see how true and false, on and off, and U-shaped and O-shaped holes are identical.</li>
+                    <li style="margin-bottom: 0.75rem;"><strong>Generalisation:</strong> From solving a puzzle in 3-holed cards, they see the extension to 5-holed cards.</li>
+                    <li style="margin-bottom: 0.75rem;"><strong>Logic:</strong> These puzzles require solving each step logically.</li>
+                </ul>
+
+                <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-main); margin-top: 3rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;">Activity: Logical puzzle punch cards</h3>
+                <p style="font-size: 1.15rem; margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-muted);">
+                    In this activity, you will use punched cards to solve logical puzzles. By stacking, aligning, and filtering the cards, we will see how complex reasoning can be built from simple decisions - True or False, mirroring how binary logic works inside a computer.
+                </p>
+                <div style="background: var(--primary-light); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+                    <p style="margin: 0 0 0.5rem 0; color: #000; font-weight: 600;">The Scenario:</p>
+                    <p style="margin: 0; color: #000; line-height: 1.6;">
+                        The scenario is that you have the following lights in the room: <strong>Yellow Y</strong>, <strong>Pink P</strong>, <strong>Red R</strong>, <strong>Green G</strong>, and <strong>Blue B</strong>. By following the clues given in the Case Cards, you have to figure out which lights are ON in the given Puzzle. To solve these puzzles, we have a deck of cards representing all possible combinations of these lights being ON or OFF.
+                    </p>
+                </div>
+
+                <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-main); margin-top: 3rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;">Understanding the cards</h3>
+                <p style="font-size: 1.15rem; margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-muted);">
+                    To solve these puzzles, we have a deck of cards representing all possible combinations of these lights being ON or OFF. Each card has five positions for holes on the top, and each position corresponds to a coloured light mentioned above in the given order.
+                </p>
+                <p style="font-size: 1.15rem; margin-bottom: 2.5rem; line-height: 1.8; color: var(--text-muted);">
+                    Each position has two possible hole types: <strong>U-shaped</strong> or <strong>O-shaped</strong>. Each card represents one possible combination. If a light is ON in a card, then the corresponding hole is U-shaped. If a light is OFF on a card, then the corresponding hole is O-shaped.
+                </p>
+
+                <div style="background: #f8fafc; border-left: 4px solid var(--accent-orange); padding: 1.5rem; margin-bottom: 2rem;">
+                    <p style="margin: 0; font-size: 1.15rem; color: #334155; line-height: 1.6;">
+                        <strong>Eg:</strong> Yellow Y is OFF, Pink P is ON, Red R is ON, Green G is OFF, Blue B is OFF is the card where the holes are <strong>OUUOO</strong>
+                    </p>
+                </div>
+
+                <div style="width: 100%; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 8px 24px rgba(0,0,0,0.08); background: #ffffff; overflow: hidden; text-align: center;">
+                    <img src="book/logical/1.png" alt="Chapter Cover" style="width: 100%; max-height: 450px; object-fit: contain; display: block; margin: 0 auto;">
+                </div>
+
+                <p style="font-size: 1.15rem; margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-muted);">
+                    Each hole, thus, has 2 possible states If we have two holes, then we have $2\times2=4$ possible states Likewise, if we have 3 holes, we have $2\times2\times2=8$ states Therefore, if we have 5 holes, we will have $2\times2\times2\times2\times2=32$ states That is the number of distinct cards we have
+                </p>
+
+                <div style="width: 100%; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 8px 24px rgba(0,0,0,0.08); background: #ffffff; overflow: hidden; text-align: center;">
+                    <img src="book/logical/2.png" alt="Chapter Cover" style="width: 100%; max-height: 450px; object-fit: contain; display: block; margin: 0 auto;">
+                </div>
+
+                <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-main); margin-top: 3rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;">Procedure</h3>
+                <p style="font-size: 1.15rem; margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-muted);">
+                    If the puzzle says a light is ON, we need to remove all cards where that light is OFF. For that, we put the stick into the deck of cards through the hole corresponding to that light and pull out all the cards that get stuck to it. We remove these cards because they got stuck due to O-shaped holes that indicate the light is OFF.
+                </p>
+                <p style="font-size: 1.15rem; margin-bottom: 2.5rem; line-height: 1.8; color: var(--text-muted);">
+                    If we know some light is OFF in the puzzle, we remove all the cards that do not come out with the stick; these are the cards with U-shaped holes in positions corresponding to the given colour, which indicate that the light is ON. Ensuring the above helps us solve the logical puzzles through punch cards.
+                </p>
+
+                <div style="width: 100%; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 8px 24px rgba(0,0,0,0.08); background: #ffffff; overflow: hidden; text-align: center;">
+                    <img src="book/logical/3.png" alt="Chapter Cover" style="width: 100%; max-height: 450px; object-fit: contain; display: block; margin: 0 auto;">
+                </div>
+
+                <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-main); margin-top: 3rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;">Understanding using a case</h3>
+                <p style="font-size: 1.15rem; margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-muted);">
+                    The operation of the cards is explained by showing how they can be used for solving a problem in two-valued logic. We can start by taking Case 1, which contains the first 8 cards from 0 to 7, and focus only on the Red R, Green G, and Blue B lights. Three statements are given containing simple assertions and negation statements. The aim is to determine which bulbs are on or off among these.
+                </p>
+
+                <p style="font-size: 1.15rem; margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-muted);">
+                    To solve this problem, let's establish some notation. Only three terms are involved, so we shall be concerned with only the Red R, Green G, and Blue B holes.
+                </p>
+
+                <table style="width: 100%; max-width: 800px; margin: 0 auto 2rem auto; border-collapse: collapse; text-align: left; border: 1px solid var(--border-color);">
+                    <tbody>
+                        <tr>
+                            <td style="padding: 1rem; border: 1px solid var(--border-color); font-weight: 600; font-size: 1.1rem;"><span style="color: #ef4444;">Red</span> bulb <span style="color: #22c55e;">'ON'</span>, 1st position will be <span style="color: #22c55e;">U</span></td>
+                            <td style="padding: 1rem; border: 1px solid var(--border-color); font-weight: 600; font-size: 1.1rem;"><span style="color: #ef4444;">Red</span> bulb <span style="color: #ef4444;">'OFF'</span>, 1st position will be <span style="color: #ef4444;">O</span></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 1rem; border: 1px solid var(--border-color); font-weight: 600; font-size: 1.1rem;"><span style="color: #22c55e;">Green</span> bulb <span style="color: #22c55e;">'ON'</span>, 2nd position will be <span style="color: #22c55e;">U</span></td>
+                            <td style="padding: 1rem; border: 1px solid var(--border-color); font-weight: 600; font-size: 1.1rem;"><span style="color: #22c55e;">Green</span> bulb <span style="color: #ef4444;">'OFF'</span>, 2nd position will be <span style="color: #ef4444;">O</span></td>
+                        </tr>
+                        <tr>
+                            <td style="padding: 1rem; border: 1px solid var(--border-color); font-weight: 600; font-size: 1.1rem;"><span style="color: #2563eb;">Blue</span> bulb <span style="color: #22c55e;">'ON'</span>, 3rd position will be <span style="color: #22c55e;">U</span></td>
+                            <td style="padding: 1rem; border: 1px solid var(--border-color); font-weight: 600; font-size: 1.1rem;"><span style="color: #2563eb;">Blue</span> bulb <span style="color: #ef4444;">'OFF'</span>, 3rd position will be <span style="color: #ef4444;">O</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <ul style="font-size: 1.15rem; margin-bottom: 2.5rem; line-height: 1.8; color: var(--text-muted); list-style: none; padding: 0;">
+                    <li>If all lights are <span style="color: #22c55e; font-weight: 600;">ON</span>, then <span style="color: #ef4444; font-weight: 600;">R</span><span style="color: #22c55e; font-weight: 600;">G</span><span style="color: #2563eb; font-weight: 600;">B</span> = <span style="color: #22c55e; font-weight: 600;">U U U</span></li>
+                    <li>If all lights are <span style="color: #ef4444; font-weight: 600;">OFF</span>, then <span style="color: #ef4444; font-weight: 600;">R</span><span style="color: #22c55e; font-weight: 600;">G</span><span style="color: #2563eb; font-weight: 600;">B</span> = <span style="color: #ef4444; font-weight: 600;">O O O</span></li>
+                    <li>If <span style="color: #ef4444; font-weight: 600;">Red</span> is <span style="color: #ef4444; font-weight: 600;">OFF</span>, <span style="color: #22c55e; font-weight: 600;">Green</span> is <span style="color: #22c55e; font-weight: 600;">ON</span>, <span style="color: #2563eb; font-weight: 600;">Blue</span> is <span style="color: #ef4444; font-weight: 600;">OFF</span>, then <span style="color: #ef4444; font-weight: 600;">R</span><span style="color: #22c55e; font-weight: 600;">G</span><span style="color: #2563eb; font-weight: 600;">B</span> = <span style="color: #ef4444; font-weight: 600;">O</span> <span style="color: #22c55e; font-weight: 600;">U</span> <span style="color: #ef4444; font-weight: 600;">O</span></li>
+                    <li>If <span style="color: #ef4444; font-weight: 600;">Red</span> and <span style="color: #22c55e; font-weight: 600;">Green</span> are <span style="color: #22c55e; font-weight: 600;">ON</span>, but <span style="color: #2563eb; font-weight: 600;">Blue</span> can be anything, then <span style="color: #ef4444; font-weight: 600;">R</span><span style="color: #22c55e; font-weight: 600;">G</span><span style="color: #2563eb; font-weight: 600;">B</span> = <span style="color: #22c55e; font-weight: 600;">U U</span> <strong>X</strong></li>
+                </ul>
+
+                <!-- Quiz Block 2 -->
+                <div style="background: var(--surface); padding: 1.5rem; border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 3rem;">
+                    <p style="font-size: 1.15rem; font-weight: 600; color: var(--text-main); margin-top: 0;">
+                        2. Can you identify which bulb is <span style="color: #ef4444;">OFF</span> based on this pattern: <span style="color: #ef4444;">R</span><span style="color: #22c55e;">G</span><span style="color: #2563eb;">B</span> = <span style="color: #22c55e;">U U</span> <span style="color: #ef4444;">O</span>?
+                    </p>
+                    <ul style="list-style: none; padding: 0; font-size: 1.1rem; color: var(--text-muted); margin-bottom: 1rem;">
+                        <li>a. <span style="color: #ef4444; font-weight: 600;">Red</span> bulb</li>
+                        <li>b. <span style="color: #2563eb; font-weight: 600;">Blue</span> Bulb</li>
+                        <li>c. <span style="color: #22c55e; font-weight: 600;">Green</span> bulb</li>
+                        <li>d. All bulbs are OFF</li>
+                    </ul>
+                    <div style="background: var(--primary-light); padding: 1rem; border-radius: 6px; color: black">
+                        <p style="margin: 0 0 0.5rem 0;"><strong>Correct answer:</strong> b. <span style="color: #2563eb;">Blue</span> Bulb</p>
+                        <p style="margin: 0 0 0.5rem 0;"><strong>Explanation:</strong> The <span style="color: #ef4444;">O-shaped</span> hole is in the <span style="color: #2563eb;">Blue</span> bulbs' position</p>
+                        <p style="margin: 0;"><strong>Competencies:</strong> Logic, Pattern recognition, Abstraction</p>
+                    </div>
+                </div>
+
+                <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-main); margin-top: 3rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;">Case 1: Focusing on <span style="color: #ef4444;">R</span><span style="color: #22c55e;">G</span><span style="color: #2563eb;">B</span> cards only (with 8 cards only)</h3>
+                
+                <p style="font-size: 1.15rem; margin-bottom: 0.5rem; line-height: 1.8; color: var(--text-muted);">Statements:</p>
+                <ol style="font-size: 1.15rem; line-height: 1.6; color: var(--text-muted); margin-bottom: 1.5rem; font-weight: 600;">
+                    <li>The <span style="color: #ef4444;">Red</span> light is <span style="color: #22c55e;">ON</span></li>
+                    <li>The <span style="color: #2563eb;">Blue</span> light is <span style="color: #ef4444;">OFF</span></li>
+                    <li><span style="color: #22c55e;">ON</span> light only has <span style="color: #ef4444;">OFF</span> Neighbour</li>
+                </ol>
+
+                <p style="font-size: 1.15rem; margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-muted);">
+                    The problem has three statements.
+                </p>
+                <p style="font-size: 1.15rem; margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-muted);">
+                    <em>The statement I: "The <span style="color: #ef4444; font-weight: 600;">Red</span> light is <span style="color: #22c55e; font-weight: 600;">ON</span>"</em><br>
+                    Insert the stick in the <strong>R</strong> position and lift. The stick will raise all <span style="color: #ef4444; font-weight: 600;">R</span><span style="color: #22c55e; font-weight: 600;">G</span><span style="color: #2563eb; font-weight: 600;">B</span> = <strong>O X X</strong> cards: All cards where <span style="color: #ef4444; font-weight: 600;">Red</span> is <span style="color: #ef4444; font-weight: 600;">OFF</span>.<br>
+                    <span style="text-decoration: underline;"><strong>RGB = O X X cards are discarded.</strong></span>
+                </p>
+
+                <p style="font-size: 1.15rem; margin-bottom: 2.5rem; line-height: 1.8; color: var(--text-muted);">
+                    All remaining cards are assembled into a pack once more (in any order), and we are ready for the second statement.
+                </p>
+
+                <!-- Quiz Block 3 -->
+                <div style="background: var(--surface); padding: 1.5rem; border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 3rem;">
+                    <p style="font-size: 1.15rem; font-weight: 600; color: var(--text-main); margin-top: 0;">
+                        3. After performing an action using Statement I, how many cards are left in the pack?
+                    </p>
+                    <ul style="list-style: none; padding: 0; font-size: 1.1rem; color: var(--text-muted); margin-bottom: 1rem;">
+                        <li>a. 8</li>
+                        <li>b. 4</li>
+                        <li>c. 2</li>
+                        <li>d. 1</li>
+                    </ul>
+                    <div style="background: var(--primary-light); padding: 1rem; border-radius: 6px; color: black">
+                        <p style="margin: 0 0 0.5rem 0;"><strong>Correct answer:</strong> b. 4</p>
+                        <p style="margin: 0 0 0.5rem 0;"><strong>Explanation:</strong> There are 4 cards with the Red light on and 4 cards with the Red light off. We are keeping the cards which have the light on. The 4 cards with the red light off are removed.</p>
+                        <p style="margin: 0;"><strong>Competencies:</strong> Decomposition, Logic, pattern recognition</p>
+                    </div>
+                </div>
+
+                <p style="font-size: 1.15rem; margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-muted);">
+                    <em>The second statement, II, "The <span style="color: #2563eb; font-weight: 600;">Blue</span> light is <span style="color: #ef4444; font-weight: 600;">OFF</span>"</em><br>
+                    Put the stick in the hole corresponding to <span style="color: #2563eb; font-weight: 600;">Blue</span> and lift. Cards with <span style="color: #ef4444; font-weight: 600;">R</span><span style="color: #22c55e; font-weight: 600;">G</span><span style="color: #2563eb; font-weight: 600;">B</span> = <strong>X X <span style="color: #ef4444;">O</span></strong> will come out. Remaining cards will be <span style="color: #ef4444; font-weight: 600;">R</span><span style="color: #22c55e; font-weight: 600;">G</span><span style="color: #2563eb; font-weight: 600;">B</span> = <strong>X X <span style="color: #22c55e;">U</span></strong>.
+                </p>
+
+                <!-- Quiz Block 4 -->
+                <div style="background: var(--surface); padding: 1.5rem; border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 3rem;">
+                    <p style="font-size: 1.15rem; font-weight: 600; color: var(--text-main); margin-top: 0;">
+                        4. After performing the action using Statement II, among these, which card will not be discarded?
+                    </p>
+                    <ul style="list-style: none; padding: 0; font-size: 1.1rem; color: var(--text-muted); margin-bottom: 1rem; font-weight: 600;">
+                        <li>a. <span style="color: #ef4444;">R</span><span style="color: #22c55e;">G</span><span style="color: #2563eb;">B</span> = X X <span style="color: #ef4444;">O</span></li>
+                        <li>b. <span style="color: #ef4444;">R</span><span style="color: #22c55e;">G</span><span style="color: #2563eb;">B</span> = <span style="color: #22c55e;">U</span> <span style="color: #ef4444;">O</span> <span style="color: #22c55e;">U</span></li>
+                        <li>c. <span style="color: #ef4444;">R</span><span style="color: #22c55e;">G</span><span style="color: #2563eb;">B</span> = X X <span style="color: #22c55e;">U</span></li>
+                        <li style="font-weight: 400;">d. All will be eliminated</li>
+                    </ul>
+                    <div style="background: var(--primary-light); padding: 1rem; border-radius: 6px; color: black">
+                        <p style="margin: 0 0 0.5rem 0;"><strong>Correct answer:</strong> a. <span style="color: #ef4444; font-weight: 600;">R</span><span style="color: #22c55e; font-weight: 600;">G</span><span style="color: #2563eb; font-weight: 600;">B</span> = <strong>X X <span style="color: #ef4444;">O</span></strong></p>
+                        <p style="margin: 0 0 0.5rem 0;"><strong>Explanation:</strong> We discard all the cards where <span style="color: #2563eb; font-weight: 600;">Blue</span> light is <span style="color: #22c55e; font-weight: 600;">ON</span>, <span style="color: #ef4444; font-weight: 600;">R</span><span style="color: #22c55e; font-weight: 600;">G</span><span style="color: #2563eb; font-weight: 600;">B</span> = <strong>X X <span style="color: #22c55e;">U</span></strong>, and keep those cards where <span style="color: #ef4444; font-weight: 600;">R</span><span style="color: #22c55e; font-weight: 600;">G</span><span style="color: #2563eb; font-weight: 600;">B</span> = <strong>X X <span style="color: #ef4444;">O</span></strong>.</p>
+                        <p style="margin: 0;"><strong>Competencies:</strong> Algorithmic thinking, decomposition, pattern recognition</p>
+                    </div>
+                </div>
+
+                <p style="font-size: 1.15rem; margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-muted);">
+                    All remaining cards are assembled into a pack once more (in any order), and we are ready for the third statement.
+                </p>
+                <p style="font-size: 1.15rem; margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-muted);">
+                    <em>The third statement, III, "<span style="color: #22c55e; font-weight: 600;">ON</span> light only has <span style="color: #ef4444; font-weight: 600;">OFF</span> Neighbour"</em><br><br>
+                    Recall the first statement, "The <span style="color: #ef4444; font-weight: 600;">Red</span> light is <span style="color: #22c55e; font-weight: 600;">ON</span>".<br>
+                    The <span style="color: #22c55e; font-weight: 600;">Green</span> bulb neighbours the <span style="color: #ef4444; font-weight: 600;">Red</span> bulb. It should be <span style="color: #ef4444; font-weight: 600;">OFF</span>.<br>
+                    Insert the stick in the <span style="color: #22c55e; font-weight: 600;">Green</span> position and lift. The stick will raise <span style="color: #ef4444; font-weight: 600;">R</span><span style="color: #22c55e; font-weight: 600;">G</span><span style="color: #2563eb; font-weight: 600;">B</span> = <strong>X <span style="color: #ef4444;">O</span> X</strong> cards.
+                </p>
+                <p style="font-size: 1.15rem; margin-bottom: 2.5rem; line-height: 1.8; color: var(--text-muted);">
+                    After this action, only one card will be left, and that will be the solution to the logical puzzle.
+                </p>
+
+                <!-- Quiz Block 5 -->
+                <div style="background: var(--surface); padding: 1.5rem; border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 3rem;">
+                    <p style="font-size: 1.15rem; font-weight: 600; color: var(--text-main); margin-top: 0;">
+                        5. What is the pattern of the last card (solution)?
+                    </p>
+                    <ul style="list-style: none; padding: 0; font-size: 1.1rem; color: var(--text-muted); margin-bottom: 1rem; font-weight: 600;">
+                        <li>a. <span style="color: #ef4444;">R</span><span style="color: #22c55e;">G</span><span style="color: #2563eb;">B</span> = <span style="color: #22c55e;">U U</span> <span style="color: #ef4444;">O</span></li>
+                        <li>b. <span style="color: #ef4444;">R</span><span style="color: #22c55e;">G</span><span style="color: #2563eb;">B</span> = <span style="color: #22c55e;">U</span> <span style="color: #ef4444;">O</span> <span style="color: #22c55e;">U</span></li>
+                        <li>c. <span style="color: #ef4444;">R</span><span style="color: #22c55e;">G</span><span style="color: #2563eb;">B</span> = <span style="color: #ef4444;">O</span> <span style="color: #22c55e;">U U</span></li>
+                        <li>d. <span style="color: #ef4444;">R</span><span style="color: #22c55e;">G</span><span style="color: #2563eb;">B</span> = <span style="color: #22c55e;">U</span> <span style="color: #ef4444;">O O</span></li>
+                    </ul>
+                    <div style="background: var(--primary-light); padding: 1rem; border-radius: 6px; color: black">
+                        <p style="margin: 0 0 0.5rem 0;"><strong>Correct answer:</strong> d. <span style="color: #ef4444; font-weight: 600;">R</span><span style="color: #22c55e; font-weight: 600;">G</span><span style="color: #2563eb; font-weight: 600;">B</span> = <strong><span style="color: #22c55e;">U</span> <span style="color: #ef4444;">O O</span></strong></p>
+                        <p style="margin: 0 0 0.5rem 0;"><strong>Explanation:</strong> After the first statement, cards with <span style="color: #ef4444; font-weight: 600;">R</span><span style="color: #22c55e; font-weight: 600;">G</span><span style="color: #2563eb; font-weight: 600;">B</span> = <span style="color: #22c55e; font-weight: 600;">U</span> X X holes remained. From these, those cards with <span style="color: #ef4444; font-weight: 600;">R</span><span style="color: #22c55e; font-weight: 600;">G</span><span style="color: #2563eb; font-weight: 600;">B</span> = X X <span style="color: #ef4444; font-weight: 600;">O</span> holes remained after the second statement. Finally, we need the cards with <span style="color: #ef4444; font-weight: 600;">R</span><span style="color: #22c55e; font-weight: 600;">G</span><span style="color: #2563eb; font-weight: 600;">B</span> = X <span style="color: #ef4444; font-weight: 600;">O</span> X holes. If we put together all this information, we get <span style="color: #ef4444; font-weight: 600;">R</span><span style="color: #22c55e; font-weight: 600;">G</span><span style="color: #2563eb; font-weight: 600;">B</span> = <span style="color: #22c55e; font-weight: 600;">U</span> <span style="color: #ef4444; font-weight: 600;">O O</span>.</p>
+                        <p style="margin: 0;"><strong>Competencies:</strong> Algorithmic thinking, decomposition,</p>
+                    </div>
+                </div>
+
+                <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-main); margin-top: 3rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;">Case 2: Focusing on <span style="color: #ef4444;">R</span><span style="color: #22c55e;">G</span><span style="color: #2563eb;">B</span> cards only (with 8 cards only)</h3>
+                
+                <p style="font-size: 1.15rem; margin-bottom: 0.5rem; line-height: 1.8; color: var(--text-muted);">Statements</p>
+                <ol style="font-size: 1.15rem; line-height: 1.6; color: var(--text-muted); margin-bottom: 1.5rem; font-weight: 600;">
+                    <li>The <span style="color: #ef4444;">Red</span> light is <span style="color: #22c55e;">ON</span></li>
+                    <li>The Lights are either all <span style="color: #22c55e;">ON</span> or all <span style="color: #ef4444;">OFF</span></li>
+                </ol>
+
+                <p style="font-size: 1.15rem; margin-bottom: 2.5rem; line-height: 1.8; color: var(--text-muted);">
+                    The first statement is identical to <strong>Case 1</strong>.<br>
+                    The second statement, II, "The Lights are either all <span style="color: #22c55e; font-weight: 600;">ON</span> or all <span style="color: #ef4444; font-weight: 600;">OFF</span>".
+                </p>
+
+                <!-- Quiz Block 6 -->
+                <div style="background: var(--surface); padding: 1.5rem; border: 1px solid var(--border-color); border-radius: 8px; margin-bottom: 3rem;">
+                    <p style="font-size: 1.15rem; font-weight: 600; color: var(--text-main); margin-top: 0;">
+                        6. Among these, what would be the pattern of the solution?
+                    </p>
+                    <ul style="list-style: none; padding: 0; font-size: 1.1rem; color: var(--text-muted); margin-bottom: 1rem; font-weight: 600;">
+                        <li>a. <span style="color: #ef4444;">R</span><span style="color: #22c55e;">G</span><span style="color: #2563eb;">B</span> = <span style="color: #22c55e;">U</span> <span style="color: #ef4444;">O O</span></li>
+                        <li>b. <span style="color: #ef4444;">R</span><span style="color: #22c55e;">G</span><span style="color: #2563eb;">B</span> = <span style="color: #ef4444;">O O O</span></li>
+                        <li>c. <span style="color: #ef4444;">R</span><span style="color: #22c55e;">G</span><span style="color: #2563eb;">B</span> = <span style="color: #22c55e;">U</span> <span style="color: #ef4444;">O</span> <span style="color: #22c55e;">U</span></li>
+                        <li>d. <span style="color: #ef4444;">R</span><span style="color: #22c55e;">G</span><span style="color: #2563eb;">B</span> = <span style="color: #22c55e;">U U U</span></li>
+                    </ul>
+                    <div style="background: var(--primary-light); padding: 1rem; border-radius: 6px; color: black">
+                        <p style="margin: 0 0 0.5rem 0;"><strong>Correct answer:</strong> d. <span style="color: #ef4444; font-weight: 600;">R</span><span style="color: #22c55e; font-weight: 600;">G</span><span style="color: #2563eb; font-weight: 600;">B</span> = <strong><span style="color: #22c55e;">U U U</span></strong></p>
+                        <p style="margin: 0 0 0.5rem 0;"><strong>Explanation:</strong> The second statement says either all are <span style="color: #22c55e; font-weight: 600;">ON</span> or all are <span style="color: #ef4444; font-weight: 600;">OFF</span>, but we know from the first statement that <span style="color: #ef4444; font-weight: 600;">Red</span> is <span style="color: #22c55e; font-weight: 600;">ON</span>. So, all the lights must be <span style="color: #22c55e; font-weight: 600;">ON</span>.</p>
+                        <p style="margin: 0;"><strong>Competencies:</strong> Logical reasoning, Algorithmic thinking, decomposition</p>
+                    </div>
+                </div>
+
+                <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-main); margin-top: 3rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;">More Puzzles</h3>
+                <p style="font-size: 1.15rem; margin-bottom: 2.5rem; line-height: 1.8; color: var(--text-muted);">
+                    Below are three progressively harder cases. They introduce additional logic and multi-step filtering to mimic advanced truth-table-based reasoning. Each ends with one solution card.
+                </p>
+
+                <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 1.5rem; margin-bottom: 3rem;">
+                    <!-- Case 3 -->
+                    <div style="background: #eef2ff; border: 1px solid #c7d2fe; border-radius: 8px; padding: 1.5rem;">
+                        <h4 style="color: #4f46e5; margin-top: 0; font-size: 1.25rem;">CASE 3</h4>
+                        <p style="font-size: 0.9rem; color: #6366f1; margin-bottom: 1rem;">(Take cards from 0 to 15)</p>
+                        <ul style="list-style: none; padding: 0; margin: 0; font-size: 1.05rem; line-height: 1.5; color: #312e81; font-weight: 500;">
+                            <li style="margin-bottom: 0.75rem;">The Red light is 'ON'</li>
+                            <li style="margin-bottom: 0.75rem;">'ON' light only has 'OFF' Neighbours</li>
+                            <li>Exactly Even Lights are 'ON'</li>
+                        </ul>
+                    </div>
+
+                    <!-- Case 4 -->
+                    <div style="background: #eff6ff; border: 1px solid #bfdbfe; border-radius: 8px; padding: 1.5rem;">
+                        <h4 style="color: #2563eb; margin-top: 0; font-size: 1.25rem;">CASE 4</h4>
+                        <p style="font-size: 0.9rem; color: #3b82f6; margin-bottom: 1rem;">(Take cards from 0 to 31)</p>
+                        <ul style="list-style: none; padding: 0; margin: 0; font-size: 1.05rem; line-height: 1.5; color: #1e3a8a; font-weight: 500;">
+                            <li style="margin-bottom: 0.75rem;">The Yellow light is 'ON'</li>
+                            <li style="margin-bottom: 0.75rem;">The Pink light is 'OFF'</li>
+                            <li style="margin-bottom: 0.75rem;">If Yellow light is 'ON', then Blue light is 'ON'</li>
+                            <li style="margin-bottom: 0.75rem;">Red and Green are either both are 'ON' or 'OFF'</li>
+                            <li>If Blue light is 'ON', then Red light is 'OFF'</li>
+                        </ul>
+                    </div>
+
+                    <!-- Case 5 -->
+                    <div style="background: #fdf4ff; border: 1px solid #f5d0fe; border-radius: 8px; padding: 1.5rem;">
+                        <h4 style="color: #c026d3; margin-top: 0; font-size: 1.25rem;">CASE 5</h4>
+                        <p style="font-size: 0.9rem; color: #d946ef; margin-bottom: 1rem;">(Take cards from 0 to 31)</p>
+                        <ul style="list-style: none; padding: 0; margin: 0; font-size: 1.05rem; line-height: 1.5; color: #701a75; font-weight: 500;">
+                            <li style="margin-bottom: 0.75rem;">If Yellow light is 'ON', so is Pink light</li>
+                            <li style="margin-bottom: 0.75rem;">Either Green light or Blue light, or both of them, is 'ON'</li>
+                            <li style="margin-bottom: 0.75rem;">If Yellow light is 'ON', then Blue light is 'ON'</li>
+                            <li style="margin-bottom: 0.75rem;">Red and Green are either both are 'ON' or 'OFF'</li>
+                            <li>If Blue light is 'ON', then Red light is 'OFF'</li>
+                        </ul>
+                    </div>
+                </div>
+
+            </div>
+        `
+    },
     // LANGUAGE OF COMPUTER
     // LANGUAGE OF COMPUTER
     {
@@ -1874,7 +2212,7 @@ compare the two numbering systems for place values, this is what it looks like‚Ä
                 <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-main); margin-top: 3rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;">Activity 1: Measuring with Decimal Pipes</h3>
                 
                 <p style="font-size: 1.15rem; margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-muted);">
-                    We generally measure our height in the decimal number system, i.e., using base-10 numbers. We use powers of ten ($10^0$, $10^1$, $10^2$, $10^3$ &rarr; 1, 10, 100, 1000...) and digits from 0 to 9 to represent any number that exists.
+                    We generally measure our height in the decimal number system, i.e., using base-10 numbers. We use powers of ten (10^0, 10^1, 10^2, 10^3 &rarr; 1, 10, 100, 1000...) and digits from 0 to 9 to represent any number that exists.
                 </p>
                 <p style="font-size: 1.15rem; margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-muted);">
                     Imagine now that you are measuring heights using PVC pipes of fixed lengths: 1 inch, 10 inches, 100 inches, and so on. Each pipe size is a power of 10. You also have 9 pipes of each length.
@@ -1911,7 +2249,7 @@ compare the two numbering systems for place values, this is what it looks like‚Ä
                 </div>
 
                 <p style="font-size: 1.15rem; margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-muted);">
-                    Let's measure 55 inches in binary: $55 = 32 + 16 + 4 + 2 + 1$. The binary representation of 55 is $(110111)_2$.
+                    Let's measure 55 inches in binary: 55 = 32 + 16 + 4 + 2 + 1. The binary representation of 55 is (110111)_2.
                 </p>
 
                 <div style="width: 100%; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 8px 24px rgba(0,0,0,0.08); background: #ffffff; overflow: hidden; text-align: center;">
@@ -1923,12 +2261,12 @@ compare the two numbering systems for place values, this is what it looks like‚Ä
                         <thead style="background: var(--background); border-bottom: 2px solid var(--border-color);">
                             <tr>
                                 <th style="padding: 1rem; color: var(--text-main); font-weight: 700; text-align: left;">Number</th>
-                                <th style="padding: 1rem; color: var(--text-main); font-weight: 700;">$2^5 = 32$</th>
-                                <th style="padding: 1rem; color: var(--text-main); font-weight: 700;">$2^4 = 16$</th>
-                                <th style="padding: 1rem; color: var(--text-main); font-weight: 700;">$2^3 = 8$</th>
-                                <th style="padding: 1rem; color: var(--text-main); font-weight: 700;">$2^2 = 4$</th>
-                                <th style="padding: 1rem; color: var(--text-main); font-weight: 700;">$2^1 = 2$</th>
-                                <th style="padding: 1rem; color: var(--text-main); font-weight: 700;">$2^0 = 1$</th>
+                                <th style="padding: 1rem; color: var(--text-main); font-weight: 700;">2^5 = 32</th>
+                                <th style="padding: 1rem; color: var(--text-main); font-weight: 700;">2^4 = 16</th>
+                                <th style="padding: 1rem; color: var(--text-main); font-weight: 700;">2^3 = 8</th>
+                                <th style="padding: 1rem; color: var(--text-main); font-weight: 700;">2^2 = 4</th>
+                                <th style="padding: 1rem; color: var(--text-main); font-weight: 700;">2^1 = 2</th>
+                                <th style="padding: 1rem; color: var(--text-main); font-weight: 700;">2^0 = 1</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -1992,7 +2330,7 @@ compare the two numbering systems for place values, this is what it looks like‚Ä
             </div>
 
                 <p style="font-size: 1.15rem; margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-muted);">
-                    To measure 55 inches in ternary: $55 = 54 + 1 = 2 \\times 27 + 1 \\times 1$. The representation is $(2001)_3$.
+                    To measure 55 inches in ternary: 55 = 54 + 1 = 2 \\times 27 + 1 \\times 1. The representation is (2001)_3.
                 </p>
 
                 <!-- Interactive Question 5 -->
@@ -2617,8 +2955,267 @@ compare the two numbering systems for place values, this is what it looks like‚Ä
         `
     },
 
-    // to do 
-    { id: "b4_4", section: "Algorithms and Computational Thinking", title: "Domino Computer", thumbnail: "book/chapter_thumbnails/domino.png", pdfLink: "book/Domino Computer.pdf" },
+    {
+        id: "b4_4",
+        section: "Algorithms and Computational Thinking",
+        title: "Domino Computer",
+        thumbnail: "book/chapter_thumbnails/domino.png",
+        pdfLink: "book/Domino Computer.pdf",
+        content: `
+            <!-- Hero Image Section -->
+            <div style="width: 100%; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 8px 24px rgba(0,0,0,0.08); background: #ffffff; overflow: hidden; text-align: center;">
+                <img src="book/chapter_thumbnails/domino.png" alt="Chapter Cover" style="width: 100%; max-height: 450px; object-fit: cover; display: block;">
+            </div>
+
+            <!-- Main Content Container -->
+            <div class="page-content" style="max-width: 800px; margin: 0 auto; padding: 0 1rem;">
+                
+                <h2 style="font-size: 2rem; font-weight: 700; margin-bottom: 1.5rem; color: var(--text-main); letter-spacing: -0.02em;">Introduction</h2>
+                <p style="font-size: 1.15rem; margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-muted);">
+                    Computers perform calculations using binary numbers and logic gates. In this activity, the electrical circuit is replaced with domino blocks to show that the same logical operations can be demonstrated with tangible objects. A network of dominoes can add numbers in the same way a computer processor does, but much more slowly.
+                </p>
+                <p style="font-size: 1.15rem; margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-muted);">
+                    The aim of this activity is to demonstrate how simple reactions, such as falling dominoes, can be organised to perform mathematical calculations. It also helps learners understand the basic working of logic gates in computers.
+                </p>
+
+                <div style="background: var(--primary-light); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem;">
+                    <h4 style="margin: 0 0 0.5rem 0; color: #000; font-weight: 600;">Material Required</h4>
+                    <ul style="margin: 0; color: #000;">
+                        <li>Domino Blocks</li>
+                        <li>Logic Gate Flex</li>
+                        <li>A flat surface for construction</li>
+                    </ul>
+                </div>
+
+                 <div style="width: 100%; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 8px 24px rgba(0,0,0,0.08); background: #ffffff; overflow: hidden; text-align: center;">
+                <img src="book/domino/1.png" alt="Chapter Cover" style="width: 100%; max-height: 450px; object-fit: cover; display: block;">
+            </div>
+
+                <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-main); margin-top: 3rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;">Learning Goals</h3>
+                <ul style="font-size: 1.15rem; margin-bottom: 2.5rem; line-height: 1.8; color: var(--text-muted); padding-left: 1.5rem;">
+                    <li style="margin-bottom: 0.5rem;">How computers represent information using just two states: ON and OFF</li>
+                    <li style="margin-bottom: 0.5rem;">What logic gates are and how the three simplest gates (OR, AND, XOR) work</li>
+                    <li style="margin-bottom: 0.5rem;">How binary numbers work and why they're perfect for computers</li>
+                    <li style="margin-bottom: 0.5rem;">How logic gates combine to create circuits that perform calculations</li>
+                    <li style="margin-bottom: 0.5rem;">How a network of dominoes can model the way a real computer adds numbers</li>
+                </ul>
+
+                <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-main); margin-top: 3rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;">Instructions</h3>
+                <p style="font-size: 1.15rem; margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-muted);">
+                    Computers do not work with numbers in the same way humans do. Instead, they break everything into tiny signals that are either present or absent, on or off, 1 or 0. Computers are made up of logic gates. Logic gates take in information and output different information depending on the type of gate.
+                </p>
+
+                <div style="width: 100%; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 8px 24px rgba(0,0,0,0.08); background: #ffffff; overflow: hidden; text-align: center;">
+                <img src="book/domino/2.png" alt="Chapter Cover" style="width: 100%; max-height: 450px; object-fit: cover; display: block;">
+            </div>
+
+                <p style="font-size: 1.15rem; margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-muted);">
+                    A logic gate is a decision-making unit inside a computer. It takes one or more inputs and gives an output according to a fixed rule. In our domino model, the input is whether a domino block is falling, and the output is whether another domino block falls in response. In computers, information is represented as electrical signals that can be ON or OFF (high or low voltage). In our domino computer, the information is whether a chain of domino blocks is falling.
+                </p>
+
+                <div style="background: #f8fafc; border-left: 4px solid var(--accent-orange); padding: 1.5rem; margin-bottom: 2rem;">
+                    <ul style="margin: 0; padding-left: 1.5rem; font-size: 1.15rem; color: #334155;">
+                        <li><strong>Standing domino = 0 (OFF)</strong> - no signal</li>
+                        <li><strong>Falling domino = 1 (ON)</strong> - signal is flowing</li>
+                    </ul>
+                </div>
+
+                <p style="font-size: 1.15rem; margin-bottom: 2.5rem; line-height: 1.8; color: var(--text-muted);">
+                    Combinations of different gates allow the computer to perform complicated calculations, and the output from one gate can be connected to other gates. By assembling enough domino blocks into just the right sequence, we can create a structure out of those dominoes that acts as a computer circuit: representing numbers, calculating sums, and ultimately performing any computation.
+                </p>
+
+                <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-main); margin-top: 3rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;">OR Gate</h3>
+                <p style="font-size: 1.15rem; margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-muted);">
+                    The OR gate is a logic gate that passes a signal if one or more of its inputs are on. When we use the word 'OR' in any conversation, we usually mean "one thing or the other thing, but not both". It's important to remember that the logic gate called OR means "one or the other or both".
+                </p>
+
+                <div style="width: 100%; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 8px 24px rgba(0,0,0,0.08); background: #ffffff; overflow: hidden; text-align: center;">
+                <img src="book/domino/3.png" alt="Chapter Cover" style="width: 100%; max-height: 450px; object-fit: cover; display: block;">
+            </div>
+
+                <p style="font-size: 1.15rem; margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-muted);">
+                    To make an OR gate from domino blocks, we need two input chains, either of which will set off the output chain of domino blocks. The input domino blocks are placed such that when you push either one / both of them, the output domino block will fall. If neither input is pushed, the output remains in the off (0) state.
+                </p>
+
+                <div style="width: 100%; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 8px 24px rgba(0,0,0,0.08); background: #ffffff; overflow: hidden; text-align: center;">
+                <img src="book/domino/4.png" alt="Chapter Cover" style="width: 100%; max-height: 450px; object-fit: cover; display: block;">
+            </div>
+                
+                <table style="width: 100%; max-width: 300px; margin: 0 auto 2rem auto; border-collapse: collapse; text-align: center; border: 1px solid var(--border-color);">
+                    <thead>
+                        <tr style="background: var(--primary-light);">
+                            <th style="padding: 0.75rem; border: 1px solid var(--border-color);">A</th>
+                            <th style="padding: 0.75rem; border: 1px solid var(--border-color);">B</th>
+                            <th style="padding: 0.75rem; border: 1px solid var(--border-color);">Output</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td style="padding: 0.75rem; border: 1px solid var(--border-color);">0</td><td style="padding: 0.75rem; border: 1px solid var(--border-color);">0</td><td style="padding: 0.75rem; border: 1px solid var(--border-color);">0</td></tr>
+                        <tr><td style="padding: 0.75rem; border: 1px solid var(--border-color);">0</td><td style="padding: 0.75rem; border: 1px solid var(--border-color);">1</td><td style="padding: 0.75rem; border: 1px solid var(--border-color);">1</td></tr>
+                        <tr><td style="padding: 0.75rem; border: 1px solid var(--border-color);">1</td><td style="padding: 0.75rem; border: 1px solid var(--border-color);">0</td><td style="padding: 0.75rem; border: 1px solid var(--border-color);">1</td></tr>
+                        <tr><td style="padding: 0.75rem; border: 1px solid var(--border-color);">1</td><td style="padding: 0.75rem; border: 1px solid var(--border-color);">1</td><td style="padding: 0.75rem; border: 1px solid var(--border-color);">1</td></tr>
+                    </tbody>
+                </table>
+
+                <div style="width: 100%; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 8px 24px rgba(0,0,0,0.08); background: #ffffff; overflow: hidden; text-align: center;">
+                <img src="book/domino/5.png" alt="Chapter Cover" style="width: 100%; max-height: 450px; object-fit: cover; display: block;">
+            </div>
+
+                <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-main); margin-top: 3rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;">XOR Gate</h3>
+                <p style="font-size: 1.15rem; margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-muted);">
+                    The XOR gate, EXCLUSIVE OR, is a logic gate which passes on a signal if exactly one of the two inputs is on. This is different from the OR gate, which will still pass a signal if both inputs are 1. The difference is that with exclusive OR, the two inputs are mutually exclusive. In other words, if both inputs are 1, then the two inputs need to cancel out somehow and produce a 0 instead of a 1.
+                </p>
+
+                <div style="width: 100%; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 8px 24px rgba(0,0,0,0.08); background: #ffffff; overflow: hidden; text-align: center;">
+                <img src="book/domino/14.png" alt="Chapter Cover" style="width: 100%; max-height: 450px; object-fit: cover; display: block;">
+            </div>
+
+                <p style="font-size: 1.15rem; margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-muted);">
+                    To make an XOR gate from domino blocks, we need two input chains, either of which will set off the output chain of cards, but not both. This can be achieved by having the two inputs pass through the same section of blocks; if they're both running, they will stop each other. If only one input is pushed, the dominoes travel around the corresponding curve, and the output is a 1. But if both inputs are pushed, the two paths collide and stop midway.
+                </p>
+
+                <div style="width: 100%; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 8px 24px rgba(0,0,0,0.08); background: #ffffff; overflow: hidden; text-align: center;">
+                <img src="book/domino/6.png" alt="Chapter Cover" style="width: 100%; max-height: 450px; object-fit: cover; display: block;">
+            </div>
+
+            <div style="width: 100%; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 8px 24px rgba(0,0,0,0.08); background: #ffffff; overflow: hidden; text-align: center;">
+                <img src="book/domino/15.png" alt="Chapter Cover" style="width: 100%; max-height: 450px; object-fit: cover; display: block;">
+            </div>
+
+                <table style="width: 100%; max-width: 300px; margin: 0 auto 2rem auto; border-collapse: collapse; text-align: center; border: 1px solid var(--border-color);">
+                    <thead>
+                        <tr style="background: var(--primary-light);">
+                            <th style="padding: 0.75rem; border: 1px solid var(--border-color);">A</th>
+                            <th style="padding: 0.75rem; border: 1px solid var(--border-color);">B</th>
+                            <th style="padding: 0.75rem; border: 1px solid var(--border-color);">Output</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td style="padding: 0.75rem; border: 1px solid var(--border-color);">0</td><td style="padding: 0.75rem; border: 1px solid var(--border-color);">0</td><td style="padding: 0.75rem; border: 1px solid var(--border-color);">0</td></tr>
+                        <tr><td style="padding: 0.75rem; border: 1px solid var(--border-color);">0</td><td style="padding: 0.75rem; border: 1px solid var(--border-color);">1</td><td style="padding: 0.75rem; border: 1px solid var(--border-color);">1</td></tr>
+                        <tr><td style="padding: 0.75rem; border: 1px solid var(--border-color);">1</td><td style="padding: 0.75rem; border: 1px solid var(--border-color);">0</td><td style="padding: 0.75rem; border: 1px solid var(--border-color);">1</td></tr>
+                        <tr><td style="padding: 0.75rem; border: 1px solid var(--border-color);">1</td><td style="padding: 0.75rem; border: 1px solid var(--border-color);">1</td><td style="padding: 0.75rem; border: 1px solid var(--border-color);">0</td></tr>
+                    </tbody>
+                </table>
+
+                <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-main); margin-top: 3rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;">AND Gate</h3>
+                <p style="font-size: 1.15rem; margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-muted);">
+                    The AND gate is a logic gate that passes a signal only when both inputs are on. To make an AND gate from domino blocks, we need the output chain to fall only when both input chains fall. Representing that kind of computation with dominoes feels tricky.
+                </p>
+
+                <div style="width: 100%; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 8px 24px rgba(0,0,0,0.08); background: #ffffff; overflow: hidden; text-align: center;">
+                <img src="book/domino/8.png" alt="Chapter Cover" style="width: 100%; max-height: 450px; object-fit: cover; display: block;">
+            </div>
+                <p style="font-size: 1.15rem; margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-muted);">
+                    Here, we can again take advantage of the falling domino's ability to halt the progress of other dominoes. One way to do this is to split an input chain so it can knockout itself, and use the second input to interrupt the first input's knockout chain. We start with one input that has a relatively long path to the output. We then add an extra path from that input that can interrupt the longer path. If the input is pushed, the shorter domino path will interrupt the longer one, and the output at the end will not fall over. 
+                </p>
+
+                <div style="width: 100%; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 8px 24px rgba(0,0,0,0.08); background: #ffffff; overflow: hidden; text-align: center;">
+                <img src="book/domino/9.png" alt="Chapter Cover" style="width: 100%; max-height: 450px; object-fit: cover; display: block;">
+            </div>
+                <p style="font-size: 1.15rem; margin-bottom: 2.5rem; line-height: 1.8; color: var(--text-muted);">
+                    To create an AND gate, we just need to add a second input that interrupts the knockout path. If only the first input is pushed, the interrupt path blocks the longer path, and nothing happens to the output either. But if both inputs are pushed, the second input interrupts the knockout path, allowing the first input's longer path to reach the output.
+                </p>
+
+                <div style="width: 100%; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 8px 24px rgba(0,0,0,0.08); background: #ffffff; overflow: hidden; text-align: center;">
+                <img src="book/domino/10.png" alt="Chapter Cover" style="width: 100%; max-height: 450px; object-fit: cover; display: block;">
+            </div>
+
+            <div style="width: 100%; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 8px 24px rgba(0,0,0,0.08); background: #ffffff; overflow: hidden; text-align: center;">
+                <img src="book/domino/11.png" alt="Chapter Cover" style="width: 100%; max-height: 450px; object-fit: cover; display: block;">
+            </div>
+
+             <div style="width: 100%; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 8px 24px rgba(0,0,0,0.08); background: #ffffff; overflow: hidden; text-align: center;">
+                <img src="book/domino/16.png" alt="Chapter Cover" style="width: 100%; max-height: 450px; object-fit: cover; display: block;">
+            </div>
+
+                <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-main); margin-top: 3rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;">Binary Numbers</h3>
+                <p style="font-size: 1.15rem; margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-muted);">
+                    Since computers store information using electrical signals, there are only two states they can represent: ON or OFF. Similarly, the domino computer uses chains of dominoes that are either falling or not falling to transmit information. This means that if we are going to use them to handle numbers, we need a way to store them using only two values. This is called BINARY.
+                </p>
+                <p style="font-size: 1.15rem; margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-muted);">
+                    A number like 45 is made up of different digits, each representing a different value.<br>
+                    <span style="font-family: monospace; font-size: 1.25rem; display: block; margin: 1rem 0;">45=(4^{*}10)+(5^{*}1)</span>
+                    The right-hand digit is ones, the next digit is tens, the third digit from the right is hundreds, and so on. We humans count using 10 digits (0-9). This is called decimal, or base-10.
+                </p>
+                <p style="font-size: 1.15rem; margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-muted);">
+                    But computers don't have fingers. They have logic gates that are either ON or OFF. So computers use binary, or base 2, which uses only two digits: 0 and 1. In binary, instead of using 1, 10, 100, 1000... as our values, which are powers of 10, we instead use powers of 2. These are 1, 2, 4, 8, 16, 32... (doubling every time).
+                    <br><br>
+                </p>
+
+                <div style="width: 100%; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 8px 24px rgba(0,0,0,0.08); background: #ffffff; overflow: hidden; text-align: center;">
+                <img src="book/domino/17.png" alt="Chapter Cover" style="width: 100%; max-height: 450px; object-fit: cover; display: block;">
+            </div>
+
+                <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-main); margin-top: 3rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;">From Logic Gates to Arithmetic</h3>
+                <p style="font-size: 1.15rem; margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-muted);">
+                    Binary numbers can be added together in exactly the same way as decimal numbers. Individual logic gates can be connected to one another. The output of one gate becomes the input to another gate. When you combine enough gates in just the right way, they can add numbers together.
+                </p>
+                <div style="background: var(--surface); padding: 1.5rem; border-radius: 8px; margin-bottom: 1.5rem; border: 1px solid var(--border-color);">
+                    <p style="font-size: 1.15rem; font-weight: 600; margin-top: 0;">What happens when we add in binary?</p>
+                    <ul style="font-family: monospace; font-size: 1.15rem; list-style: none; padding: 0;">
+                        <li>0+0=0</li>
+                        <li>0+1=1</li>
+                        <li>1+0=1</li>
+                        <li>1+1=10 (which is 2 in decimal)</li>
+                    </ul>
+                    <p style="font-size: 1.15rem; margin-bottom: 0;">Notice that last one: 1+1=10. The result is two digits! The "1" goes into the next column (this is called a "carry").</p>
+                </div>
+
+                <p style="font-size: 1.15rem; margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-muted);">
+                    The domino-block circuitry for adding 2-bit numbers A & B is called a half adder.
+                </p>
+
+                <table style="width: 100%; max-width: 400px; margin: 0 auto 2rem auto; border-collapse: collapse; text-align: center; border: 1px solid var(--border-color); ">
+                    <thead>
+                        <tr style="background: var(--primary-light) color: black;">
+                            <th style="padding: 0.75rem; border: 1px solid var(--border-color);">A</th>
+                            <th style="padding: 0.75rem; border: 1px solid var(--border-color);">B</th>
+                            <th style="padding: 0.75rem; border: 1px solid var(--border-color);">2s</th>
+                            <th style="padding: 0.75rem; border: 1px solid var(--border-color);">1s</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr><td style="padding: 0.75rem; border: 1px solid var(--border-color);">0</td><td style="padding: 0.75rem; border: 1px solid var(--border-color);">0</td><td style="padding: 0.75rem; border: 1px solid var(--border-color);">0</td><td style="padding: 0.75rem; border: 1px solid var(--border-color);">0</td></tr>
+                        <tr><td style="padding: 0.75rem; border: 1px solid var(--border-color);">0</td><td style="padding: 0.75rem; border: 1px solid var(--border-color);">1</td><td style="padding: 0.75rem; border: 1px solid var(--border-color);">0</td><td style="padding: 0.75rem; border: 1px solid var(--border-color);">1</td></tr>
+                        <tr><td style="padding: 0.75rem; border: 1px solid var(--border-color);">1</td><td style="padding: 0.75rem; border: 1px solid var(--border-color);">0</td><td style="padding: 0.75rem; border: 1px solid var(--border-color);">0</td><td style="padding: 0.75rem; border: 1px solid var(--border-color);">1</td></tr>
+                        <tr><td style="padding: 0.75rem; border: 1px solid var(--border-color);">1</td><td style="padding: 0.75rem; border: 1px solid var(--border-color);">1</td><td style="padding: 0.75rem; border: 1px solid var(--border-color);">1</td><td style="padding: 0.75rem; border: 1px solid var(--border-color);">0</td></tr>
+                    </tbody>
+                </table>
+
+                <div style="width: 100%; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 8px 24px rgba(0,0,0,0.08); background: #ffffff; overflow: hidden; text-align: center;">
+    <img src="book/domino/12.png" alt="Chapter Cover" style="width: 100%; max-height: 450px; object-fit: contain; display: block; margin: 0 auto;">
+</div>
+
+<div style="width: 100%; border-radius: 12px; margin-bottom: 2rem; box-shadow: 0 8px 24px rgba(0,0,0,0.08); background: #ffffff; overflow: hidden; text-align: center;">
+    <img src="book/domino/13.png" alt="Chapter Cover" style="width: 100%; max-height: 450px; object-fit: contain; display: block; margin: 0 auto;">
+</div>
+
+                <p style="font-size: 1.15rem; margin-bottom: 1.5rem; line-height: 1.8; color: var(--text-muted);">
+                    If you made the half adder, then make the full adder by connecting two half adders. Basically, a sequence of dominoes organised into logic gates: those logic gates combine to form half adders, which combine to create full adders, which, when put in sequence, can add any two binary numbers by very precisely determining which lines of domino blocks should fall and which shouldn't.
+                </p>
+
+                <h3 style="font-size: 1.5rem; font-weight: 600; margin-bottom: 1rem; color: var(--text-main); margin-top: 3rem; border-bottom: 2px solid var(--border-color); padding-bottom: 0.5rem;">Fact</h3>
+                <div style="background: #f8fafc; border-left: 4px solid var(--accent-orange); padding: 1.5rem; margin-bottom: 3rem;">
+                    <p style="font-size: 1.15rem; margin-top: 0; margin-bottom: 1rem; color: #334155;">
+                        In October 2012, Matt Parker and the Think Maths team built a domino computer at the Manchester Science Festival. A working binary adder made of 10,000 dominoes. It took 12 people six hours to carefully balance every domino block. When they push the dominoes, the chain reaction cascades through, calculating the sum of two 4-bit binary numbers and producing the 5-bit result.
+                    </p>
+                    <p style="font-size: 1.15rem; margin-bottom: 1rem; color: #334155;">
+                        At IIT Gandhinagar's Centre for Creative Learning, we built a version that adds two 3-bit binary numbers to produce a 4-bit result (e.g., 5+6=11).
+                    </p>
+                    <div style="width: 100%; border-radius: 12px; margin-bottom: 1.5rem; box-shadow: 0 8px 24px rgba(0,0,0,0.08); background: #ffffff; overflow: hidden; text-align: center;">
+                        <img src="book/domino/18.png" alt="Chapter Cover" style="width: 100%; max-height: 450px; object-fit: contain; display: block; margin: 0 auto;">
+                    </div>
+                    <div style="text-align: center; margin-bottom: 0.5rem;">
+                        <a href="https://tinyurl.com/dominotryout" target="_blank" style="display: inline-block; padding: 0.75rem 1.5rem; background: var(--primary); color: black; font-size: 1.15rem; font-weight: 600; text-decoration: none; border-radius: 6px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                            ‚ñ∂ Watch Video: Domino Computer Tryout
+                        </a>
+                    </div>
+                </div>
+
+            </div>
+        `
+    },
 
     // LEARNING AI THROUGH EXPERIENCE
     // LEARNING AI THROUGH EXPERIENCE
@@ -3565,11 +4162,11 @@ compare the two numbering systems for place values, this is what it looks like‚Ä
         `
     },
     // LEARNING AI THROUGH EXPERIENCE
-    { 
-        id: "b5_6", 
-        section: "Learning AI Through Experience", 
-        title: "Project 6: Art, AI and Ethical Implications", 
-        thumbnail: "book/chapter_thumbnails/p6.png", 
+    {
+        id: "b5_6",
+        section: "Learning AI Through Experience",
+        title: "Project 6: Art, AI and Ethical Implications",
+        thumbnail: "book/chapter_thumbnails/p6.png",
         pdfLink: "book/P6 Art, AI and Ethical Implications.pdf",
         content: `
             <!-- Hero Image Section -->
@@ -3701,11 +4298,11 @@ compare the two numbering systems for place values, this is what it looks like‚Ä
 
     // COMPUTATIONAL THINKING OVER ENCRYPTION
     // COMPUTATIONAL THINKING OVER ENCRYPTION
-    { 
-        id: "b6_1", 
-        section: "Computational Thinking Over Encryption", 
-        title: "Coin Flip Magic", 
-        thumbnail: "book/chapter_thumbnails/magic flip.png", 
+    {
+        id: "b6_1",
+        section: "Computational Thinking Over Encryption",
+        title: "Coin Flip Magic",
+        thumbnail: "book/chapter_thumbnails/magic flip.png",
         pdfLink: "book/Coin Flip Magic.pdf",
         content: `
             <!-- Hero Image Section -->
@@ -3885,11 +4482,11 @@ compare the two numbering systems for place values, this is what it looks like‚Ä
         `
     },
     // COMPUTATIONAL THINKING OVER ENCRYPTION
-    { 
-        id: "b6_2", 
-        section: "Computational Thinking Over Encryption", 
-        title: "Caesar Cipher", 
-        thumbnail: "book/chapter_thumbnails/caesar_cipher.png", 
+    {
+        id: "b6_2",
+        section: "Computational Thinking Over Encryption",
+        title: "Caesar Cipher",
+        thumbnail: "book/chapter_thumbnails/caesar_cipher.png",
         pdfLink: "book/Caesar Cipher.pdf",
         content: `
             <!-- Hero Image Section -->
@@ -4071,11 +4668,11 @@ compare the two numbering systems for place values, this is what it looks like‚Ä
         `
     },
     // COMPUTATIONAL THINKING OVER ENCRYPTION
-    { 
-        id: "b6_3", 
-        section: "Computational Thinking Over Encryption", 
-        title: "Disc Enigma", 
-        thumbnail: "book/chapter_thumbnails/disc.png", 
+    {
+        id: "b6_3",
+        section: "Computational Thinking Over Encryption",
+        title: "Disc Enigma",
+        thumbnail: "book/chapter_thumbnails/disc.png",
         pdfLink: "book/Disc Enigma.pdf",
         content: `
             <!-- Hero Image Section -->
@@ -4271,12 +4868,11 @@ compare the two numbering systems for place values, this is what it looks like‚Ä
         `
     },
     // COMPUTATIONAL THINKING OVER ENCRYPTION
-// COMPUTATIONAL THINKING OVER ENCRYPTION
-    { 
-        id: "b6_4", 
-        section: "Computational Thinking Over Encryption", 
-        title: "Rotating Grid Cipher", 
-        thumbnail: "book/chapter_thumbnails/grid_cipher.png", 
+    {
+        id: "b6_4",
+        section: "Computational Thinking Over Encryption",
+        title: "Rotating Grid Cipher",
+        thumbnail: "book/chapter_thumbnails/grid_cipher.png",
         pdfLink: "book/Rotating Grid Cipher.pdf",
         content: `
             <!-- Hero Image Section -->
@@ -4515,12 +5111,11 @@ compare the two numbering systems for place values, this is what it looks like‚Ä
     },
 
     // OTHER ACTIVITIES
-    // OTHER ACTIVITIES
-    { 
-        id: "b7_1", 
-        section: "Other Activities", 
-        title: "Perfect Squares", 
-        thumbnail: "book/chapter_thumbnails/perfect_squares.png", 
+    {
+        id: "b7_1",
+        section: "Other Activities",
+        title: "Perfect Squares",
+        thumbnail: "book/chapter_thumbnails/perfect_squares.png",
         pdfLink: "book/Perfect Squares.pdf",
         content: `
             <!-- Hero Image Section -->
@@ -4771,20 +5366,19 @@ compare the two numbering systems for place values, this is what it looks like‚Ä
                         This activity shows how a simple rule-based process can act like a searching algorithm to identify special numbers. By repeatedly flipping cards, we systematically check positions, much as computers search through data.
                     </p>
                     <p style="font-size: 1.05rem; color: var(--text-muted); margin-bottom: 0;">
-                        We discovered that perfect squares behave differently because they have an <strong>odd number of factors</strong>. This happens because their factors pair up uniquely, with one factor repeated (like $\\sqrt{n} \\times \\sqrt{n}$). Thus, the activity connects algorithms with number properties, helping us understand how factors reveal deeper patterns in numbers.
+                        We discovered that perfect squares behave differently because they have an <strong>odd number of factors</strong>. This happens because their factors pair up uniquely, with one factor repeated (like \\sqrt{n} \\times \\sqrt{n}). Thus, the activity connects algorithms with number properties, helping us understand how factors reveal deeper patterns in numbers.
                     </p>
                 </div>
 
             </div>
         `
     },
-    // OTHER ACTIVITIES
     // COMPUTATIONAL THINKING OVER ENCRYPTION
-    { 
-        id: "b6_4", 
-        section: "Computational Thinking Over Encryption", 
-        title: "Rotating Grid Cipher", 
-        thumbnail: "book/chapter_thumbnails/grid_cipher.png", 
+    {
+        id: "b6_4",
+        section: "Computational Thinking Over Encryption",
+        title: "Rotating Grid Cipher",
+        thumbnail: "book/chapter_thumbnails/grid_cipher.png",
         pdfLink: "book/Rotating Grid Cipher.pdf",
         content: `
             <!-- Hero Image Section -->
@@ -5023,11 +5617,11 @@ compare the two numbering systems for place values, this is what it looks like‚Ä
     },
 
     // OTHER ACTIVITIES
-    { 
-        id: "b7_2", 
-        section: "Other Activities", 
-        title: "Golomb Rulers - 1", 
-        thumbnail: "book/chapter_thumbnails/golomb 1.png", 
+    {
+        id: "b7_2",
+        section: "Other Activities",
+        title: "Golomb Rulers - 1",
+        thumbnail: "book/chapter_thumbnails/golomb 1.png",
         pdfLink: "book/Golomb Rulers - 1.pdf",
         content: `
             <!-- Hero Image Section -->

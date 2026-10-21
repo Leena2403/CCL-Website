@@ -2318,24 +2318,54 @@ function createParityGame(containerId) {
     initGrid();
 }
 
-// ================= Game Details Page Logic =================
-function loadGameDetails() {
-    const urlParams = new URLSearchParams(window.location.search);
-    const gameId = urlParams.get('id');
-    
-    const game = gamesData.find(g => g.id === gameId);
+// ================= Helper Functions =================
 
-    if (game) {
-        document.getElementById('game-title').textContent = game.title;
-        document.getElementById('game-content').innerHTML = game.content;
-    
-        if (typeof initAllMazes === 'function') {
-            initAllMazes();
-        }
-    } else {
-        document.getElementById('game-content').innerHTML = '<p>Game not found. Please return to the games list.</p>';
-    }
+// Generates the Related Activities HTML block
+function generateRelatedActivities(currentChapterId) {
+    if (typeof bookData === 'undefined') return '';
+
+    const currentChapter = bookData.find(ch => ch.id === currentChapterId);
+    if (!currentChapter) return '';
+
+    const relatedChapters = bookData.filter(ch => 
+        ch.section === currentChapter.section && ch.id !== currentChapterId
+    );
+
+    const topRelated = relatedChapters.slice(0, 3);
+    if (topRelated.length === 0) return '';
+
+    let html = `
+        <div class="related-section">
+            <h3>Related Activities</h3>
+            <div class="related-grid">
+    `;
+
+    topRelated.forEach(ch => {
+        // Use standard link navigation to match how chapters are loaded
+        const isTargetChapter = !!ch.content;
+        const linkHref = isTargetChapter ? `chapter.html?id=${ch.id}` : ch.pdfLink;
+        const linkTarget = isTargetChapter ? `_self` : `_blank`;
+
+        html += `
+            <a href="${linkHref}" target="${linkTarget}" class="related-card" style="text-decoration: none;">
+                <img src="${ch.thumbnail}" alt="${ch.title}">
+                <div class="related-card-content">
+                    <h4 class="related-card-title">${ch.title}</h4>
+                    <p class="related-card-desc">Explore more concepts from the ${ch.section} module.</p>
+                </div>
+            </a>
+        `;
+    });
+
+    html += `
+            </div>
+        </div>
+    `;
+
+    return html;
 }
+
+// ================= Rendering Logic (Home/Topics Page) =================
 
 // 1. Renders the top-level categories
 function renderBookSections() {
@@ -2348,14 +2378,9 @@ function renderBookSections() {
     let html = `<div class="video-grid" id="book-sections-grid">`;
     
     uniqueSections.forEach((section, index) => {
-        // Count how many chapters are inside this section
         const chapterCount = bookData.filter(item => item.section === section).length;
-        
-        // Pass the exact section string to the chapter renderer on click
         const safeSectionName = section.replace(/'/g, "\\'"); 
-        
-        // Lookup the image for this section, fallback to ct1.png if not found
-        const imgSrc = sectionImages[section] || "book/thumbnails/ct1.png";
+        const imgSrc = typeof sectionImages !== 'undefined' && sectionImages[section] ? sectionImages[section] : "book/thumbnails/ct1.png";
         
         html += `
             <div class="video-card" style="cursor: pointer; animation-delay: ${index * 0.05}s" onclick="renderBookChapters('${safeSectionName}')">
@@ -2380,7 +2405,6 @@ function renderBookChapters(sectionName) {
     const container = document.getElementById('book-dynamic-container');
     if (!container) return;
 
-    // Filter bookData to only show chapters matching the clicked section
     const chapters = bookData.filter(item => item.section === sectionName);
 
     let html = `
@@ -2394,41 +2418,58 @@ function renderBookChapters(sectionName) {
     `;
 
     chapters.forEach((chapter, index) => {
-            // Fallback for missing descriptions
-            const descText = chapter.description ? chapter.description : "Click to view and read this chapter.";
-            
-            const imageContent = chapter.thumbnail 
-                ? `<img src="${chapter.thumbnail}" alt="${chapter.title} thumbnail">`
-                : `<div style="background: var(--primary-light); width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;"><span style="font-size: 3rem; opacity: 0.8;">📄</span></div>`;
+        const descText = chapter.description ? chapter.description : "Click to view and read this chapter.";
+        
+        const imageContent = chapter.thumbnail 
+            ? `<img src="${chapter.thumbnail}" alt="${chapter.title} thumbnail">`
+            : `<div style="background: var(--primary-light); width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;"><span style="font-size: 3rem; opacity: 0.8;">📄</span></div>`;
 
-            // TEMPORARY RULE: Route only "Number Maze" (id: b1_1) to the interactive viewer page.
-            // Everything else still opens the raw PDF in a new tab.
-            const isTargetChapter = !!chapter.content;
-            const linkHref = isTargetChapter ? `chapter.html?id=${chapter.id}` : chapter.pdfLink;
-            const linkTarget = isTargetChapter ? `_self` : `_blank`;
-            const badgeText = isTargetChapter ? `READ ONLINE` : `PDF`;
+        const isTargetChapter = !!chapter.content;
+        const linkHref = isTargetChapter ? `chapter.html?id=${chapter.id}` : chapter.pdfLink;
+        const linkTarget = isTargetChapter ? `_self` : `_blank`;
+        const badgeText = isTargetChapter ? `READ ONLINE` : `PDF`;
 
-            html += `
-                <a href="${linkHref}" target="${linkTarget}" class="video-card" style="animation-delay: ${index * 0.05}s">
-                    <div class="thumbnail-container">
-                        ${imageContent}
-                        <span class="module-badge" style="background: var(--accent-gold); color: #fff;">${badgeText}</span>
-                    </div>
-                    <div class="video-info" style="padding: 1.5rem;">
-                        <h4 style="font-size: 1.1rem; color: var(--text-main); font-weight: 600; margin-bottom: 0.5rem;">${chapter.title}</h4>
-                        <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.5;">${descText}</p>
-                    </div>
-                </a>
-            `;
-        });
+        html += `
+            <a href="${linkHref}" target="${linkTarget}" class="video-card" style="animation-delay: ${index * 0.05}s">
+                <div class="thumbnail-container">
+                    ${imageContent}
+                    <span class="module-badge" style="background: var(--accent-gold); color: #fff;">${badgeText}</span>
+                </div>
+                <div class="video-info" style="padding: 1.5rem;">
+                    <h4 style="font-size: 1.1rem; color: var(--text-main); font-weight: 600; margin-bottom: 0.5rem;">${chapter.title}</h4>
+                    <p style="color: var(--text-muted); font-size: 0.95rem; line-height: 1.5;">${descText}</p>
+                </div>
+            </a>
+        `;
+    });
 
     html += `</div>`;
-    
     container.innerHTML = html;
     document.getElementById('book').scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
-// ================= Chapter Viewer Logic =================
+
+// ================= Detail Pages Logic =================
+
+function loadGameDetails() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const gameId = urlParams.get('id');
+    
+    if (typeof gamesData === 'undefined') return;
+    const game = gamesData.find(g => g.id === gameId);
+
+    if (game) {
+        document.getElementById('game-title').textContent = game.title;
+        document.getElementById('game-content').innerHTML = game.content;
+    
+        if (typeof initAllMazes === 'function') {
+            initAllMazes();
+        }
+    } else {
+        document.getElementById('game-content').innerHTML = '<p>Game not found. Please return to the games list.</p>';
+    }
+}
+
 function loadChapterDetails() {
     const urlParams = new URLSearchParams(window.location.search);
     const chapterId = urlParams.get('id');
@@ -2453,25 +2494,24 @@ function loadChapterDetails() {
         
         if (viewerContainer) {
             if (chapter.content) {
-                // If HTML content is provided, render it and initialize games
-                viewerContainer.style.height = 'auto'; // Remove fixed height for scrolling text
+                viewerContainer.style.height = 'auto'; 
                 viewerContainer.style.border = 'none';
                 viewerContainer.style.background = 'transparent';
                 viewerContainer.style.boxShadow = 'none';
-                viewerContainer.innerHTML = chapter.content;
                 
-                // Initialize the interactive maze grids
+                // Inject Chapter Content + Related Activities
+                const relatedHTML = generateRelatedActivities(chapterId);
+                viewerContainer.innerHTML = chapter.content + relatedHTML;
+                
                 if (typeof initAllMazes === 'function') {
                     initAllMazes();
                 }
 
-                // Check if we loaded the Coin Flip Magic chapter
                 if (chapter.id === 'b6_1' && typeof createParityGame === 'function') {
                     createParityGame('parity-game-container');
                 }
 
             } else {
-                // Default fallback: Embed the PDF
                 viewerContainer.innerHTML = `
                     <iframe 
                         src="${chapter.pdfLink}#toolbar=1&navpanes=0" 
@@ -2488,26 +2528,27 @@ function loadChapterDetails() {
             }
         }
     } else {
-        document.getElementById('chapter-title').textContent = 'Chapter Not Found';
+        const titleEl = document.getElementById('chapter-title');
+        if (titleEl) titleEl.textContent = 'Chapter Not Found';
     }
 }
 
+
 // ================= Initialization =================
 document.addEventListener('DOMContentLoaded', () => {
-    initializeTheme(); 
+    if (typeof initializeTheme === 'function') initializeTheme(); 
     
     if (document.getElementById('video-grid')) {
-        initializeSlideshow();
-        renderVideoGrid();
-        renderGamesGrid(); 
+        if (typeof initializeSlideshow === 'function') initializeSlideshow();
+        if (typeof renderVideoGrid === 'function') renderVideoGrid();
+        if (typeof renderGamesGrid === 'function') renderGamesGrid(); 
         renderBookSections();
-        initializeSearch();
+        if (typeof initializeSearch === 'function') initializeSearch();
     } else if (document.getElementById('player-container')) {
-        loadVideoDetails();
+        if (typeof loadVideoDetails === 'function') loadVideoDetails();
     } else if (document.getElementById('game-content')) {
         loadGameDetails();
     } else if (document.getElementById('chapter-viewer-container')) {
-
         loadChapterDetails();
     }
 });
