@@ -93,6 +93,14 @@
   transform-box: view-box;
   transform-origin: 260px 260px;
   transition: transform 260ms cubic-bezier(.34, 1.56, .64, 1), opacity 220ms ease;
+}
+
+/* Slices wait hidden until app.js marks the wheel ready, then spin in. */
+#ct-wheel-svg:not(.is-ready) .ct-group {
+  opacity: 0;
+}
+
+#ct-wheel-svg.is-ready .ct-group {
   animation: ct-wheel-in 700ms cubic-bezier(.22, 1, .36, 1) backwards;
   animation-delay: calc(var(--i) * 28ms);
 }

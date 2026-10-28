@@ -281,20 +281,6 @@ function loadVideoDetails() {
                 allowfullscreen>
             </iframe>
         `;
-        
-        const resourcesList = document.getElementById('resources-list');
-        resourcesList.innerHTML = '';
-        
-        if (video.resources && video.resources.length > 0) {
-            video.resources.forEach(res => {
-                const li = document.createElement('li');
-                const icon = res.type.toLowerCase() === 'pdf' ? '📄' : res.type.toLowerCase() === 'link' ? '🔗' : '📝';
-                li.innerHTML = `<a href="${res.link}" target="_blank">${icon} ${res.title}</a>`;
-                resourcesList.appendChild(li);
-            });
-        } else {
-            resourcesList.innerHTML = '<li style="color: var(--text-muted);">No resources currently available.</li>';
-        }
     }
 }
 
@@ -2385,12 +2371,14 @@ function loadChapterDetails() {
 
 
 // ================= CT & AI Wheel Data =================
-// Domains and topics for the home-page wheel. Each topic is [name, description, chapterIds];
+// Domains and topics for the home-page wheel. fill/light are the two shades of a domain
+// (lightTheme holds the light-mode pair). Each topic is [name, description, chapterIds];
 // the chapter tags are also used to suggest related book activities.
 const ctWheelDomains = [
   {
     title: "Computational Thinking", label: "Computational Thinking",
     fill: "#485257", light: "#697277",
+    lightTheme: { fill: "#6b7a82", light: "#a3afb6" },
     description: "Break problems into steps, find patterns and focus on what matters.",
     topics: [
       ["Decomposition", "Break a problem into smaller, manageable parts.", ["b2_1", "b2_2", "b7_4"]],
@@ -2403,6 +2391,7 @@ const ctWheelDomains = [
   {
     title: "Algorithms", label: "Algorithms",
     fill: "#3f7778", light: "#69a5a2",
+    lightTheme: { fill: "#4a9593", light: "#8ccac4" },
     description: "Solve problems with clear, repeatable steps.",
     topics: [
       ["Searching", "Explore ways to find what you need.", ["b1_4", "b4_1", "b2_2"]],
@@ -2414,6 +2403,7 @@ const ctWheelDomains = [
   {
     title: "AI & Machine Learning", label: "AI & ML",
     fill: "#8a5b48", light: "#b8785b",
+    lightTheme: { fill: "#c0785a", light: "#e6a98a" },
     description: "Explore how machines learn from examples and patterns.",
     topics: [
       ["Decision making", "Use information and rules to choose an action.", ["b5_1", "b5_4", "b5_3", "b5_6"]],
@@ -2423,6 +2413,7 @@ const ctWheelDomains = [
   {
     title: "Architecture", label: "Architecture",
     fill: "#a98a43", light: "#d2b96e",
+    lightTheme: { fill: "#c9a24a", light: "#ecd393" },
     description: "Discover the building blocks of computing.",
     topics: [
       ["Logic gates", "Combine simple rules to process binary inputs.", ["b4_4"]],
@@ -2433,6 +2424,7 @@ const ctWheelDomains = [
   {
     title: "Representation", label: "Representation",
     fill: "#566d7b", light: "#8196a1",
+    lightTheme: { fill: "#5f87a0", light: "#a3c0d1" },
     description: "Represent information with numbers, pixels and symbols.",
     topics: [
       ["Number", "Use numbers to represent information.", ["b3_3", "b3_6", "b3_2"]],
@@ -2463,7 +2455,7 @@ const ctWheelDomains = [
     const shelf = document.getElementById("wheel-shelf");
     const prevButton = document.getElementById("shelf-prev");
     const nextButton = document.getElementById("shelf-next");
-    const choices = [], topicLabels = [], domainLabels = [];
+    const choices = [], topicLabels = [], domainLabels = [], painted = [];
 
     const polar = (r, a) => ({ x: cx + r * Math.cos(a), y: cy + r * Math.sin(a) });
     function add(tag, attrs, parent = svg) {
@@ -2498,7 +2490,7 @@ const ctWheelDomains = [
       "Choose a domain or topic. Use arrow keys to move, then Enter or Space to select.";
     const defs = add("defs", {});
 
-    function makeSlice(r1, r2, a1, a2, fill, groupIndex, topicIndex = -1) {
+    function makeSlice(r1, r2, a1, a2, groupIndex, topicIndex = -1) {
       const domain = domains[groupIndex];
       const topic = domain.topics[topicIndex];
       // A slice and its label share a group so they lift out of the wheel together.
@@ -2508,7 +2500,7 @@ const ctWheelDomains = [
         style: `--i: ${choices.length}; --dx: ${(Math.cos(mid) * lift).toFixed(2)}px; --dy: ${(Math.sin(mid) * lift).toFixed(2)}px`
       });
       const node = add("path", {
-        d: sector(r1, r2, a1, a2), fill,
+        d: sector(r1, r2, a1, a2),
         class: `ct-slice ${topic ? "topic-slice" : "domain-slice"}`,
         role: "button", tabindex: "-1", "aria-pressed": "false",
         "aria-label": topic ? `${topic[0]} — ${domain.title}` : domain.title
@@ -2533,7 +2525,8 @@ const ctWheelDomains = [
       const a1 = cursor, a2 = a1 + unit * domain.topics.length;
       const mid = (a1 + a2) / 2;
       cursor = a2;
-      const domainGroup = makeSlice(innerR, midR, a1 + 0.012, a2 - 0.012, domain.fill, i);
+      const domainGroup = makeSlice(innerR, midR, a1 + 0.012, a2 - 0.012, i);
+      painted.push({ group: domainGroup, domain, shade: "fill" });
 
       // Domain names follow the ring; bottom-half paths are reversed for readability.
       const radius = (innerR + midR) / 2;
@@ -2546,7 +2539,7 @@ const ctWheelDomains = [
         d: `M ${from.x} ${from.y} A ${radius} ${radius} 0 0 ${reverse ? 0 : 1} ${to.x} ${to.y}`
       }, defs);
       const text = add("text", {
-        class: "ct-slice-label domain-label", fill: labelColor(domain.fill),
+        class: "ct-slice-label domain-label",
         dy: "4", "aria-hidden": "true"
       }, domainGroup);
       add("textPath", { href: `#${arcId}`, startOffset: "50%" }, text).textContent = domain.label;
@@ -2556,15 +2549,15 @@ const ctWheelDomains = [
         const s1 = a1 + j * unit + 0.009;
         const s2 = a1 + (j + 1) * unit - 0.009;
         const angle = (s1 + s2) / 2;
-        const fill = j % 2 === 0 ? domain.light : domain.fill;
-        const topicGroup = makeSlice(midR, outerR, s1, s2, fill, i, j);
+        const topicGroup = makeSlice(midR, outerR, s1, s2, i, j);
+        painted.push({ group: topicGroup, domain, shade: j % 2 === 0 ? "light" : "fill" });
 
         // Radial labels use the full ring depth. Multi-word labels use two lines.
         const r = (midR + outerR) / 2;
         const p = polar(r, angle);
         const rotation = angle + (Math.cos(angle) < 0 ? Math.PI : 0);
         const text = add("text", {
-          class: "ct-slice-label outer-label", fill: labelColor(fill),
+          class: "ct-slice-label outer-label",
           transform: `translate(${p.x} ${p.y}) rotate(${rotation * 180 / Math.PI})`,
           "aria-hidden": "true"
         }, topicGroup);
@@ -2627,7 +2620,7 @@ const ctWheelDomains = [
       if (description) description.textContent = choice.description;
       if (chapterCount) chapterCount.textContent = countText;
       if (picker) picker.value = choice.key;
-      if (shelf) shelf.style.setProperty("--domain", domains[choice.groupIndex].light);
+      if (shelf) shelf.style.setProperty("--domain", palette(domains[choice.groupIndex]).light);
       if (centerTitle && fromUser) {
         const small = document.createElement("small");
         small.textContent = countText;
@@ -2738,12 +2731,46 @@ const ctWheelDomains = [
       });
     }
 
+    function palette(domain) {
+      return document.documentElement.getAttribute("data-theme") === "light" ? domain.lightTheme : domain;
+    }
+
+    function applyPalette() {
+      painted.forEach(({ group, domain, shade }) => {
+        const fill = palette(domain)[shade];
+        group.querySelector(".ct-slice").setAttribute("fill", fill);
+        group.querySelector(".ct-slice-label").setAttribute("fill", labelColor(fill));
+      });
+      const active = choices.find(item => item.node.classList.contains("is-active"));
+      if (shelf && active) shelf.style.setProperty("--domain", palette(domains[active.groupIndex]).light);
+    }
+
+    // Start the entrance spin once the page has finished its start-up work and the wheel is on
+    // screen. On a slow first load the browser is busy right after the wheel is built, and an
+    // animation started then plays with no frames drawn, so the visitor never sees it.
+    function playEntrance() {
+      const reveal = () => requestAnimationFrame(() => requestAnimationFrame(() => svg.classList.add("is-ready")));
+      const whenVisible = () => {
+        if (!("IntersectionObserver" in window)) return reveal();
+        const observer = new IntersectionObserver(entries => {
+          if (!entries.some(entry => entry.isIntersecting)) return;
+          observer.disconnect();
+          reveal();
+        });
+        observer.observe(svg);
+      };
+      if (window.requestIdleCallback) requestIdleCallback(whenVisible, { timeout: 300 });
+      else setTimeout(whenVisible, 50);
+    }
+
+    applyPalette();
     select(choices[0]);
     fitLabels();
-    if (document.fonts) {
-      document.fonts.ready.then(fitLabels);
-      document.fonts.addEventListener("loadingdone", fitLabels);
-    }
+    if (document.fonts) document.fonts.addEventListener("loadingdone", fitLabels);
+    playEntrance();
+    new MutationObserver(applyPalette).observe(document.documentElement, {
+      attributes: true, attributeFilter: ["data-theme"]
+    });
   }
 
   if (document.readyState === "loading") {

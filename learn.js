@@ -237,9 +237,9 @@
 
     // ---------- Video page: games that practise this video's ideas ----------
     function renderVideoGames() {
-        const resources = document.querySelector(".resources-section");
+        const details = document.querySelector(".video-details-header");
         const videoId = new URLSearchParams(window.location.search).get("id");
-        if (!resources || !videoId || typeof gamesData === "undefined") return;
+        if (!details || !videoId || typeof gamesData === "undefined") return;
 
         const games = gamesData.filter(game =>
             (learnData[game.id]?.videos || []).some(v => v.id === videoId));
@@ -261,7 +261,7 @@
             list.appendChild(card);
         });
         section.appendChild(list);
-        resources.before(section);
+        details.after(section);
     }
 
     function init() {
