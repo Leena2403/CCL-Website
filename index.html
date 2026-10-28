@@ -8,8 +8,10 @@
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
+    <link rel="stylesheet" href="learn.css">
+    <link rel="stylesheet" href="hero-chart.css">
 </head>
-<body >
+<body>
 
     <!-- Premium Navbar -->
     <nav class="premium-nav">
@@ -24,7 +26,7 @@
             <ul class="nav-links">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#modules">Modules</a></li>
-                <li><a href="#games">Unplugged CT Games</a></li>
+                <li><a href="#games">Games</a></li>
                 <li><a href="#book">Book</a></li>
                 <li><a href="#contact">Contact</a></li>
             </ul>
@@ -38,70 +40,53 @@
 
     <!-- Hero Section -->
     <header class="hero" id="home">
-        <div class="hero-bg-circles"></div>
-        
         <div class="hero-container">
             <div class="hero-content">
-                <div class="availability-badge">
-                    <span class="red-dot"></span>
-                    GANDHINAGAR, INDIA — AVAILABLE 24/7
-                </div>
-                
+                <p class="hero-kicker">COMPUTATIONAL THINKING &amp; AI</p>
                 <h1 class="hero-title">
-                    <strong>O</strong>bserve,<br>
-                    <strong>T</strong>hink,<br>
-                    <span class="italic-serif"><strong>P</strong>ersevere</span>
+                    Observe,<br>
+                    Think,<br>
+                    <span class="italic-serif">Persevere.</span>
                 </h1>
-                
                 <p class="hero-description">
-                    Unplugged Computational Thinking (CT) at CCL provides engaging, screen-free experiences that help kids develop fundamental problem-solving skills. By learning to break down complex tasks, recognize patterns, and build logical steps, children naturally grasp computational concepts while having fun and building resilience.
+                    Learn computational thinking and AI through hands-on play.
                 </p>
-                
                 <div class="hero-buttons">
-                    <a href="#modules" class="btn-outline">View our modules</a>
-                    <a href="#contact" class="btn-secondary">Contact Us</a>
+                    <a href="#modules" class="btn-primary">Explore modules</a>
                 </div>
             </div>
 
-            <div class="hero-visuals">
-                <div class="dark-card">
-                    <span class="card-subtitle">CT at CCL</span>
-                    <h3>Where logic<br>meets play.</h3>
-                    <p>We craft educational spaces that inspire and endure.</p>
-                    <a href="#modules" class="card-link">VIEW MODULES &rarr;</a>
-                </div>
-                
-                <div class="light-card card-1">
-                    <span class="card-num">01</span>
-                    <h4>Computational<br>Thinking</h4>
-                    <ul>
-                        <li>&bull; Pattern recognition</li>
-                        <li>&bull; Algorithm design</li>
-                        <li>&bull; Logic building</li>
-                    </ul>
+            <div class="hero-chart-wrap">
+                <div class="ct-wheel">
+                    <svg id="ct-wheel-svg" viewBox="0 0 520 520"
+                         role="group" aria-labelledby="ct-wheel-title"
+                         aria-describedby="ct-wheel-description"></svg>
+                    <div class="ct-wheel-center" aria-hidden="true">
+                        <strong id="wheel-center-title">CT<br>&amp; AI</strong>
+                    </div>
                 </div>
 
-                <div class="light-card card-2">
-                    <span class="card-num">02</span>
-                    <h4>Science &<br>Engineering</h4>
-                    <ul>
-                        <li>&bull; Hands-on models</li>
-                        <li>&bull; Physics concepts</li>
-                        <li>&bull; Zero unused theory</li>
-                    </ul>
-                </div>
+                <select id="wheel-topic-picker" class="ct-wheel-picker"
+                        aria-label="Explore a domain or topic"></select>
 
-                <div class="light-card card-3">
-                    <span class="card-num">03</span>
-                    <h4>Math &<br>Geometry</h4>
-                    <ul>
-                        <li>&bull; Visual proofs</li>
-                        <li>&bull; Guided attention</li>
-                        <li>&bull; Never in the way</li>
-                    </ul>
-                </div>
+                <p class="ct-wheel-hint">Click a slice to find chapters from the book</p>
             </div>
         </div>
+
+        <section class="ct-shelf" id="wheel-shelf" aria-labelledby="detail-title">
+            <div class="ct-shelf-head">
+                <div aria-live="polite" aria-atomic="true">
+                    <p class="ct-shelf-kicker">From the book &middot; <span id="detail-count"></span></p>
+                    <h2 id="detail-title">Computational Thinking</h2>
+                    <p id="detail-description">Break problems into steps, find patterns and focus on what matters.</p>
+                </div>
+                <div class="ct-shelf-nav">
+                    <button type="button" id="shelf-prev" aria-label="Previous chapters">&larr;</button>
+                    <button type="button" id="shelf-next" aria-label="More chapters">&rarr;</button>
+                </div>
+            </div>
+            <ul id="detail-chapters" class="ct-chapter-list"></ul>
+        </section>
     </header>
 
     <!-- Modules Section -->
@@ -123,7 +108,7 @@
         
         <div class="page-content" style="margin-bottom: 3rem;">
             <p style="font-size: 1.1rem; color: var(--text-muted); text-align: center; max-width: 800px; margin: 0 auto;">
-                Welcome to the Center for Creative Learning (CCL) at IIT Gandhinagar. Our mission is to provide clean, accessible, and high-quality learning materials focused on Computational Thinking, AI, Machine Learning, Science, and Mathematics. We believe in learning by doing, breaking down complex concepts into engaging, hands-on experiences.
+                Explore computational thinking through hands-on games.
             </p>
         </div>
 
@@ -195,7 +180,7 @@
             <div class="book-header-text">
                 <h2 class="section-title" style="text-align: left; margin-bottom: 1rem; margin-top: 0;">CT & AI Unplugged</h2>
                 <p style="font-size: 1.1rem; color: var(--text-muted); max-width: 600px; line-height: 1.6; margin: 0;">
-                    Dive deep into our comprehensive curriculum and learn AI the experiential way. Select a topic below to explore its chapters and download the PDFs.
+                    Explore chapters and download the PDFs.
                 </p>
             </div>
         </div>
@@ -211,9 +196,9 @@
         <h2 class="section-title">Contact Us</h2>
         <div class="page-content" style="text-align: center;">
             <p style="font-size: 1.1rem; color: var(--text-muted); margin-bottom: 1.5rem;">
-                If you have any questions about the modules, PDFs, or video content, or if you'd like to collaborate, we'd love to hear from you.
+                Questions or ideas? Get in touch.
             </p>
-            <a href="mailto:contact@ccliitgn.ac.in" class="btn-primary" style="display: inline-block; font-size: 1.1rem; padding: 12px 32px;">Email Us: contact@ccliitgn.ac.in</a>
+            <a href="mailto:ccl@iitgn.ac.in" class="btn-primary" style="display: inline-block; font-size: 1.1rem; padding: 12px 32px;">Email Us: ccl@iitgn.ac.in</a>
         </div>
     </section>
 
@@ -228,7 +213,7 @@
                         <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 12l10 5 10-5"/></svg>
                         <span>CT at CCL</span>
                     </div>
-                    <p>Educational and STEM initiative.<br>Premium modules, web applications<br>and AI solutions from Gujarat, India.</p>
+                    <p>Learning through play.<br>CCL, IIT Gandhinagar.</p>
                 </div>
                 
                 <div class="footer-col">
@@ -236,7 +221,8 @@
                     <ul class="footer-links">
                         <li><a href="#home">Home</a></li>
                         <li><a href="#modules">Modules</a></li>
-                        <li><a href="#games">Unplugged CT Games</a></li>
+                        <li><a href="#games">Games</a></li>
+                        <li><a href="#book">Book</a></li>
                         <li><a href="#contact">Contact</a></li>
                     </ul>
                 </div>
@@ -253,7 +239,7 @@
                 
                 <div class="footer-col">
                     <h5 class="footer-heading">ENQUIRIES</h5>
-                    <a href="mailto:contact@ccliitgn.ac.in" class="footer-email">contact@ccliitgn.ac.in</a>
+                    <a href="mailto:ccl@iitgn.ac.in" class="footer-email">contact@ccliitgn.ac.in</a>
                     <p class="footer-subtext">We reply within one business day.</p>
                 </div>
             </div>
@@ -269,5 +255,7 @@
     <script src="gameData.js"></script>
     <script src="bookData.js"></script>
     <script src="app.js"></script>
+    <script src="learnData.js"></script>
+    <script src="learn.js"></script>
 </body>
 </html>

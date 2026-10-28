@@ -3,7 +3,7 @@
 :root {
     /* Light Theme Variables */
     --primary: #0f172a;
-    --primary-light: #1e293b;
+    --primary-light: #e2e8f0; /* light tint: content boxes put black text on it in both themes */
     --accent-orange: #ea580c; 
     --accent-orange-hover: #c2410c;
     --accent-gold: #d97706;
@@ -82,7 +82,7 @@ body {
 
 /* ================= Premium Navbar ================= */
 .premium-nav {
-    padding: 20px 5%;
+    padding: 7px 5%;
     display: flex;
     justify-content: center;
     position: sticky;
@@ -100,7 +100,7 @@ body {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    padding: 10px 10px 10px 24px;
+    padding: 10px 10px 1px 24px;
     border: 1px solid var(--border-color);
     box-shadow: var(--shadow-sm);
     transition: background-color 0.4s ease, border-color 0.4s ease;
@@ -181,6 +181,12 @@ body {
 
 .btn-primary:hover {
     background-color: var(--accent-orange-hover);
+}
+
+.btn-primary:disabled {
+    opacity: 0.45;
+    cursor: not-allowed;
+    background-color: var(--accent-orange);
 }
 
 /* ================= Hero Section ================= */
@@ -804,6 +810,14 @@ body {
 
 /* ================= Interactive Number Maze ================= */
 .interactive-game-wrapper {
+    /* Games always play on a light mat, so they use the light palette in both themes. */
+    --primary: #0f172a;
+    --bg-color: #f8fafc;
+    --surface: #ffffff;
+    --text-main: #334155;
+    --text-muted: #64748b;
+    --border-color: rgba(0, 0, 0, 0.1);
+    color: var(--text-main);
     background: var(--primary-light);
     padding: 2rem;
     border-radius: var(--radius);

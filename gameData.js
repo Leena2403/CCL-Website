@@ -129,7 +129,7 @@ const gamesData = [
             <div id="pixel-game-1" class="interactive-game-wrapper"></div>
 
             <h3 style="margin-top: 3rem; margin-bottom: 1rem; color: var(--primary);">Level 2: Decode the Image</h3>
-            <p>Computers represent images using numbers. Decode the following Run-Length Encoding by clicking the grid to draw the image.</p>
+            <p>Computers represent images using numbers. Decode the following Run-Length Encoding by clicking the grid to draw the image. Each row starts with a count of white squares, and any squares left over at the end of a row are white.</p>
             <p style="font-family: monospace; font-size: 1.1rem; background: var(--surface); padding: 1rem; border-radius: 4px;">
                 Row 1: 4, 11<br>
                 Row 2: 4, 9, 2, 1<br>
@@ -229,10 +229,33 @@ const gamesData = [
                 </ul>
             </div>
 
-            <h3 style="margin-top: 3rem; margin-bottom: 1rem; color: var(--primary);">Interactive 3x3 Grid</h3>
-            <p>Click the empty squares to cycle through building heights (1 = Red, 2 = Yellow, 3 = Green). Make sure no row or column has duplicate heights, and check that the visible buildings match the clues on the outside edges!</p>
+            <h3 style="margin-top: 3rem; margin-bottom: 1rem; color: var(--primary);">Interactive Grid: 5 Levels</h3>
+            <p>Click the empty squares to cycle through building heights (1 to 3 on the 3x3 levels, 1 to 4 on the 4x4 levels). Make sure no row or column has duplicate heights, and check that the visible buildings match the clues on the outside edges!</p>
 
             
+        `
+    },
+    {
+        id: "game8",
+        title: "Jug Puzzle",
+        grade: "Grade 6-8",
+        concepts: ["algorithmic-thinking", "decomposition", "abstraction"],
+        thumbnail: "book/chapter_thumbnails/jug.png",
+        shortDescription: "Pour water between 8L, 5L and 3L jugs to measure exactly 4 litres.",
+        content: `
+        <div id="three-jug-game-1" class="interactive-game-wrapper" style="margin-top: 2rem;"></div>
+            <p><strong>Activity: Three Jug Puzzle</strong></p>
+            <p>You have three jugs that hold 8, 5 and 3 litres. The 8-litre jug starts full and the other two are empty. There are no markings on the jugs, so the only way to measure is by pouring from one jug into another until the first is empty or the second is full.</p>
+            <p>Can you get exactly 4 litres into one of the jugs? Try to do it in as few moves as possible!</p>
+
+            <div style="background: var(--primary-light); padding: 1.5rem; border-radius: 8px; margin-bottom: 2rem; color: #000000;">
+                <p style="margin: 0; color: #000000; font-weight: 600;">CT Competencies Developed:</p>
+                <ul style="margin-top: 0.5rem; margin-bottom: 0; color: #000000;">
+                    <li><strong style="color: #000000;">Algorithmic Thinking:</strong> Find a sequence of pours that reaches the goal, then look for a shorter one.</li>
+                    <li><strong style="color: #000000;">Decomposition:</strong> Break the goal into smaller steps, such as first getting 2 litres into a jug.</li>
+                    <li><strong style="color: #000000;">Abstraction:</strong> Describe each moment as just three numbers, the litres in each jug, and ignore everything else.</li>
+                </ul>
+            </div>
         `
     }
 ];

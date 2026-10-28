@@ -310,6 +310,7 @@ function createNumberMaze(containerId, gridData) {
     let currentPos = { r: 0, c: 0 };
     let pathHistory = [{ r: 0, c: 0 }];
     let isSolving = false;
+    let solveTimer = null; // auto-solve animation, cleared on reset
 
     // Build the UI
     container.innerHTML = `
@@ -451,14 +452,14 @@ function createNumberMaze(containerId, gridData) {
         if (solutionPath) {
             let step = 1;
             statusText.textContent = "Auto-solving...";
-            const interval = setInterval(() => {
+            solveTimer = setInterval(() => {
                 if (step < solutionPath.length) {
                     currentPos = solutionPath[step];
                     pathHistory.push(currentPos);
                     updateGameState();
                     step++;
                 } else {
-                    clearInterval(interval);
+                    clearInterval(solveTimer);
                     isSolving = false;
                 }
             }, 800);
@@ -469,6 +470,7 @@ function createNumberMaze(containerId, gridData) {
     });
 
     document.getElementById(`reset-${uid}`).addEventListener('click', () => {
+        clearInterval(solveTimer);
         isSolving = false;
         currentPos = { r: 0, c: 0 };
         pathHistory = [{ r: 0, c: 0 }];
@@ -479,26 +481,6 @@ function createNumberMaze(containerId, gridData) {
 }
 
 
-// Update your loadGameDetails function
-function loadGameDetails() {
-    const params = new URLSearchParams(window.location.search);
-    const gameId = params.get('id');
-    if (!gameId) return;
-
-    const game = gamesData.find(g => g.id === gameId);
-    if (game) {
-        document.title = `${game.title} - CCL IITGn`;
-        const titleEl = document.getElementById('game-title');
-        const contentEl = document.getElementById('game-content');
-        
-        if(titleEl) titleEl.textContent = game.title;
-        if(contentEl) {
-            contentEl.innerHTML = game.content;
-            initAllMazes(); // Call the initializer here
-        }
-    }
-}
-
 // ================= Interactive Colour Maze Logic =================
 function createColourMaze(containerId, gridData) {
     const container = document.getElementById(containerId);
@@ -508,6 +490,7 @@ function createColourMaze(containerId, gridData) {
     let currentPos = { r: 0, c: 0, dir: null }; // dir: 0=UP, 1=RIGHT, 2=DOWN, 3=LEFT
     let pathHistory = [{ r: 0, c: 0, dir: null }];
     let isSolving = false;
+    let solveTimer = null; // auto-solve animation, cleared on reset
     const gridSize = gridData.length;
 
     container.innerHTML = `
@@ -676,14 +659,14 @@ function createColourMaze(containerId, gridData) {
         if (solutionPath) {
             let step = 1;
             statusText.textContent = "Auto-solving...";
-            const interval = setInterval(() => {
+            solveTimer = setInterval(() => {
                 if (step < solutionPath.length) {
                     currentPos = solutionPath[step];
                     pathHistory.push({ ...currentPos });
                     updateGameState();
                     step++;
                 } else {
-                    clearInterval(interval);
+                    clearInterval(solveTimer);
                     isSolving = false;
                 }
             }, 800);
@@ -694,6 +677,7 @@ function createColourMaze(containerId, gridData) {
     });
 
     document.getElementById(`reset-${uid}`).addEventListener('click', () => {
+        clearInterval(solveTimer);
         isSolving = false;
         currentPos = { r: 0, c: 0, dir: null };
         pathHistory = [{ r: 0, c: 0, dir: null }];
@@ -712,6 +696,7 @@ function createChessMaze(containerId, gridData) {
     let currentPos = { r: 0, c: 0 }; 
     let pathHistory = [{ r: 0, c: 0 }];
     let isSolving = false;
+    let solveTimer = null; // auto-solve animation, cleared on reset
     const gridSize = gridData.length;
 
     // Unicode map for chess pieces
@@ -876,14 +861,14 @@ function createChessMaze(containerId, gridData) {
         if (solutionPath) {
             let step = 1;
             statusText.textContent = "Auto-solving...";
-            const interval = setInterval(() => {
+            solveTimer = setInterval(() => {
                 if (step < solutionPath.length) {
                     currentPos = solutionPath[step];
                     pathHistory.push({ ...currentPos });
                     updateGameState();
                     step++;
                 } else {
-                    clearInterval(interval);
+                    clearInterval(solveTimer);
                     isSolving = false;
                 }
             }, 800);
@@ -894,6 +879,7 @@ function createChessMaze(containerId, gridData) {
     });
 
     document.getElementById(`reset-${uid}`).addEventListener('click', () => {
+        clearInterval(solveTimer);
         isSolving = false;
         currentPos = { r: 0, c: 0 };
         pathHistory = [{ r: 0, c: 0 }];
@@ -946,6 +932,15 @@ function createPixelArtGame(containerId, rows, cols) {
         return rle.join(', ');
     }
 
+    let paintValue = 0;
+
+    function paint(cell, r, c) {
+        if (gridData[r][c] === paintValue) return;
+        gridData[r][c] = paintValue;
+        cell.classList.toggle('black', paintValue === 0);
+        updateOutput();
+    }
+
     function renderBoard() {
         board.innerHTML = '';
         for (let r = 0; r < rows; r++) {
@@ -954,20 +949,16 @@ function createPixelArtGame(containerId, rows, cols) {
                 cell.className = 'pixel-cell';
                 if (gridData[r][c] === 0) cell.classList.add('black');
                 
-                // Toggle pixel on click
-                cell.addEventListener('click', () => {
-                    gridData[r][c] = gridData[r][c] === 1 ? 0 : 1;
-                    cell.classList.toggle('black');
-                    updateOutput();
+                // Pressing a pixel flips it; dragging then paints that same colour,
+                // so passing back over a pixel doesn't erase it.
+                cell.addEventListener('mousedown', (e) => {
+                    e.preventDefault(); // stop the drag from selecting text
+                    paintValue = gridData[r][c] === 1 ? 0 : 1;
+                    paint(cell, r, c);
                 });
                 
-                // Allow dragging to draw
                 cell.addEventListener('mouseenter', (e) => {
-                    if (e.buttons === 1) { // Left mouse button is held down
-                        gridData[r][c] = gridData[r][c] === 1 ? 0 : 1;
-                        cell.classList.toggle('black');
-                        updateOutput();
-                    }
+                    if (e.buttons === 1) paint(cell, r, c); // Left mouse button is held down
                 });
 
                 board.appendChild(cell);
@@ -1005,188 +996,6 @@ function createPixelArtGame(containerId, rows, cols) {
 }
 
 
-// ================= Interactive Parity Game Logic =================
-function createParityGame(containerId) {
-    const container = document.getElementById(containerId);
-    if (!container) return;
-
-    let currentSize = 5; // Default 5x5 grid
-    let grid = [];
-    let gameState = 'setup'; // 'setup', 'readyToFlip', or 'findError'
-    let flippedRow = -1;
-    let flippedCol = -1;
-
-    function initGrid(size = currentSize) {
-        currentSize = size;
-        grid = [];
-        for (let r = 0; r < currentSize; r++) {
-            let row = [];
-            for (let c = 0; c < currentSize; c++) {
-                if (r === currentSize - 1 || c === currentSize - 1) {
-                    row.push(0); // Parity cells start white (0)
-                } else {
-                    row.push(Math.random() > 0.5 ? 1 : 0); 
-                }
-            }
-            grid.push(row);
-        }
-        gameState = 'setup';
-        flippedRow = -1;
-        flippedCol = -1;
-        render();
-    }
-
-    function checkParity() {
-        for (let i = 0; i < currentSize; i++) {
-            let rowSum = 0;
-            let colSum = 0;
-            for (let j = 0; j < currentSize; j++) {
-                rowSum += grid[i][j];
-                colSum += grid[j][i];
-            }
-            if (rowSum % 2 !== 0 || colSum % 2 !== 0) return false;
-        }
-        return true;
-    }
-
-    function render() {
-        container.innerHTML = ''; 
-
-        // 1. Build the Size Selector
-        const headerControls = document.createElement('div');
-        headerControls.className = 'parity-controls';
-        headerControls.style.marginBottom = '1.5rem';
-        
-        const sizeLabel = document.createElement('label');
-        sizeLabel.textContent = 'Select Grid Size: ';
-        sizeLabel.style.fontWeight = '600';
-        sizeLabel.style.color = 'var(--text-main)';
-        
-        const sizeSelect = document.createElement('select');
-        sizeSelect.style.padding = '0.5rem';
-        sizeSelect.style.marginLeft = '0.5rem';
-        sizeSelect.style.borderRadius = '4px';
-        sizeSelect.style.border = '1px solid var(--border-color)';
-        sizeSelect.style.background = 'var(--surface)';
-        sizeSelect.style.color = 'var(--text-main)';
-        
-        [4, 5, 6, 8].forEach(s => {
-            const opt = document.createElement('option');
-            opt.value = s;
-            opt.textContent = `${s}x${s}`;
-            if (s === currentSize) opt.selected = true;
-            sizeSelect.appendChild(opt);
-        });
-        
-        sizeSelect.addEventListener('change', (e) => {
-            initGrid(parseInt(e.target.value));
-        });
-        
-        sizeLabel.appendChild(sizeSelect);
-        if (gameState === 'setup' || gameState === 'findError') {
-             headerControls.appendChild(sizeLabel);
-             container.appendChild(headerControls);
-        }
-
-        // 2. Build the Board
-        const board = document.createElement('div');
-        board.className = 'parity-board';
-        board.style.gridTemplateColumns = `repeat(${currentSize}, 1fr)`;
-        
-        for (let r = 0; r < currentSize; r++) {
-            for (let c = 0; c < currentSize; c++) {
-                const cell = document.createElement('div');
-                const isParity = (r === currentSize - 1 || c === currentSize - 1);
-                
-                cell.className = 'parity-cell';
-                if (isParity) cell.classList.add('is-parity');
-                if (grid[r][c] === 1) cell.classList.add('black');
-
-                if (gameState === 'setup' && isParity) {
-                    cell.style.cursor = 'pointer';
-                    cell.addEventListener('click', () => {
-                        grid[r][c] = grid[r][c] === 1 ? 0 : 1;
-                        if (checkParity()) gameState = 'readyToFlip';
-                        render();
-                    });
-                } else if (gameState === 'findError') {
-                    cell.style.cursor = 'pointer';
-                    cell.addEventListener('click', () => {
-                        if (r === flippedRow && c === flippedCol) {
-                            alert("Correct! You used pattern recognition to find the corrupted bit.");
-                            initGrid(currentSize); 
-                        } else {
-                            cell.style.backgroundColor = 'red'; 
-                            setTimeout(() => render(), 300);
-                        }
-                    });
-                } else {
-                    cell.style.cursor = 'not-allowed';
-                }
-                board.appendChild(cell);
-            }
-        }
-
-        // 3. Build the Status Bar
-        const statusDiv = document.createElement('div');
-        statusDiv.className = 'parity-status';
-        
-        if (gameState === 'setup') {
-            statusDiv.textContent = "Fill the dashed parity cells so every row and column has an EVEN number of black pixels.";
-        } else if (gameState === 'readyToFlip') {
-            statusDiv.textContent = "✅ Parity is perfect! Now, click the button to let the computer corrupt a bit.";
-            statusDiv.style.color = '#16a34a'; 
-        } else if (gameState === 'findError') {
-            statusDiv.textContent = "🚨 A bit was flipped! Find the row and column with odd parity and click the incorrect bit.";
-            statusDiv.style.color = '#dc2626'; 
-        }
-
-        // 4. Build the Controls
-        const controlsDiv = document.createElement('div');
-        controlsDiv.className = 'parity-controls';
-        
-        const resetBtn = document.createElement('button');
-        resetBtn.className = 'maze-btn-reset';
-        resetBtn.textContent = 'Generate New Grid';
-        resetBtn.addEventListener('click', () => initGrid(currentSize));
-        controlsDiv.appendChild(resetBtn);
-
-        if (gameState === 'readyToFlip') {
-            const flipBtn = document.createElement('button');
-            flipBtn.className = 'maze-btn-solve';
-            flipBtn.style.background = 'var(--accent-orange)';
-            flipBtn.style.color = 'white';
-            flipBtn.textContent = 'Flip Random Bit';
-            
-            flipBtn.addEventListener('click', () => {
-                const cells = board.querySelectorAll('.parity-cell');
-                cells.forEach(cell => cell.style.opacity = '0');
-                
-                statusDiv.textContent = "🪄 Magically flipping a bit behind your back...";
-                statusDiv.style.color = 'var(--accent-orange)';
-                flipBtn.disabled = true;
-                resetBtn.disabled = true;
-
-                setTimeout(() => {
-                    flippedRow = Math.floor(Math.random() * currentSize);
-                    flippedCol = Math.floor(Math.random() * currentSize);
-                    
-                    grid[flippedRow][flippedCol] = grid[flippedRow][flippedCol] === 1 ? 0 : 1;
-                    gameState = 'findError';
-                    render(); 
-                }, 1200);
-            });
-            controlsDiv.appendChild(flipBtn);
-        }
-
-        container.appendChild(board);
-        container.appendChild(statusDiv);
-        container.appendChild(controlsDiv);
-    }
-
-    initGrid();
-}
-
 // ================= Chota Shatranj Logic (Updated with Feasibility Solver) =================
 function createChotaShatranjGame(containerId) {
     const container = document.getElementById(containerId);
@@ -1222,9 +1031,18 @@ function createChotaShatranjGame(containerId) {
         solverAnalysis: null
     };
 
+    // Forget removed cells that fall outside the grid, so they don't reappear when it grows again.
+    function trimRemovedCells() {
+        state.removedCells = new Set([...state.removedCells].filter(key => {
+            const [r, c] = key.split(',').map(Number);
+            return r < state.rows && c < state.cols;
+        }));
+    }
+
     function loadLevel(idx) {
         const lvl = LEVELS[idx];
         state.mode = 'play';
+        state.isCustom = false;
         state.levelIdx = idx;
         state.rows = lvl.rows;
         state.cols = lvl.cols;
@@ -1413,7 +1231,7 @@ function createChotaShatranjGame(containerId) {
                     ${state.mode === 'play' ? 'Create Own Grid' : 'Back to Levels'}
                 </button>
                 <h3 style="margin: 0; color: var(--text-main); font-size: 1.5rem; font-weight: 600;">
-                    ${state.mode === 'build' ? 'Custom Grid Builder' : LEVELS[state.levelIdx].title}
+                    ${state.mode === 'build' ? 'Custom Grid Builder' : state.isCustom ? 'Custom Grid' : LEVELS[state.levelIdx].title}
                 </h3>
                 <button class="maze-btn-reset" id="btn-refresh">Refresh</button>
             </div>
@@ -1513,7 +1331,8 @@ function createChotaShatranjGame(containerId) {
                 </div>
             `;
         } else {
-            html += `<button class="btn-primary" id="btn-play-custom" style="padding: 10px 24px; font-size:1.1rem;">Play Custom Grid</button>`;
+            // An impossible grid can't be won, so it can't be played until it is changed.
+            html += `<button class="btn-primary" id="btn-play-custom" style="padding: 10px 24px; font-size:1.1rem;" ${state.isSolvable === false ? 'disabled title="This grid has no solution yet"' : ''}>Play Custom Grid</button>`;
         }
 
         html += `</div>`;
@@ -1555,18 +1374,21 @@ function createChotaShatranjGame(containerId) {
             });
 
             document.getElementById('inp-rows').addEventListener('change', (e) => {
-                state.rows = Math.min(6, Math.max(2, parseInt(e.target.value)));
+                state.rows = Math.min(6, Math.max(2, parseInt(e.target.value) || state.rows)); // keep the old size if the box is cleared
+                trimRemovedCells();
                 analyzeGridFeasibility();
                 render();
             });
             document.getElementById('inp-cols').addEventListener('change', (e) => {
-                state.cols = Math.min(6, Math.max(2, parseInt(e.target.value)));
+                state.cols = Math.min(6, Math.max(2, parseInt(e.target.value) || state.cols));
+                trimRemovedCells();
                 analyzeGridFeasibility();
                 render();
             });
 
             document.getElementById('btn-play-custom').addEventListener('click', () => {
                 state.mode = 'play';
+                state.isCustom = true;
                 state.placed = {};
                 state.selectedPiece = null;
                 render();
@@ -1631,10 +1453,10 @@ function createBuildingPuzzle(containerId) {
                 [1, 3, 2]
             ],
             clues: {
-                top: [2, 2, 1],
-                bottom: [2, 1, 3],
-                left: [3, 1, 2],
-                right: [1, 2, 2]
+                top: [2, 3, 1],
+                bottom: [2, 1, 2],
+                left: [2, 1, 2],
+                right: [1, 3, 2]
             }
         },
         {
@@ -1647,9 +1469,9 @@ function createBuildingPuzzle(containerId) {
             ],
             clues: {
                 top: [1, 2, 2],
-                bottom: [3, 1, 2],
+                bottom: [3, 2, 1],
                 left: [1, 2, 3],
-                right: [2, 1, 2]
+                right: [2, 2, 1]
             }
         },
         {
@@ -1672,15 +1494,15 @@ function createBuildingPuzzle(containerId) {
             size: 4,
             solution: [
                 [4, 1, 2, 3],
-                [1, 3, 4, 2],
-                [2, 4, 3, 1],
-                [3, 2, 1, 4]
+                [2, 3, 1, 4],
+                [3, 2, 4, 1],
+                [1, 4, 3, 2]
             ],
             clues: {
                 top: [1, 3, 2, 2],
-                bottom: [4, 1, 2, 1],
-                left: [1, 2, 2, 3],
-                right: [4, 2, 1, 1]
+                bottom: [3, 1, 2, 2],
+                left: [1, 3, 2, 2],
+                right: [2, 1, 2, 3]
             }
         },
         {
@@ -1693,10 +1515,10 @@ function createBuildingPuzzle(containerId) {
                 [2, 3, 4, 1]
             ],
             clues: {
-                top: [1, 2, 3, 1],
-                bottom: [3, 2, 1, 2],
-                left: [2, 1, 2, 2],
-                right: [2, 2, 2, 1]
+                top: [2, 2, 3, 1],
+                bottom: [2, 2, 1, 3],
+                left: [2, 1, 2, 3],
+                right: [1, 3, 2, 2]
             }
         }
     ];
@@ -2129,11 +1951,12 @@ function initAllMazes() {
 
     // ---- Pixel Art Games ----
     createPixelArtGame('pixel-game-1', 9, 15);
-    createPixelArtGame('pixel-game-2', 9, 15);
+    createPixelArtGame('pixel-game-2', 9, 17); // 17 wide to fit the coffee-cup clue
 
     createChotaShatranjGame('chota-shatranj-1');
     createBuildingPuzzle('building-game-1');
     createThreeJugGame('three-jug-game-1');
+    createParityGame('parity-game-1');
 }
 
 // ================= Interactive Parity Game Logic =================
@@ -2143,7 +1966,7 @@ function createParityGame(containerId) {
 
     let currentSize = 5; // Default 5x5 grid
     let grid = [];
-    let gameState = 'setup'; // 'setup', 'readyToFlip', or 'findError'
+    let gameState = 'setup'; // 'setup', 'readyToFlip', 'findError' or 'found'
     let flippedRow = -1;
     let flippedCol = -1;
 
@@ -2161,9 +1984,10 @@ function createParityGame(containerId) {
             }
             grid.push(row);
         }
-        gameState = 'setup';
         flippedRow = -1;
         flippedCol = -1;
+        // A random grid can already be even everywhere, with nothing for the player to fix.
+        gameState = checkParity() ? 'readyToFlip' : 'setup';
         render();
     }
 
@@ -2244,8 +2068,8 @@ function createParityGame(containerId) {
                     cell.style.cursor = 'pointer';
                     cell.addEventListener('click', () => {
                         if (r === flippedRow && c === flippedCol) {
-                            alert("Correct! You used pattern recognition to find the corrupted bit.");
-                            initGrid(currentSize); 
+                            gameState = 'found';
+                            render();
                         } else {
                             cell.style.backgroundColor = 'red'; 
                             setTimeout(() => render(), 300);
@@ -2253,6 +2077,10 @@ function createParityGame(containerId) {
                     });
                 } else {
                     cell.style.cursor = 'not-allowed';
+                }
+                if (gameState === 'found' && r === flippedRow && c === flippedCol) {
+                    cell.style.outline = '4px solid #16a34a';
+                    cell.style.outlineOffset = '-4px';
                 }
                 board.appendChild(cell);
             }
@@ -2270,6 +2098,9 @@ function createParityGame(containerId) {
         } else if (gameState === 'findError') {
             statusDiv.textContent = "🚨 A bit was flipped! Find the row and column with odd parity and click the incorrect bit.";
             statusDiv.style.color = '#dc2626'; 
+        } else if (gameState === 'found') {
+            statusDiv.textContent = "🎉 Correct! You used pattern recognition to find the corrupted bit. Generate a new grid to play again.";
+            statusDiv.style.color = '#16a34a';
         }
 
         // 4. Build the Controls
@@ -2327,11 +2158,29 @@ function generateRelatedActivities(currentChapterId) {
     const currentChapter = bookData.find(ch => ch.id === currentChapterId);
     if (!currentChapter) return '';
 
-    const relatedChapters = bookData.filter(ch => 
-        ch.section === currentChapter.section && ch.id !== currentChapterId
-    );
+    // Wheel topics and domains each chapter is tagged with.
+    const topicsOf = id => ctWheelDomains.flatMap(d => d.topics.filter(t => t[2].includes(id)).map(t => t[0]));
+    const domainsOf = id => ctWheelDomains.filter(d => d.topics.some(t => t[2].includes(id))).map(d => d.title);
+    const myTopics = topicsOf(currentChapterId);
+    const myDomains = domainsOf(currentChapterId);
 
-    const topRelated = relatedChapters.slice(0, 3);
+    // Shared topics count most, then the same book section, then the same wheel domain.
+    // Every candidate is scored, so there are always 3 suggestions.
+    const topRelated = bookData
+        .filter(ch => ch.id !== currentChapterId)
+        .map((ch, index) => {
+            const shared = topicsOf(ch.id).filter(t => myTopics.includes(t));
+            const sameSection = ch.section === currentChapter.section;
+            const sameDomain = domainsOf(ch.id).some(d => myDomains.includes(d));
+            const score = shared.length * 3 + (sameSection ? 2 : 0) + (sameDomain ? 1 : 0);
+            const reason = shared.length ? `Also explores ${shared.join(' and ')}.`
+                : sameSection ? `More from the ${ch.section} section.`
+                : sameDomain ? `Another ${domainsOf(ch.id).find(d => myDomains.includes(d))} activity.`
+                : `Explore more concepts from the ${ch.section} section.`;
+            return { ch, score, index, reason };
+        })
+        .sort((a, b) => b.score - a.score || a.index - b.index)
+        .slice(0, 3);
     if (topRelated.length === 0) return '';
 
     let html = `
@@ -2340,7 +2189,7 @@ function generateRelatedActivities(currentChapterId) {
             <div class="related-grid">
     `;
 
-    topRelated.forEach(ch => {
+    topRelated.forEach(({ ch, reason }) => {
         // Use standard link navigation to match how chapters are loaded
         const isTargetChapter = !!ch.content;
         const linkHref = isTargetChapter ? `chapter.html?id=${ch.id}` : ch.pdfLink;
@@ -2351,7 +2200,7 @@ function generateRelatedActivities(currentChapterId) {
                 <img src="${ch.thumbnail}" alt="${ch.title}">
                 <div class="related-card-content">
                     <h4 class="related-card-title">${ch.title}</h4>
-                    <p class="related-card-desc">Explore more concepts from the ${ch.section} module.</p>
+                    <p class="related-card-desc">${reason}</p>
                 </div>
             </a>
         `;
@@ -2459,6 +2308,7 @@ function loadGameDetails() {
     const game = gamesData.find(g => g.id === gameId);
 
     if (game) {
+        document.title = `${game.title} - CCL IITGn`;
         document.getElementById('game-title').textContent = game.title;
         document.getElementById('game-content').innerHTML = game.content;
     
@@ -2533,6 +2383,375 @@ function loadChapterDetails() {
     }
 }
 
+
+// ================= CT & AI Wheel Data =================
+// Domains and topics for the home-page wheel. Each topic is [name, description, chapterIds];
+// the chapter tags are also used to suggest related book activities.
+const ctWheelDomains = [
+  {
+    title: "Computational Thinking", label: "Computational Thinking",
+    fill: "#485257", light: "#697277",
+    description: "Break problems into steps, find patterns and focus on what matters.",
+    topics: [
+      ["Decomposition", "Break a problem into smaller, manageable parts.", ["b2_1", "b2_2", "b7_4"]],
+      ["Abstraction", "Focus on the important details.", ["b1_3", "b1_1", "b6_4"]],
+      ["Pattern recognition", "Find similarities and repeated structures.", ["b3_2", "b6_1", "b6_2", "b7_1"]],
+      ["Algorithmic thinking", "Build a clear sequence of steps to solve a problem.", ["b1_1", "b1_2", "b6_2"]],
+      ["Generalisation", "Apply a useful idea to a new problem.", ["b7_1", "b7_2", "b7_3", "b6_4"]]
+    ]
+  },
+  {
+    title: "Algorithms", label: "Algorithms",
+    fill: "#3f7778", light: "#69a5a2",
+    description: "Solve problems with clear, repeatable steps.",
+    topics: [
+      ["Searching", "Explore ways to find what you need.", ["b1_4", "b4_1", "b2_2"]],
+      ["Sorting", "Arrange items in a useful order.", ["b4_2", "b4_3"]],
+      ["Combinatorics", "Explore ways to count, choose and arrange.", ["b7_2", "b7_3", "b7_1", "b2_1"]],
+      ["Logical reasoning", "Use clues and rules to reach a conclusion.", ["b3_5", "b6_1", "b2_1"]]
+    ]
+  },
+  {
+    title: "AI & Machine Learning", label: "AI & ML",
+    fill: "#8a5b48", light: "#b8785b",
+    description: "Explore how machines learn from examples and patterns.",
+    topics: [
+      ["Decision making", "Use information and rules to choose an action.", ["b5_1", "b5_4", "b5_3", "b5_6"]],
+      ["Neural network", "Explore how connected units learn patterns.", ["b5_5", "b5_2", "b5_3"]]
+    ]
+  },
+  {
+    title: "Architecture", label: "Architecture",
+    fill: "#a98a43", light: "#d2b96e",
+    description: "Discover the building blocks of computing.",
+    topics: [
+      ["Logic gates", "Combine simple rules to process binary inputs.", ["b4_4"]],
+      ["Calculator", "Explore how a device performs calculations.", ["b4_4", "b3_3"]],
+      ["Mechanical devices", "Build computing ideas with moving parts.", ["b6_3", "b4_3", "b3_4"]]
+    ]
+  },
+  {
+    title: "Representation", label: "Representation",
+    fill: "#566d7b", light: "#8196a1",
+    description: "Represent information with numbers, pixels and symbols.",
+    topics: [
+      ["Number", "Use numbers to represent information.", ["b3_3", "b3_6", "b3_2"]],
+      ["Pixels", "Build images from small coloured squares.", ["b3_1"]],
+      ["Bases", "Explore different ways to write numbers.", ["b3_4", "b3_3", "b3_6", "b3_2"]]
+    ]
+  }
+];
+
+(() => {
+  "use strict";
+
+  function initWheel() {
+    const svg = document.getElementById("ct-wheel-svg");
+    if (!svg || svg.dataset.ready === "true") return;
+    svg.dataset.ready = "true";
+
+    const domains = ctWheelDomains;
+
+    const NS = "http://www.w3.org/2000/svg";
+    const cx = 260, cy = 260, innerR = 76, midR = 154, outerR = 248;
+    const title = document.getElementById("detail-title");
+    const description = document.getElementById("detail-description");
+    const picker = document.getElementById("wheel-topic-picker");
+    const chapterList = document.getElementById("detail-chapters");
+    const chapterCount = document.getElementById("detail-count");
+    const centerTitle = document.getElementById("wheel-center-title");
+    const shelf = document.getElementById("wheel-shelf");
+    const prevButton = document.getElementById("shelf-prev");
+    const nextButton = document.getElementById("shelf-next");
+    const choices = [], topicLabels = [], domainLabels = [];
+
+    const polar = (r, a) => ({ x: cx + r * Math.cos(a), y: cy + r * Math.sin(a) });
+    function add(tag, attrs, parent = svg) {
+      const node = document.createElementNS(NS, tag);
+      Object.entries(attrs).forEach(([key, value]) => node.setAttribute(key, value));
+      parent.appendChild(node);
+      return node;
+    }
+
+    function sector(r1, r2, a1, a2) {
+      const p1 = polar(r2, a1), p2 = polar(r2, a2);
+      const p3 = polar(r1, a2), p4 = polar(r1, a1);
+      const large = a2 - a1 > Math.PI ? 1 : 0;
+      return `M ${p1.x} ${p1.y} A ${r2} ${r2} 0 ${large} 1 ${p2.x} ${p2.y}
+        L ${p3.x} ${p3.y} A ${r1} ${r1} 0 ${large} 0 ${p4.x} ${p4.y} Z`;
+    }
+
+    // Keep chart text readable independently of the page's light/dark theme.
+    function labelColor(hex) {
+      const rgb = hex.match(/[a-f\d]{2}/gi).map(value => {
+        const c = parseInt(value, 16) / 255;
+        return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4;
+      });
+      const luminance = rgb[0] * 0.2126 + rgb[1] * 0.7152 + rgb[2] * 0.0722;
+      return luminance > 0.179 ? "#111111" : "#ffffff";
+    }
+
+    svg.replaceChildren();
+    svg.setAttribute("viewBox", "0 0 520 520");
+    add("title", { id: "ct-wheel-title" }).textContent = "Explore computational thinking and AI";
+    add("desc", { id: "ct-wheel-description" }).textContent =
+      "Choose a domain or topic. Use arrow keys to move, then Enter or Space to select.";
+    const defs = add("defs", {});
+
+    function makeSlice(r1, r2, a1, a2, fill, groupIndex, topicIndex = -1) {
+      const domain = domains[groupIndex];
+      const topic = domain.topics[topicIndex];
+      // A slice and its label share a group so they lift out of the wheel together.
+      const mid = (a1 + a2) / 2, lift = topic ? 10 : 5;
+      const group = add("g", {
+        class: "ct-group",
+        style: `--i: ${choices.length}; --dx: ${(Math.cos(mid) * lift).toFixed(2)}px; --dy: ${(Math.sin(mid) * lift).toFixed(2)}px`
+      });
+      const node = add("path", {
+        d: sector(r1, r2, a1, a2), fill,
+        class: `ct-slice ${topic ? "topic-slice" : "domain-slice"}`,
+        role: "button", tabindex: "-1", "aria-pressed": "false",
+        "aria-label": topic ? `${topic[0]} — ${domain.title}` : domain.title
+      }, group);
+      // A domain lists every chapter of its topics, without repeats.
+      const chapterIds = topic ? topic[2] : [...new Set(domain.topics.flatMap(t => t[2]))];
+      choices.push({
+        node, group, groupIndex, isDomain: !topic, key: `${groupIndex}:${topicIndex}`,
+        label: topic ? topic[0] : domain.label,
+        title: topic ? topic[0] : domain.title,
+        description: topic ? topic[1] : domain.description,
+        chapterIds
+      });
+      return group;
+    }
+
+    const count = domains.reduce((sum, domain) => sum + domain.topics.length, 0);
+    const unit = 2 * Math.PI / count;
+    let cursor = -Math.PI / 2;
+
+    domains.forEach((domain, i) => {
+      const a1 = cursor, a2 = a1 + unit * domain.topics.length;
+      const mid = (a1 + a2) / 2;
+      cursor = a2;
+      const domainGroup = makeSlice(innerR, midR, a1 + 0.012, a2 - 0.012, domain.fill, i);
+
+      // Domain names follow the ring; bottom-half paths are reversed for readability.
+      const radius = (innerR + midR) / 2;
+      const reverse = Math.sin(mid) > 0;
+      const from = polar(radius, reverse ? a2 - 0.09 : a1 + 0.09);
+      const to = polar(radius, reverse ? a1 + 0.09 : a2 - 0.09);
+      const arcId = `ct-domain-arc-${i}`;
+      add("path", {
+        id: arcId,
+        d: `M ${from.x} ${from.y} A ${radius} ${radius} 0 0 ${reverse ? 0 : 1} ${to.x} ${to.y}`
+      }, defs);
+      const text = add("text", {
+        class: "ct-slice-label domain-label", fill: labelColor(domain.fill),
+        dy: "4", "aria-hidden": "true"
+      }, domainGroup);
+      add("textPath", { href: `#${arcId}`, startOffset: "50%" }, text).textContent = domain.label;
+      domainLabels.push({ text, maxWidth: (a2 - a1 - 0.18) * radius });
+
+      domain.topics.forEach(([name], j) => {
+        const s1 = a1 + j * unit + 0.009;
+        const s2 = a1 + (j + 1) * unit - 0.009;
+        const angle = (s1 + s2) / 2;
+        const fill = j % 2 === 0 ? domain.light : domain.fill;
+        const topicGroup = makeSlice(midR, outerR, s1, s2, fill, i, j);
+
+        // Radial labels use the full ring depth. Multi-word labels use two lines.
+        const r = (midR + outerR) / 2;
+        const p = polar(r, angle);
+        const rotation = angle + (Math.cos(angle) < 0 ? Math.PI : 0);
+        const text = add("text", {
+          class: "ct-slice-label outer-label", fill: labelColor(fill),
+          transform: `translate(${p.x} ${p.y}) rotate(${rotation * 180 / Math.PI})`,
+          "aria-hidden": "true"
+        }, topicGroup);
+        name.split(" ").forEach(word => {
+          add("tspan", { x: "0", y: "0" }, text).textContent = word;
+        });
+        topicLabels.push({ text, r, angle, rotation, halfAngle: (s2 - s1) / 2 });
+      });
+    });
+
+    // Measure real font bounds and keep the entire label rectangle inside its wedge.
+    // This fits the text itself; it does not hide overflow with a clipping mask.
+    function fitLabels() {
+      domainLabels.forEach(({ text, maxWidth }) => {
+        text.style.fontSize = "13px";
+        const width = text.getComputedTextLength();
+        if (width > maxWidth) text.style.fontSize = `${13 * maxWidth / width}px`;
+      });
+
+      topicLabels.forEach(({ text, r, angle, rotation, halfAngle }) => {
+        const lines = [...text.children];
+        for (let size = 12; size >= 6; size -= 0.2) {
+          text.style.fontSize = `${size}px`;
+          lines.forEach((line, i) => line.setAttribute("y", (i - (lines.length - 1) / 2) * size * 1.12));
+          const box = text.getBBox();
+          const corners = [
+            [box.x, box.y], [box.x + box.width, box.y],
+            [box.x, box.y + box.height], [box.x + box.width, box.y + box.height]
+          ];
+          const fits = r - Math.max(Math.abs(box.x), Math.abs(box.x + box.width)) >= midR + 4 &&
+            corners.every(([x, y]) => {
+              const px = r * Math.cos(angle) + x * Math.cos(rotation) - y * Math.sin(rotation);
+              const py = r * Math.sin(angle) + x * Math.sin(rotation) + y * Math.cos(rotation);
+              const delta = Math.atan2(Math.sin(Math.atan2(py, px) - angle), Math.cos(Math.atan2(py, px) - angle));
+              return Math.hypot(px, py) <= outerR - 4 && Math.abs(delta) <= halfAngle - 0.02;
+            });
+          if (fits) break;
+        }
+      });
+    }
+
+    // fromUser marks a real choice: the wheel dims unrelated slices and the shelf comes into view.
+    function select(choice, fromUser = false) {
+      choices.forEach(item => {
+        const active = item === choice;
+        item.node.classList.toggle("is-active", active);
+        item.node.setAttribute("aria-pressed", String(active));
+        item.node.setAttribute("tabindex", active ? "0" : "-1");
+        // A domain highlights its topics; a topic highlights its domain.
+        const related = item.groupIndex === choice.groupIndex &&
+          (active || choice.isDomain || item.isDomain);
+        item.group.classList.toggle("is-related", related);
+        item.group.classList.toggle("is-active", active);
+      });
+      if (fromUser) svg.classList.add("has-selection");
+
+      const count = choice.chapterIds.length;
+      const countText = `${count} chapter${count === 1 ? "" : "s"}`;
+      if (title) title.textContent = choice.title;
+      if (description) description.textContent = choice.description;
+      if (chapterCount) chapterCount.textContent = countText;
+      if (picker) picker.value = choice.key;
+      if (shelf) shelf.style.setProperty("--domain", domains[choice.groupIndex].light);
+      if (centerTitle && fromUser) {
+        const small = document.createElement("small");
+        small.textContent = countText;
+        centerTitle.replaceChildren(choice.label, small);
+        centerTitle.classList.remove("is-changing");
+        void centerTitle.offsetWidth; // restart the pop animation
+        centerTitle.classList.add("is-changing");
+      }
+      renderChapters(choice.chapterIds);
+
+      if (fromUser && shelf && shelf.getBoundingClientRect().bottom > window.innerHeight) {
+        const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+        shelf.scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "nearest" });
+      }
+    }
+
+    // Book chapters related to the selected slice, linked like the Book section.
+    function renderChapters(ids) {
+      if (!chapterList || typeof bookData === "undefined") return;
+      const chapters = ids.map(id => bookData.find(ch => ch.id === id)).filter(Boolean);
+      chapterList.replaceChildren(...chapters.map((chapter, index) => {
+        const isTargetChapter = !!chapter.content;
+        const link = document.createElement("a");
+        link.className = "ct-chapter-card";
+        link.href = isTargetChapter ? `chapter.html?id=${chapter.id}` : chapter.pdfLink;
+        if (!isTargetChapter) link.target = "_blank";
+
+        const cover = document.createElement("span");
+        cover.className = "ct-chapter-cover";
+        if (chapter.thumbnail) {
+          const img = document.createElement("img");
+          img.src = chapter.thumbnail;
+          img.alt = "";
+          img.loading = "lazy";
+          cover.appendChild(img);
+        }
+        const section = document.createElement("small");
+        section.textContent = chapter.section;
+        const name = document.createElement("strong");
+        name.textContent = chapter.title;
+        const action = document.createElement("span");
+        action.className = "ct-chapter-action";
+        action.textContent = isTargetChapter ? "Read chapter →" : "Open PDF →";
+        const body = document.createElement("span");
+        body.className = "ct-chapter-body";
+        body.append(section, name, action);
+        link.append(cover, body);
+
+        const item = document.createElement("li");
+        item.style.setProperty("--i", index);
+        item.appendChild(link);
+        return item;
+      }));
+      chapterList.scrollLeft = 0;
+      updateShelfButtons();
+    }
+
+    function updateShelfButtons() {
+      if (!chapterList || !prevButton || !nextButton) return;
+      const max = chapterList.scrollWidth - chapterList.clientWidth;
+      prevButton.disabled = chapterList.scrollLeft <= 1;
+      nextButton.disabled = chapterList.scrollLeft >= max - 1;
+      prevButton.parentElement.hidden = max <= 1;
+    }
+
+    if (chapterList && prevButton && nextButton) {
+      const page = direction => chapterList.scrollBy({ left: direction * chapterList.clientWidth * 0.8, behavior: "smooth" });
+      prevButton.addEventListener("click", () => page(-1));
+      nextButton.addEventListener("click", () => page(1));
+      chapterList.addEventListener("scroll", updateShelfButtons, { passive: true });
+      window.addEventListener("resize", updateShelfButtons);
+    }
+
+    choices.forEach((choice, index) => {
+      choice.node.addEventListener("click", () => select(choice, true));
+      choice.node.addEventListener("keydown", event => {
+        if (event.key === "Enter" || event.key === " ") {
+          event.preventDefault();
+          select(choice, true);
+          return;
+        }
+        const offsets = { ArrowRight: 1, ArrowDown: 1, ArrowLeft: -1, ArrowUp: -1 };
+        let next;
+        if (event.key in offsets) next = (index + offsets[event.key] + choices.length) % choices.length;
+        else if (event.key === "Home") next = 0;
+        else if (event.key === "End") next = choices.length - 1;
+        else return;
+        event.preventDefault();
+        choices.forEach((item, i) => item.node.setAttribute("tabindex", i === next ? "0" : "-1"));
+        choices[next].node.focus();
+      });
+    });
+
+    // A readable alternative to small wheel labels on narrow screens.
+    if (picker) {
+      picker.replaceChildren();
+      domains.forEach((domain, i) => {
+        const group = document.createElement("optgroup");
+        group.label = domain.title;
+        choices.filter(choice => choice.groupIndex === i).forEach(choice => {
+          group.appendChild(new Option(choice.title, choice.key));
+        });
+        picker.appendChild(group);
+      });
+      picker.addEventListener("change", () => {
+        const choice = choices.find(item => item.key === picker.value);
+        if (choice) select(choice, true);
+      });
+    }
+
+    select(choices[0]);
+    fitLabels();
+    if (document.fonts) {
+      document.fonts.ready.then(fitLabels);
+      document.fonts.addEventListener("loadingdone", fitLabels);
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", initWheel, { once: true });
+  } else {
+    initWheel();
+  }
+})();
 
 // ================= Initialization =================
 document.addEventListener('DOMContentLoaded', () => {
