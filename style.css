@@ -1152,11 +1152,26 @@ body {
 
 .footer-bottom {
     display: flex;
+    flex-wrap: wrap;
     justify-content: space-between;
+    align-items: baseline;
+    gap: 8px 24px;
     border-top: 1px solid var(--border-color);
     padding-top: 20px;
     font-size: 0.85rem;
     color: var(--text-muted);
+}
+
+.footer-credit {
+    opacity: 0.8;
+    letter-spacing: 0.02em;
+}
+
+.footer-credit span {
+    color: var(--accent-gold);
+    font-family: "Playfair Display", Georgia, serif;
+    font-style: italic;
+    font-size: 1.05rem;
 }
 
 /* ================= Animations & Responsive ================= */
