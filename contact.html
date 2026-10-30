@@ -6,26 +6,33 @@
     <title>Contact | CCL IITGn</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <nav>
-        <div class="logo">
-            <a href="index.html">
-                <span class="logo-icon">🎓</span> CCL IITGn
-            </a>
-        </div>
-        <div class="nav-right">
-            <ul class="nav-links">
-                <li><a href="index.html">Home</a></li>
-                <li><a href="index.html#video-grid">Modules</a></li>
-                <li><a href="about.html">Unplugged CT Games</a></li>
-                <li><a href="contact.html">Contact</a></li>
+    <nav class="premium-nav">
+        <div class="nav-container">
+            <div class="logo">
+                <a href="index.html#home">
+                    <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5z"/><path d="M2 17l10 5 10-5"/><path d="M2 12l10 5 10-5"/></svg>
+                    <span>CT at CCL</span>
+                </a>
+            </div>
+            <ul class="nav-links" id="primary-navigation">
+                <li><a href="index.html#home">Home</a></li>
+                <li><a href="index.html#modules">Modules</a></li>
+                <li><a href="index.html#games">Games</a></li>
+                <li><a href="index.html#book">Book</a></li>
+                <li><a href="index.html#contact">Contact</a></li>
+                <li><a data-main-site-link>3030 Creative Labs</a></li>
             </ul>
-            <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Theme">
-                🌙
-            </button>
+            <div class="nav-actions">
+                <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Theme">🌙</button>
+                <a href="index.html#modules" class="btn-primary">Start learning</a>
+                <button class="nav-toggle" type="button" aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation">
+                    <span aria-hidden="true">☰</span>
+                </button>
+            </div>
         </div>
     </nav>
 
@@ -36,7 +43,34 @@
         </div>
     </div>
 
-    <!-- Add the script so the page knows to check for dark mode -->
+    <footer class="premium-footer">
+        <div class="footer-container">
+            <div class="footer-grid">
+                <div class="footer-col brand-col">
+                    <div class="footer-logo">
+                        <span>CT at CCL</span>
+                    </div>
+                    <p>Learning through play.<br>CCL, IIT Gandhinagar.</p>
+                </div>
+                <div class="footer-col">
+                    <h2 class="footer-heading">Explore</h2>
+                    <ul class="footer-links">
+                        <li><a href="index.html#modules">Modules</a></li>
+                        <li><a href="index.html#games">Games</a></li>
+                        <li><a href="index.html#book">Book</a></li>
+                    </ul>
+                </div>
+                <div class="footer-col">
+                    <h2 class="footer-heading">3030 Creative Labs</h2>
+                    <ul class="footer-links">
+                        <li><a data-main-site-link>3030 Creative Labs</a></li>
+                        <li><a data-main-site-schools-link>Schools &amp; workshops</a></li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </footer>
+
     <script src="app.js"></script>
 </body>
 </html>

@@ -6,7 +6,7 @@
     <title>Video Details | CCL IITGn</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="learn.css">
 </head>
@@ -22,17 +22,21 @@
                 </a>
             </div>
             
-            <ul class="nav-links">
+            <ul class="nav-links" id="primary-navigation">
                 <li><a href="index.html#home">Home</a></li>
                 <li><a href="index.html#modules">Modules</a></li>
                 <li><a href="index.html#games">Games</a></li>
                 <li><a href="index.html#book">Book</a></li>
                 <li><a href="index.html#contact">Contact</a></li>
+                <li><a data-main-site-link>3030 Creative Labs</a></li>
             </ul>
             
             <div class="nav-actions">
                 <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Theme">🌙</button>
                 <a href="index.html#modules" class="btn-primary">Back to Modules</a>
+                <button class="nav-toggle" type="button" aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation">
+                    <span aria-hidden="true">☰</span>
+                </button>
             </div>
         </div>
     </nav>
@@ -49,15 +53,13 @@
 
         <div class="video-details-header" style="margin-bottom: 3rem;">
             <h1 id="video-title" style="text-align: left; margin-bottom: 0.5rem; font-size: 2.5rem; letter-spacing: -1px;">Loading Title...</h1>
-            <p id="video-module" style="color: var(--accent-orange); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; font-size: 0.85rem;"></p>
+            <p id="video-module" style="color: var(--text-main); font-weight: 600; text-transform: uppercase; letter-spacing: 1px; font-size: 0.85rem;"></p>
             <p id="video-desc" style="margin-top: 1rem; color: var(--text-muted); font-size: 1.1rem; line-height: 1.8; max-width: 800px;">Loading description...</p>
         </div>
     </div>
 
     <!-- Premium Footer -->
     <footer class="premium-footer">
-        <div class="footer-bg-circles"></div>
-        
         <div class="footer-container">
             <div class="footer-grid">
                 <div class="footer-col brand-col">
@@ -76,6 +78,8 @@
                         <li><a href="index.html#games">Games</a></li>
                         <li><a href="index.html#book">Book</a></li>
                         <li><a href="index.html#contact">Contact</a></li>
+                        <li><a data-main-site-link>3030 Creative Labs</a></li>
+                        <li><a data-main-site-schools-link>Schools &amp; workshops</a></li>
                     </ul>
                 </div>
                 

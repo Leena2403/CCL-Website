@@ -7,9 +7,9 @@
 
 #home .hero-container {
   display: grid;
-  grid-template-columns: minmax(0, 0.85fr) minmax(0, 1.15fr);
+  grid-template-columns: minmax(0, 0.9fr) minmax(0, 1.1fr);
   align-items: center;
-  gap: clamp(28px, 4vw, 64px);
+  gap: clamp(16px, 2vw, 32px);
   width: 100%;
   max-width: 1280px;
   margin: 0 auto;
@@ -25,26 +25,32 @@
 #home .hero-kicker {
   display: block;
   margin: 0 0 20px;
-  color: var(--accent-gold, #a97930);
-  font: 700 0.7rem/1.6 Inter, sans-serif;
+  padding-left: 12px;
+  border-left: 3px solid var(--accent-orange, #f57f25);
+  color: var(--text-main, #231f20);
+  font: 700 0.7rem/1.6 Manrope, sans-serif;
   letter-spacing: 0.12em;
 }
 
 #home .hero-title {
   margin: 0 0 24px;
   color: var(--text-main, #202829);
-  font-size: clamp(3.7rem, 5.6vw, 5.6rem);
-  font-weight: 600;
-  line-height: 1.06;
+  font-size: clamp(44px, 5.2vw, 76px);
+  font-weight: 800;
+  line-height: 1.02;
   letter-spacing: -0.045em;
-  font-size: 6rem;
 }
 
 #home .hero-title .italic-serif {
-  color: var(--accent-gold, #a97930);
+  color: var(--accent-orange, #f57f25);
   font-family: "Playfair Display", Georgia, serif;
   font-style: italic;
+  font-size: 1.12em;
   font-weight: 500;
+}
+
+[data-theme="dark"] #home .hero-title .italic-serif {
+  color: var(--accent-orange);
 }
 
 #home .hero-description {
@@ -136,7 +142,7 @@
 
 #ct-wheel-svg .ct-slice.is-active,
 #ct-wheel-svg .ct-slice:focus-visible {
-  stroke: var(--accent-gold, #d6b765);
+  stroke: var(--accent-gold, #f57f25);
   stroke-width: 3;
 }
 
@@ -145,7 +151,7 @@
 }
 
 #ct-wheel-svg .ct-slice-label {
-  font-family: Inter, Arial, sans-serif;
+  font-family: Manrope, Arial, sans-serif;
   font-weight: 600;
   text-anchor: middle;
   pointer-events: none;
@@ -175,13 +181,13 @@
   gap: 4px;
   max-width: 100%;
   color: var(--text-main, #202829);
-  font: 600 clamp(0.85rem, 1.4vw, 1.1rem)/1.2 Inter, sans-serif;
+  font: 600 clamp(0.85rem, 1.4vw, 1.1rem)/1.2 Manrope, sans-serif;
   letter-spacing: -0.02em;
 }
 
 #home .ct-wheel-center small {
-  color: var(--accent-gold, #a97930);
-  font: 600 0.7rem/1.2 Inter, sans-serif;
+  color: var(--accent-gold, #f57f25);
+  font: 600 0.7rem/1.2 Manrope, sans-serif;
   letter-spacing: 0.04em;
 }
 
@@ -199,13 +205,13 @@
 #home .ct-wheel-hint {
   margin: 4px 0 0;
   color: var(--text-muted, #616b6d);
-  font: 400 0.85rem/1.5 Inter, sans-serif;
+  font: 400 0.85rem/1.5 Manrope, sans-serif;
   text-align: center;
 }
 
 /* Chapter shelf: the selected slice's book chapters as a scrollable row of covers. */
 #home .ct-shelf {
-  --domain: var(--accent-gold, #a97930);
+  --domain: var(--accent-gold, #f57f25);
   position: relative;
   z-index: 1;
   max-width: 1280px;
@@ -226,8 +232,10 @@
 
 #home .ct-shelf-kicker {
   margin: 0 0 8px;
-  color: var(--accent-gold, #a97930);
-  font: 700 0.72rem/1.4 Inter, sans-serif;
+  padding-left: 10px;
+  border-left: 3px solid var(--accent-orange, #f57f25);
+  color: var(--text-main, #231f20);
+  font: 700 0.72rem/1.4 Manrope, sans-serif;
   letter-spacing: 0.12em;
   text-transform: uppercase;
 }
@@ -235,7 +243,7 @@
 #home .ct-shelf-head h2 {
   margin: 0 0 6px;
   color: var(--text-main, #202829);
-  font: 600 clamp(1.6rem, 2.6vw, 2.2rem)/1.15 Inter, sans-serif;
+  font: 600 clamp(1.6rem, 2.6vw, 2.2rem)/1.15 Manrope, sans-serif;
   letter-spacing: -0.03em;
 }
 
@@ -243,7 +251,7 @@
   max-width: 60ch;
   margin: 0;
   color: var(--text-muted, #616b6d);
-  font: 400 1rem/1.6 Inter, sans-serif;
+  font: 400 1rem/1.6 Manrope, sans-serif;
 }
 
 #home .ct-shelf-nav {
@@ -349,17 +357,17 @@
 
 #home .ct-chapter-body small {
   color: var(--text-muted, #616b6d);
-  font: 500 0.72rem/1.4 Inter, sans-serif;
+  font: 500 0.72rem/1.4 Manrope, sans-serif;
 }
 
 #home .ct-chapter-body strong {
   flex: 1;
-  font: 600 1.02rem/1.35 Inter, sans-serif;
+  font: 600 1.02rem/1.35 Manrope, sans-serif;
 }
 
 #home .ct-chapter-action {
-  color: var(--accent-orange, #d97743);
-  font: 600 0.82rem/1.4 Inter, sans-serif;
+  color: var(--accent-blue, #436eb6);
+  font: 600 0.82rem/1.4 Manrope, sans-serif;
 }
 
 #home .ct-wheel-picker {
@@ -369,12 +377,12 @@
 @media (max-width: 900px) {
   #home .hero-container {
     grid-template-columns: minmax(0, 1fr);
-    gap: 36px;
+    gap: 24px;
     max-width: 680px;
   }
 
   #home .hero-title {
-    font-size: clamp(3rem, 9vw, 4.5rem);
+    font-size: clamp(44px, 7vw, 72px);
   }
 
   #home .hero-description {
@@ -398,6 +406,11 @@
     letter-spacing: 0.09em;
   }
 
+  #home .hero-title {
+    font-size: clamp(44px, 12vw, 58px);
+    line-height: 1.04;
+  }
+
   #home .ct-wheel-picker {
     display: block;
     box-sizing: border-box;
@@ -409,7 +422,7 @@
     border-radius: 8px;
     color: var(--text-main, #202829);
     background: var(--surface, #fff);
-    font: 400 1rem/1.4 Inter, sans-serif;
+    font: 400 1rem/1.4 Manrope, sans-serif;
   }
 }
 

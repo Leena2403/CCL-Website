@@ -6,7 +6,7 @@
     <title>CT at CCL | Educational Resources</title>
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:ital,wght@1,500;1,600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&family=Playfair+Display:ital,wght@1,500;600&display=swap" rel="stylesheet">
     <link rel="stylesheet" href="style.css">
     <link rel="stylesheet" href="learn.css">
     <link rel="stylesheet" href="hero-chart.css">
@@ -23,17 +23,21 @@
                 </a>
             </div>
             
-            <ul class="nav-links">
+            <ul class="nav-links" id="primary-navigation">
                 <li><a href="#home">Home</a></li>
                 <li><a href="#modules">Modules</a></li>
                 <li><a href="#games">Games</a></li>
                 <li><a href="#book">Book</a></li>
                 <li><a href="#contact">Contact</a></li>
+                <li><a data-main-site-link>3030 Creative Labs</a></li>
             </ul>
             
             <div class="nav-actions">
                 <button id="theme-toggle" class="theme-toggle" aria-label="Toggle Theme">🌙</button>
                 <a href="#modules" class="btn-primary">Start learning</a>
+                <button class="nav-toggle" type="button" aria-controls="primary-navigation" aria-expanded="false" aria-label="Open navigation">
+                    <span aria-hidden="true">☰</span>
+                </button>
             </div>
         </div>
     </nav>
@@ -106,12 +110,6 @@
     <section class="container" id="games">
         <h2 class="section-title">Explore Our Hands-on Games</h2>
         
-        <div class="page-content" style="margin-bottom: 3rem;">
-            <p style="font-size: 1.1rem; color: var(--text-muted); text-align: center; max-width: 800px; margin: 0 auto;">
-                Explore computational thinking through hands-on games.
-            </p>
-        </div>
-
         <div class="games-layout">
             <!-- Left Sidebar for Filters -->
             <aside class="games-sidebar">
@@ -175,7 +173,7 @@
         <!-- NEW Interactive Book Header Banner -->
         <div class="book-header-banner">
             <div class="book-cover-wrapper">
-                <img src="book/book_cover.jpg" alt="CT and AI Unplugged Book Cover" class="book-cover-img">
+                <img src="book/book_cover.jpg" alt="CT and AI Unplugged Book Cover" class="book-cover-img" loading="lazy" decoding="async">
             </div>
             <div class="book-header-text">
                 <h2 class="section-title" style="text-align: left; margin-bottom: 1rem; margin-top: 0;">CT & AI Unplugged</h2>
@@ -204,8 +202,6 @@
 
     <!-- Premium Footer -->
     <footer class="premium-footer">
-        <div class="footer-bg-circles"></div>
-        
         <div class="footer-container">
             <div class="footer-grid">
                 <div class="footer-col brand-col">
@@ -224,6 +220,8 @@
                         <li><a href="#games">Games</a></li>
                         <li><a href="#book">Book</a></li>
                         <li><a href="#contact">Contact</a></li>
+                        <li><a data-main-site-link>3030 Creative Labs</a></li>
+                        <li><a data-main-site-schools-link>Schools &amp; workshops</a></li>
                     </ul>
                 </div>
                 
@@ -253,7 +251,15 @@
 
     <script src="data.js"></script>
     <script src="gameData.js"></script>
-    <script src="bookData.js"></script>
+    <!-- Book chapters, one file per section; index.js builds bookData -->
+    <script src="data/book/01-maze-puzzles.js"></script>
+    <script src="data/book/02-puzzles.js"></script>
+    <script src="data/book/03-language-of-computer.js"></script>
+    <script src="data/book/04-algorithms.js"></script>
+    <script src="data/book/05-learning-ai.js"></script>
+    <script src="data/book/06-encryption.js"></script>
+    <script src="data/book/07-other-activities.js"></script>
+    <script src="data/book/index.js"></script>
     <script src="app.js"></script>
     <script src="learnData.js"></script>
     <script src="learn.js"></script>

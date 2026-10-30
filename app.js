@@ -1,14 +1,64 @@
 // ================= Theme Toggle Logic =================
+const CCL_MAIN_SITE_URL = 'https://creative-labs-3030.j-thakkar498929.chatgpt.site/';
+
+function initializeBrandLinks() {
+    const mainSiteUrl = new URL(CCL_MAIN_SITE_URL);
+
+    document.querySelectorAll('[data-main-site-link]').forEach((link) => {
+        link.href = mainSiteUrl.href;
+    });
+
+    document.querySelectorAll('[data-main-site-schools-link]').forEach((link) => {
+        link.href = new URL('schools', mainSiteUrl).href;
+    });
+}
+
+function initializeNavigation() {
+    document.querySelectorAll('.premium-nav').forEach((navigation) => {
+        const toggle = navigation.querySelector('.nav-toggle');
+        const links = navigation.querySelector('.nav-links');
+        if (!toggle || !links) return;
+
+        const closeMenu = () => {
+            toggle.setAttribute('aria-expanded', 'false');
+            toggle.setAttribute('aria-label', 'Open navigation');
+            links.classList.remove('is-open');
+        };
+
+        toggle.addEventListener('click', () => {
+            const isExpanded = toggle.getAttribute('aria-expanded') === 'true';
+            toggle.setAttribute('aria-expanded', String(!isExpanded));
+            toggle.setAttribute('aria-label', isExpanded ? 'Open navigation' : 'Close navigation');
+            links.classList.toggle('is-open', !isExpanded);
+            if (!isExpanded) links.querySelector('a')?.focus();
+        });
+
+        links.addEventListener('click', (event) => {
+            if (event.target.closest('a')) closeMenu();
+        });
+
+        document.addEventListener('keydown', (event) => {
+            if (event.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+                closeMenu();
+                toggle.focus();
+            }
+        });
+
+        window.addEventListener('resize', () => {
+            if (window.innerWidth > 900) closeMenu();
+        });
+    });
+}
+
 function initializeTheme() {
     const themeToggle = document.getElementById('theme-toggle');
     const targetElement = document.documentElement; 
     
-    // Check localStorage or OS preference
+    // Use light theme by default unless the visitor has saved a preference.
     const savedTheme = localStorage.getItem('theme');
-    const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
     
     // Apply the theme immediately (even if the toggle button isn't on the page)
-    if (savedTheme === 'dark' || (!savedTheme && systemPrefersDark)) {
+    if (savedTheme === 'dark') {
         targetElement.setAttribute('data-theme', 'dark');
         if (themeToggle) themeToggle.textContent = '☀️';
     } else {
@@ -114,7 +164,7 @@ function renderVideoGrid(videosToRender = videosData) {
         
         card.innerHTML = `
             <div class="thumbnail-container">
-                <img src="${thumbnailUrl}" alt="${video.title} thumbnail" onerror="this.src='https://img.youtube.com/vi/${video.youtubeId}/hqdefault.jpg'">
+                <img src="${thumbnailUrl}" alt="${video.title} thumbnail" loading="lazy" decoding="async" onerror="this.src='https://img.youtube.com/vi/${video.youtubeId}/hqdefault.jpg'">
                 <!-- Video Module badge has been removed -->
             </div>
             <div class="video-info">
@@ -148,8 +198,8 @@ function renderGamesGrid(gamesToRender = gamesData) {
         
         card.innerHTML = `
             <div class="thumbnail-container">
-                <img src="${game.thumbnail}" alt="${game.title} thumbnail">
-                <span class="module-badge" style="background: var(--accent-orange);">${gradeText}</span>
+                <img src="${game.thumbnail}" alt="${game.title} thumbnail" loading="lazy" decoding="async">
+                <span class="module-badge" style="background: var(--accent-orange); color: var(--ink);">${gradeText}</span>
             </div>
             <div class="video-info">
                 <h3>${game.title}</h3>
@@ -379,7 +429,7 @@ function createNumberMaze(containerId, gridData) {
                 statusText.style.color = "#ef4444";
             } else {
                 statusText.textContent = "Click a pulsing cell to jump!";
-                statusText.style.color = "var(--accent-gold)";
+                statusText.style.color = "var(--text-main)";
             }
         }
     }
@@ -581,7 +631,7 @@ function createColourMaze(containerId, gridData) {
                 statusText.style.color = "var(--text-main)";
             } else {
                 statusText.textContent = "Click a pulsing cell to move!";
-                statusText.style.color = "var(--accent-gold)";
+                statusText.style.color = "var(--text-main)";
             }
         }
     }
@@ -793,7 +843,7 @@ function createChessMaze(containerId, gridData) {
                 statusText.style.color = "#ef4444";
             } else {
                 statusText.textContent = "Click a pulsing cell to move!";
-                statusText.style.color = "var(--accent-gold)";
+                statusText.style.color = "var(--text-main)";
             }
         }
     }
@@ -1213,7 +1263,7 @@ function createChotaShatranjGame(containerId) {
         // Header (Title + Buttons)
         html += `
             <div class="cs-header">
-                <button class="maze-btn-solve" id="btn-mode" style="background: var(--accent-orange); color: #ffffff; border: none; padding: 0.5rem 1rem;">
+                <button class="maze-btn-solve" id="btn-mode" style="background: var(--accent-orange); color: var(--ink); border: none; padding: 0.5rem 1rem;">
                     ${state.mode === 'play' ? 'Create Own Grid' : 'Back to Levels'}
                 </button>
                 <h3 style="margin: 0; color: var(--text-main); font-size: 1.5rem; font-weight: 600;">
@@ -1586,12 +1636,11 @@ function createBuildingPuzzle(containerId) {
         // --- Build 2D Interactive Grid ---
         const gridEl = document.createElement('div');
         gridEl.className = 'bp-grid';
+        gridEl.dataset.size = size;
         gridEl.style.display = 'grid';
-        
-        const cellSize = size === 4 ? '56px' : '68px';
-        gridEl.style.gridTemplateColumns = `repeat(${size + 2}, ${cellSize})`;
-        gridEl.style.gridTemplateRows = `repeat(${size + 2}, ${cellSize})`;
-        gridEl.style.gap = '6px';
+        gridEl.style.gridTemplateColumns = `repeat(${size + 2}, var(--bp-cell-size))`;
+        gridEl.style.gridTemplateRows = `repeat(${size + 2}, var(--bp-cell-size))`;
+        gridEl.style.gap = 'var(--bp-grid-gap)';
         gridEl.style.justifyContent = 'center';
 
         for (let r = -1; r <= size; r++) {
@@ -1634,18 +1683,18 @@ function createBuildingPuzzle(containerId) {
         // --- Build Solid 3D Isometric Grid ---
         const grid3DWrapper = document.createElement('div');
         grid3DWrapper.className = 'bp-3d-container';
+        grid3DWrapper.dataset.size = size;
         grid3DWrapper.style.transformStyle = 'preserve-3d'; 
-        grid3DWrapper.style.transform = size === 4 ? 'scale(1.1)' : 'scale(1.25)';
         grid3DWrapper.style.transformOrigin = 'center center';
         
         const grid3D = document.createElement('div');
         grid3D.className = 'bp-3d-grid';
+        grid3D.dataset.size = size;
         grid3D.style.display = 'grid';
         grid3D.style.transformStyle = 'preserve-3d';
         
-        const cell3DSize = size === 4 ? '50px' : '60px';
-        grid3D.style.gridTemplateColumns = `repeat(${size}, ${cell3DSize})`;
-        grid3D.style.gridTemplateRows = `repeat(${size}, ${cell3DSize})`;
+        grid3D.style.gridTemplateColumns = `repeat(${size}, var(--bp-3d-cell-size))`;
+        grid3D.style.gridTemplateRows = `repeat(${size}, var(--bp-3d-cell-size))`;
         
         for (let r = 0; r < size; r++) {
             for (let c = 0; c < size; c++) {
@@ -1774,7 +1823,7 @@ function createThreeJugGame(containerId) {
         }
 
         let html = `
-            <div style="text-align: center; width: 100%; font-family: 'Inter', sans-serif;">
+            <div style="text-align: center; width: 100%; font-family: 'Manrope', sans-serif;">
                 <div style="margin-bottom: 1.5rem; font-weight: 600; color: var(--text-main); font-size: 1.1rem;">
                     Goal: Measure exactly 4 Litres<br>
                     <span style="color: var(--text-muted); font-size: 0.95rem; font-weight: 500;">Moves: ${moves}</span>
@@ -2103,7 +2152,7 @@ function createParityGame(containerId) {
             const flipBtn = document.createElement('button');
             flipBtn.className = 'maze-btn-solve';
             flipBtn.style.background = 'var(--accent-orange)';
-            flipBtn.style.color = 'white';
+            flipBtn.style.color = 'var(--ink)';
             flipBtn.textContent = 'Flip Random Bit';
             
             flipBtn.addEventListener('click', () => {
@@ -2111,7 +2160,7 @@ function createParityGame(containerId) {
                 cells.forEach(cell => cell.style.opacity = '0');
                 
                 statusDiv.textContent = "🪄 Magically flipping a bit behind your back...";
-                statusDiv.style.color = 'var(--accent-orange)';
+                statusDiv.style.color = 'var(--text-main)';
                 flipBtn.disabled = true;
                 resetBtn.disabled = true;
 
@@ -2183,7 +2232,7 @@ function generateRelatedActivities(currentChapterId) {
 
         html += `
             <a href="${linkHref}" target="${linkTarget}" class="related-card" style="text-decoration: none;">
-                <img src="${ch.thumbnail}" alt="${ch.title}">
+                <img src="${ch.thumbnail}" alt="${ch.title}" loading="lazy" decoding="async">
                 <div class="related-card-content">
                     <h4 class="related-card-title">${ch.title}</h4>
                     <p class="related-card-desc">${reason}</p>
@@ -2220,12 +2269,12 @@ function renderBookSections() {
         html += `
             <div class="video-card" style="cursor: pointer; animation-delay: ${index * 0.05}s" onclick="renderBookChapters('${safeSectionName}')">
                 <div class="thumbnail-container">
-                    <img src="${imgSrc}" alt="${section} cover" onerror="this.src='book/thumbnails/ct1.png'">
-                    <span class="module-badge" style="background: var(--accent-orange); color: #fff;">${chapterCount} Chapters</span>
+                    <img src="${imgSrc}" alt="${section} cover" loading="lazy" decoding="async" onerror="this.src='book/thumbnails/ct1.png'">
+                    <span class="module-badge" style="background: var(--accent-orange); color: var(--ink);">${chapterCount} Chapters</span>
                 </div>
                 <div class="video-info" style="padding: 1.5rem;">
                     <h3 style="font-size: 1.2rem; color: var(--text-main); font-weight: 600; margin-bottom: 0.5rem;">${section}</h3>
-                    <p style="color: var(--accent-orange); font-size: 0.95rem; font-weight: 500;">View Chapters &rarr;</p>
+                    <p style="color: var(--accent-blue); font-size: 0.95rem; font-weight: 600;">View Chapters &rarr;</p>
                 </div>
             </div>
         `;
@@ -2256,7 +2305,7 @@ function renderBookChapters(sectionName) {
         const descText = chapter.description ? chapter.description : "Click to view and read this chapter.";
         
         const imageContent = chapter.thumbnail 
-            ? `<img src="${chapter.thumbnail}" alt="${chapter.title} thumbnail">`
+            ? `<img src="${chapter.thumbnail}" alt="${chapter.title} thumbnail" loading="lazy" decoding="async">`
             : `<div style="background: var(--primary-light); width: 100%; height: 100%; display: flex; align-items: center; justify-content: center;"><span style="font-size: 3rem; opacity: 0.8;">📄</span></div>`;
 
         const isTargetChapter = !!chapter.content;
@@ -2268,7 +2317,7 @@ function renderBookChapters(sectionName) {
             <a href="${linkHref}" target="${linkTarget}" class="video-card" style="animation-delay: ${index * 0.05}s">
                 <div class="thumbnail-container">
                     ${imageContent}
-                    <span class="module-badge" style="background: var(--accent-gold); color: #fff;">${badgeText}</span>
+                    <span class="module-badge" style="background: var(--accent-orange); color: var(--ink);">${badgeText}</span>
                 </div>
                 <div class="video-info" style="padding: 1.5rem;">
                     <h4 style="font-size: 1.1rem; color: var(--text-main); font-weight: 600; margin-bottom: 0.5rem;">${chapter.title}</h4>
@@ -2782,6 +2831,8 @@ const ctWheelDomains = [
 
 // ================= Initialization =================
 document.addEventListener('DOMContentLoaded', () => {
+    initializeBrandLinks();
+    initializeNavigation();
     if (typeof initializeTheme === 'function') initializeTheme(); 
     
     if (document.getElementById('video-grid')) {
