@@ -2038,6 +2038,10 @@ body {
         justify-content: center;
     }
 
+    .nav-actions .btn-primary {
+        display: none;
+    }
+
     .main-site-card {
         display: flex;
     }
@@ -2066,15 +2070,6 @@ body {
         gap: 6px;
     }
 
-    .nav-actions .btn-primary {
-        min-height: 40px;
-        padding: 6px 10px;
-        font-size: 0.75rem;
-        line-height: 1.15;
-        text-align: center;
-        white-space: nowrap;
-    }
-
     .theme-toggle,
     .nav-toggle {
         width: 40px;
@@ -2089,18 +2084,19 @@ body {
         font-size: 1.3rem;
     }
 
-    .logo a > span:last-child {
-        font-size: 0.95rem;
-        white-space: nowrap;
+    .logo .brand-divider,
+    .logo a > span:last-child,
+    .footer-logo .brand-divider,
+    .footer-logo > span:last-child {
+        display: none;
+    }
+
+    .hero-title {
+        text-align: center;
     }
 }
 
 @media (max-width: 380px) {
-    .nav-actions .btn-primary {
-        max-width: 112px;
-        white-space: normal;
-    }
-
     .hero-title {
         font-size: clamp(2.5rem, 11vw, 3rem);
         letter-spacing: -0.045em;
