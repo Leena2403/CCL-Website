@@ -1,5 +1,5 @@
 // ================= Theme Toggle Logic =================
-const CCL_MAIN_SITE_URL = 'https://creative-labs-3030.j-thakkar498929.chatgpt.site/';
+const CCL_MAIN_SITE_URL = 'https://3030labs.in/';
 
 function initializeBrandLinks() {
     const mainSiteUrl = new URL(CCL_MAIN_SITE_URL);
