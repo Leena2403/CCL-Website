@@ -1780,6 +1780,89 @@ body {
     gap: 10px;
 }
 
+/* 3030 logo lockup beside the CT at CCL wordmark */
+.logo a,
+.footer-logo {
+    gap: 10px;
+}
+
+.brand-mark {
+    display: inline-block;
+    flex: none;
+    width: 2.05em;
+    height: 1em;
+    background-color: currentColor;
+    -webkit-mask: url('img/3030-logo.svg') center / contain no-repeat;
+    mask: url('img/3030-logo.svg') center / contain no-repeat;
+}
+
+.logo .brand-mark,
+.footer-logo .brand-mark {
+    font-size: 2.6rem;
+}
+
+.brand-divider {
+    flex: none;
+    width: 1px;
+    height: 1.4em;
+    background: var(--border-color);
+}
+
+.logo a > span:last-child,
+.footer-logo > span:last-child {
+    font-size: 1.15rem;
+    line-height: 1;
+}
+
+/* Main-site card: shown on small screens where the nav link is tucked in the menu */
+.main-site-card {
+    display: none;
+    align-items: center;
+    gap: 14px;
+    max-width: 360px;
+    margin-top: 20px;
+    padding: 14px 16px;
+    border: 1px solid var(--border-color);
+    border-radius: var(--radius);
+    background: var(--surface);
+    box-shadow: var(--shadow-sm);
+    color: var(--text-main);
+    text-decoration: none;
+}
+
+.main-site-card .brand-mark {
+    font-size: 1.5rem;
+}
+
+.main-site-card-text {
+    display: flex;
+    flex: 1;
+    flex-direction: column;
+    gap: 2px;
+    min-width: 0;
+    padding-left: 14px;
+    border-left: 1px solid var(--border-color);
+}
+
+.main-site-card-text strong {
+    font-size: 0.95rem;
+}
+
+.main-site-card-text small {
+    color: var(--text-muted);
+    font-size: 0.8rem;
+}
+
+.main-site-card-arrow {
+    color: var(--accent-orange);
+    font-size: 1.2rem;
+}
+
+.main-site-card:hover,
+.main-site-card:focus-visible {
+    border-color: var(--accent-orange);
+}
+
 .theme-toggle {
     flex: none;
     width: 44px;
@@ -1955,6 +2038,10 @@ body {
         justify-content: center;
     }
 
+    .main-site-card {
+        display: flex;
+    }
+
     .footer-grid {
         grid-template-columns: repeat(2, minmax(0, 1fr));
         gap: 32px 24px;
@@ -1975,8 +2062,43 @@ body {
         min-height: 60px;
     }
 
+    .nav-actions {
+        gap: 6px;
+    }
+
     .nav-actions .btn-primary {
-        display: none;
+        min-height: 40px;
+        padding: 6px 10px;
+        font-size: 0.75rem;
+        line-height: 1.15;
+        text-align: center;
+        white-space: nowrap;
+    }
+
+    .theme-toggle,
+    .nav-toggle {
+        width: 40px;
+        height: 40px;
+    }
+
+    .logo a {
+        gap: 7px;
+    }
+
+    .logo .brand-mark {
+        font-size: 1.3rem;
+    }
+
+    .logo a > span:last-child {
+        font-size: 0.95rem;
+        white-space: nowrap;
+    }
+}
+
+@media (max-width: 380px) {
+    .nav-actions .btn-primary {
+        max-width: 112px;
+        white-space: normal;
     }
 
     .hero-title {
