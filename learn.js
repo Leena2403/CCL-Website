@@ -201,7 +201,7 @@
             const card = el("a", "learn-video");
             card.href = `video.html?id=${video.id}`;
             const img = el("img");
-            img.src = `https://img.youtube.com/vi/${video.youtubeId}/mqdefault.jpg`;
+            img.src = video.thumbnail || `https://img.youtube.com/vi/${video.youtubeId}/mqdefault.jpg`;
             img.alt = "";
             img.loading = "lazy";
             const text = el("span", "learn-video-text");

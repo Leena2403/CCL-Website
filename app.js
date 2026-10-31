@@ -155,7 +155,7 @@ function renderVideoGrid(videosToRender = videosData) {
     }
     
     videosToRender.forEach((video, index) => {
-        const thumbnailUrl = `https://img.youtube.com/vi/${video.youtubeId}/maxresdefault.jpg`;
+        const thumbnailUrl = video.thumbnail || `https://img.youtube.com/vi/${video.youtubeId}/maxresdefault.jpg`;
         
         const card = document.createElement('a');
         card.href = `video.html?id=${video.id}`;
