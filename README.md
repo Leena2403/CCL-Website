@@ -10,7 +10,7 @@
 
 An interactive learning platform from the **Centre for Creative Learning (CCL), IIT Gandhinagar** and **3030 Creative Labs**, with video modules, hands-on puzzle games and a chapter-by-chapter activity book for students in Grades 4–8.
 
-[![Live Site](https://img.shields.io/badge/Live-ccl--website--seven.vercel.app-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://ccl-website-seven.vercel.app/)
+[![Live Site](https://img.shields.io/badge/Live-ct.3030labs.in-000000?style=for-the-badge&logo=vercel&logoColor=white)](https://ct.3030labs.in)
 [![3030 Creative Labs](https://img.shields.io/badge/3030-Creative%20Labs-F57F25?style=for-the-badge)](https://3030labs.in/)
 
 ![HTML5](https://img.shields.io/badge/HTML5-E34F26?style=flat-square&logo=html5&logoColor=white)
