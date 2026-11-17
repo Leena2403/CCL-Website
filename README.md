@@ -20,6 +20,10 @@ An interactive learning platform from the **Centre for Creative Learning (CCL), 
 ![No Build Step](https://img.shields.io/badge/build-none-4EBA6D?style=flat-square)
 ![Dependencies](https://img.shields.io/badge/dependencies-0-436EB6?style=flat-square)
 
+<br><br>
+
+<img src="docs/screenshots/home-light.jpg" alt="CT at CCL home page with the interactive CT & AI concept wheel" width="100%">
+
 </div>
 
 ---
@@ -28,6 +32,7 @@ An interactive learning platform from the **Centre for Creative Learning (CCL), 
 
 - [Overview](#-overview)
 - [Features](#-features)
+- [Screenshots](#-screenshots)
 - [Tech Stack](#-tech-stack)
 - [Project Structure](#-project-structure)
 - [Getting Started](#-getting-started)
@@ -64,6 +69,46 @@ An interactive learning platform from the **Centre for Creative Learning (CCL), 
 - 📖 **Activity book**: 30 chapters with thumbnails, full content and PDF downloads
 - 🌗 **Light & dark themes**: the choice is saved between visits
 - 📱 **Responsive & accessible**: keyboard-operable mobile menu, visible focus states and `prefers-reduced-motion` support
+- 🎯 **Concept wheel**: an interactive SVG wheel on the home page; click a slice to find the book chapters on that concept
+
+---
+
+## 📸 Screenshots
+
+<table>
+  <tr>
+    <td width="50%" align="center">
+      <img src="docs/screenshots/home-light.jpg" alt="Home page in light theme"><br>
+      <sub><b>Home (light)</b>: the CT & AI concept wheel</sub>
+    </td>
+    <td width="50%" align="center">
+      <img src="docs/screenshots/home-dark.jpg" alt="Home page in dark theme"><br>
+      <sub><b>Home (dark)</b>: the same page in dark mode</sub>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center">
+      <img src="docs/screenshots/games.jpg" alt="Games catalogue with grade and concept filters" width="100%"><br>
+      <sub><b>Games catalogue</b>: search and filter by grade and computational-thinking concept</sub>
+    </td>
+  </tr>
+  <tr>
+    <td width="50%" align="center">
+      <img src="docs/screenshots/building-puzzle.jpg" alt="Building Puzzle game with a 3D tower preview"><br>
+      <sub><b>Building Puzzle</b>: skyline clues with a live 3D tower view</sub>
+    </td>
+    <td width="50%" align="center">
+      <img src="docs/screenshots/image-by-number.jpg" alt="Image by Number pixel grid with binary and RLE output"><br>
+      <sub><b>Image by Number</b>: draw pixels and see the binary and run-length encoding</sub>
+    </td>
+  </tr>
+  <tr>
+    <td colspan="2" align="center">
+      <img src="docs/screenshots/chota-shatranj.jpg" alt="Chota Shatranj custom grid builder" width="70%"><br>
+      <sub><b>Chota Shatranj</b>: build your own chess-piece puzzle grid</sub>
+    </td>
+  </tr>
+</table>
 
 ---
 
@@ -117,6 +162,7 @@ CCL-Website/
 │
 ├── img/                    # Logo and game thumbnails
 ├── book/                   # Chapter PDFs, thumbnails, activity images
+├── docs/screenshots/       # README screenshots
 └── 3030_SHARED_DESIGN_SYSTEM.md   # Shared brand and design reference
 ```
 
